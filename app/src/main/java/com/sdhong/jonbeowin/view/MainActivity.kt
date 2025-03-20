@@ -1,30 +1,19 @@
 package com.sdhong.jonbeowin.view
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.sdhong.jonbeowin.R
+import com.sdhong.jonbeowin.base.BaseActivity
 import com.sdhong.jonbeowin.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
+@AndroidEntryPoint
+class MainActivity : BaseActivity<ActivityMainBinding>(
+    bindingFactory = ActivityMainBinding::inflate
+) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
-            insets
-        }
 
         binding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -45,6 +34,8 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             binding.bottomNav.selectedItemId = R.id.jonbeoCount
         }
+
+        binding.bottomNav.setOnApplyWindowInsetsListener(null)
     }
 
     private fun openFragment(fragment: Fragment) {
