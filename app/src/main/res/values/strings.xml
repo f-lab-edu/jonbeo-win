@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">jonbeo win</string>
+    <string name="title_encouraging_word">격려 한마디</string>
+    <string name="title_jonbeo_count">존버 카운트</string>
 </resources>
