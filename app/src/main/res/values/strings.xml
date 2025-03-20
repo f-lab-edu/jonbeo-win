@@ -2,4 +2,7 @@
     <string name="app_name">jonbeo win</string>
     <string name="title_encouraging_word">격려 한마디</string>
     <string name="title_jonbeo_count">존버 카운트</string>
+    <string name="asset_day_count">%d일째 버티는 중!</string>
+    <string name="add">추가하기</string>
+    <string name="edit">편집</string>
 </resources>

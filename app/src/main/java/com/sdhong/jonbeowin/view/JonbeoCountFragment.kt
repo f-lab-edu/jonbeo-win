@@ -1,27 +1,53 @@
 package com.sdhong.jonbeowin.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.sdhong.jonbeowin.R
+import com.sdhong.jonbeowin.base.BaseFragment
 import com.sdhong.jonbeowin.databinding.FragmentJonbeoCountBinding
+import com.sdhong.jonbeowin.viewmodel.JonbeoCountViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-class JonbeoCountFragment : Fragment() {
+@AndroidEntryPoint
+class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
+    bindingFactory = FragmentJonbeoCountBinding::inflate
+) {
+    private val viewModel: JonbeoCountViewModel by viewModels()
+    private val jonbeoCountAdapter = JonbeoCountListAdapter()
 
-    private var _binding: FragmentJonbeoCountBinding? = null
-    private val binding get() = _binding!!
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentJonbeoCountBinding.inflate(inflater, container, false)
-        return binding.root
+        binding.toolbarJonbeocount.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.menuEditAsset -> {
+                    viewModel.editAssetList()
+                    true
+                }
+                else -> false
+            }
+        }
+        binding.recyclerViewJonbeoCount.adapter = jonbeoCountAdapter
+        binding.buttonAdd.setOnClickListener {
+            startActivity(AddAssetActivity.newIntent(requireContext()))
+        }
+
+        setCollectors()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun setCollectors() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.assetList.collectLatest {
+                    jonbeoCountAdapter.submitList(it)
+                }
+            }
+        }
     }
 }
