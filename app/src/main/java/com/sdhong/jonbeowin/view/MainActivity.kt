@@ -42,7 +42,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.bottomNav.selectedItemId = R.id.jonbeoCount
+        if (savedInstanceState == null) {
+            binding.bottomNav.selectedItemId = R.id.jonbeoCount
+        }
     }
 
     private fun openFragment(fragment: Fragment) {
