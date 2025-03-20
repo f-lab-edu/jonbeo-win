@@ -30,6 +30,7 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
                     viewModel.editAssetList()
                     true
                 }
+
                 else -> false
             }
         }
