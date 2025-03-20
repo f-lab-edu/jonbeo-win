@@ -5,12 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.databinding.FragmentJonbeoCountBinding
 
 class JonbeoCountFragment : Fragment() {
 
-    private var _binding : FragmentJonbeoCountBinding? = null
+    private var _binding: FragmentJonbeoCountBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
