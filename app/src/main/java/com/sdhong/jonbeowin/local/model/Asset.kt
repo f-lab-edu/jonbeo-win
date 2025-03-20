@@ -5,7 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Asset(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val name: String,
-    val dayCount: Int
+    val dayCount: Int,
+    val generatedTime: String
 )
