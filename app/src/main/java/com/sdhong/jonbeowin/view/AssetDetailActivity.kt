@@ -12,20 +12,20 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseActivity
-import com.sdhong.jonbeowin.databinding.ActivityAddAssetBinding
+import com.sdhong.jonbeowin.databinding.ActivityAssetDetailBinding
 import com.sdhong.jonbeowin.local.model.BuyDate
-import com.sdhong.jonbeowin.viewmodel.AddAssetViewModel
-import com.sdhong.jonbeowin.viewmodel.AddAssetViewModel.AddAssetEvent
+import com.sdhong.jonbeowin.viewmodel.AssetDetailViewModel
+import com.sdhong.jonbeowin.viewmodel.AssetDetailViewModel.AssetDetailEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
 @AndroidEntryPoint
-class AddAssetActivity : BaseActivity<ActivityAddAssetBinding>(
-    bindingFactory = ActivityAddAssetBinding::inflate
+class AssetDetailActivity : BaseActivity<ActivityAssetDetailBinding>(
+    bindingFactory = ActivityAssetDetailBinding::inflate
 ) {
-    private val viewModel: AddAssetViewModel by viewModels()
+    private val viewModel: AssetDetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +35,10 @@ class AddAssetActivity : BaseActivity<ActivityAddAssetBinding>(
     }
 
     private fun setUpView() {
-        binding.toolbarAddAsset.setOnMenuItemClickListener {
+        binding.toolbarAssetDetail.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menuClose -> {
-                    viewModel.finishAddAsset()
+                    viewModel.finishAssetDetail()
                     true
                 }
 
@@ -62,8 +62,8 @@ class AddAssetActivity : BaseActivity<ActivityAddAssetBinding>(
             datePicker.show()
         }
 
-        binding.buttonSave.setOnClickListener {
-            viewModel.saveAsset(binding.editTextAssetName.text.toString())
+        binding.buttonFix.setOnClickListener {
+            viewModel.fixAsset(binding.editTextAssetName.text.toString())
         }
     }
 
@@ -89,11 +89,11 @@ class AddAssetActivity : BaseActivity<ActivityAddAssetBinding>(
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.eventFlow.collect { event ->
                     when (event) {
-                        is AddAssetEvent.ShowToast -> {
+                        is AssetDetailEvent.ShowToast -> {
                             showToast(event.messageId)
                         }
 
-                        is AddAssetEvent.FinishAddAsset -> {
+                        is AssetDetailEvent.FinishAssetDetail -> {
                             finish()
                         }
                     }
@@ -109,7 +109,7 @@ class AddAssetActivity : BaseActivity<ActivityAddAssetBinding>(
     companion object {
 
         fun newIntent(context: Context): Intent {
-            return Intent(context, AddAssetActivity::class.java)
+            return Intent(context, AssetDetailActivity::class.java)
         }
     }
 }

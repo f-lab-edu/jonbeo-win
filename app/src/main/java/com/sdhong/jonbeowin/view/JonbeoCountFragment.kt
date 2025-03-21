@@ -9,6 +9,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseFragment
 import com.sdhong.jonbeowin.databinding.FragmentJonbeoCountBinding
+import com.sdhong.jonbeowin.local.model.Asset
 import com.sdhong.jonbeowin.viewmodel.JonbeoCountViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -19,7 +20,7 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
     bindingFactory = FragmentJonbeoCountBinding::inflate
 ) {
     private val viewModel: JonbeoCountViewModel by viewModels()
-    private val jonbeoCountAdapter = JonbeoCountListAdapter()
+    private val jonbeoCountAdapter = JonbeoCountListAdapter(::onAssetItemClick)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,5 +51,9 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
                 }
             }
         }
+    }
+
+    private fun onAssetItemClick(asset: Asset) {
+        // TODO: 클릭 시 상세화면으로 이동
     }
 }
