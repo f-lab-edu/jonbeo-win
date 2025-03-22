@@ -1,4 +1,4 @@
-package com.sdhong.jonbeowin.view
+package com.sdhong.jonbeowin.feature.assetdetail
 
 import android.app.DatePickerDialog
 import android.content.Context
@@ -13,9 +13,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseActivity
 import com.sdhong.jonbeowin.databinding.ActivityAssetDetailBinding
-import com.sdhong.jonbeowin.local.model.BuyDate
-import com.sdhong.jonbeowin.viewmodel.AssetDetailViewModel
-import com.sdhong.jonbeowin.viewmodel.AssetDetailViewModel.AssetDetailEvent
+import com.sdhong.jonbeowin.feature.assetdetail.viewmodel.AssetDetailViewModel
+import com.sdhong.jonbeowin.feature.assetdetail.viewmodel.AssetDetailViewModel.AssetDetailEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -70,26 +69,17 @@ class AssetDetailActivity : BaseActivity<ActivityAssetDetailBinding>(
     private fun setCollectors() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.buyDate.collectLatest { buyDate ->
-                    if (buyDate == BuyDate.Default) {
-                        binding.textViewBuyDate.text = getString(R.string.choose_date)
-                    } else {
-                        binding.textViewBuyDate.text = getString(
-                            R.string.date_format,
-                            buyDate.year,
-                            buyDate.month,
-                            buyDate.day
-                        )
-                    }
+                viewModel.initialAsset.collectLatest { asset ->
+                    binding.editTextAssetName.setText(asset.name)
+                    binding.textViewBuyDate.text = asset.buyDateString
                 }
             }
         }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.assetDetailUiState.collectLatest { uiState ->
-                    binding.editTextAssetName.setText(uiState.name)
-                    binding.textViewBuyDate.text = uiState.buyDateString
+                viewModel.buyDate.collectLatest { buyDate ->
+                    binding.textViewBuyDate.text = buyDate.formattedString
                 }
             }
         }

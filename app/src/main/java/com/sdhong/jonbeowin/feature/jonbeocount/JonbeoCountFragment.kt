@@ -9,12 +9,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseFragment
 import com.sdhong.jonbeowin.databinding.FragmentJonbeoCountBinding
+import com.sdhong.jonbeowin.feature.assetdetail.AssetDetailActivity
 import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
 import com.sdhong.jonbeowin.feature.jonbeocount.viewmodel.JonbeoCountViewModel
 import com.sdhong.jonbeowin.feature.jonbeocount.viewmodel.JonbeoCountViewModel.JonbeoCountEvent
 import com.sdhong.jonbeowin.local.model.Asset
 import com.sdhong.jonbeowin.view.AddAssetActivity
-import com.sdhong.jonbeowin.view.AssetDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

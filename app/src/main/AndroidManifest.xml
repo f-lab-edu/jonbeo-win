@@ -14,7 +14,7 @@
         android:theme="@style/Theme.JonbeoWin"
         tools:targetApi="31">
         <activity
-            android:name=".view.AssetDetailActivity"
+            android:name=".feature.assetdetail.AssetDetailActivity"
             android:exported="false" />
         <activity
             android:name=".view.AddAssetActivity"
