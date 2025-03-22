@@ -8,9 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.feature.assetdetail.AssetDetailActivity
 import com.sdhong.jonbeowin.feature.assetdetail.uistate.AssetDetailUiState
-import com.sdhong.jonbeowin.local.dao.AssetDao
 import com.sdhong.jonbeowin.local.model.Asset
 import com.sdhong.jonbeowin.local.model.BuyDate
+import com.sdhong.jonbeowin.repository.JonbeoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,12 +26,12 @@ import javax.inject.Inject
 @HiltViewModel
 class AssetDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val assetDao: AssetDao
+    private val jonbeoRepository: JonbeoRepository
 ) : ViewModel() {
 
     private val assetId = savedStateHandle.get<Int>(AssetDetailActivity.ASSET_ID) ?: 0
 
-    private val initialAsset = assetDao.getAssetById(assetId).stateIn(
+    private val initialAsset = jonbeoRepository.flowAssetById(assetId).stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = Asset.Default
@@ -67,7 +67,7 @@ class AssetDetailViewModel @Inject constructor(
             val diffDays = getDiffDays()
             if (validateDiffDays(diffDays)) return@launch
 
-            assetDao.update(
+            jonbeoRepository.update(
                 initialAsset.value.copy(
                     name = updatedName,
                     dayCount = diffDays + 1,
