@@ -11,4 +11,14 @@ data class Asset(
     val dayCount: Int,
     val buyDateString: String,
     val generatedTime: String
-)
+) {
+    companion object {
+        val Default = Asset(
+            id = 0,
+            name = "",
+            dayCount = 0,
+            buyDateString = "",
+            generatedTime = ""
+        )
+    }
+}

@@ -13,7 +13,7 @@ interface AssetDao {
     fun getAll(): Flow<List<Asset>>
 
     @Query("SELECT * FROM asset WHERE id = :id")
-    fun getAsset(id: Int): Flow<Asset>
+    suspend fun getAssetById(id: Int): Asset
 
     @Upsert
     suspend fun update(asset: Asset)

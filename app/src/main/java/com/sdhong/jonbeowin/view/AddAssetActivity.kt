@@ -13,7 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseActivity
 import com.sdhong.jonbeowin.databinding.ActivityAddAssetBinding
-import com.sdhong.jonbeowin.local.model.BuyDate
+import com.sdhong.jonbeowin.feature.assetdetail.model.BuyDate
 import com.sdhong.jonbeowin.viewmodel.AddAssetViewModel
 import com.sdhong.jonbeowin.viewmodel.AddAssetViewModel.AddAssetEvent
 import dagger.hilt.android.AndroidEntryPoint
