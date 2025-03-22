@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sdhong.jonbeowin.feature.jonbeocount.uistate.AssetUiState
 import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
-import com.sdhong.jonbeowin.local.dao.AssetDao
 import com.sdhong.jonbeowin.local.model.Asset
+import com.sdhong.jonbeowin.repository.JonbeoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class JonbeoCountViewModel @Inject constructor(
-    private val assetDao: AssetDao
+    private val jonbeoRepository: JonbeoRepository
 ) : ViewModel() {
 
     private val isEditMode = MutableStateFlow(false)
@@ -28,7 +28,7 @@ class JonbeoCountViewModel @Inject constructor(
     private val checkedMap = MutableStateFlow<Map<Int, Boolean>>(emptyMap())
 
     val uiState: StateFlow<JonbeoCountUiState> = combine(
-        assetDao.getAll(),
+        jonbeoRepository.flowAllAssets(),
         isEditMode,
         checkedMap
     ) { assetList, isEditMode, checkedMap ->
@@ -65,7 +65,7 @@ class JonbeoCountViewModel @Inject constructor(
             val preValue = isEditMode.value
             if (preValue) {
                 val checkedAssetIdSet = checkedMap.value.keys
-                assetDao.delete(checkedAssetIdSet)
+                jonbeoRepository.delete(checkedAssetIdSet)
                 checkedMap.value = emptyMap()
             }
             isEditMode.value = !preValue

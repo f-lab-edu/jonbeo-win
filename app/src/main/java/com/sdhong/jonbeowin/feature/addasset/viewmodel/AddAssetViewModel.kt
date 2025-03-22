@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.feature.addasset.uistate.AddAssetUiState
-import com.sdhong.jonbeowin.local.dao.AssetDao
 import com.sdhong.jonbeowin.local.model.Asset
 import com.sdhong.jonbeowin.local.model.BuyDate
+import com.sdhong.jonbeowin.repository.JonbeoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddAssetViewModel @Inject constructor(
-    private val assetDao: AssetDao
+    private val jonbeoRepository: JonbeoRepository
 ) : ViewModel() {
 
     private val buyDate = MutableStateFlow(BuyDate.Default)
@@ -54,7 +54,7 @@ class AddAssetViewModel @Inject constructor(
             val diffDays = getDiffDays()
             if (validateDiffDays(diffDays)) return@launch
 
-            assetDao.update(
+            jonbeoRepository.update(
                 Asset(
                     name = assetName,
                     dayCount = diffDays + 1,
