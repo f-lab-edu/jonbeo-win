@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseActivity
 import com.sdhong.jonbeowin.databinding.ActivityAssetDetailBinding
+import com.sdhong.jonbeowin.feature.assetdetail.uistate.AssetDetailUiState
 import com.sdhong.jonbeowin.feature.assetdetail.viewmodel.AssetDetailViewModel
 import com.sdhong.jonbeowin.feature.assetdetail.viewmodel.AssetDetailViewModel.AssetDetailEvent
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,7 +38,7 @@ class AssetDetailActivity : BaseActivity<ActivityAssetDetailBinding>(
         binding.toolbarAssetDetail.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menuClose -> {
-                    viewModel.finishAssetDetail()
+                    viewModel.eventFinishAssetDetail()
                     true
                 }
 
@@ -69,17 +70,23 @@ class AssetDetailActivity : BaseActivity<ActivityAssetDetailBinding>(
     private fun setCollectors() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.initialAsset.collectLatest { asset ->
-                    binding.editTextAssetName.setText(asset.name)
-                    binding.textViewBuyDate.text = asset.buyDateString
-                }
-            }
-        }
+                viewModel.uiState.collectLatest { uiState ->
+                    when (uiState) {
+                        is AssetDetailUiState.Idle -> Unit
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.buyDate.collectLatest { buyDate ->
-                    binding.textViewBuyDate.text = buyDate.formattedString
+                        is AssetDetailUiState.Initial -> {
+                            binding.editTextAssetName.setText(uiState.initialAsset.name)
+                            binding.textViewBuyDate.text = uiState.initialAsset.buyDateString
+                        }
+
+                        is AssetDetailUiState.Success -> {
+                            binding.textViewBuyDate.text = uiState.buyDate.formattedString
+                        }
+
+                        is AssetDetailUiState.Error -> {
+                            viewModel.eventShowToast(R.string.asset_detail_error_message)
+                        }
+                    }
                 }
             }
         }

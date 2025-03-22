@@ -8,13 +8,18 @@ import androidx.lifecycle.viewModelScope
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.feature.assetdetail.AssetDetailActivity
 import com.sdhong.jonbeowin.feature.assetdetail.model.BuyDate
+import com.sdhong.jonbeowin.feature.assetdetail.uistate.AssetDetailUiState
 import com.sdhong.jonbeowin.local.dao.AssetDao
 import com.sdhong.jonbeowin.local.model.Asset
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,26 +31,33 @@ class AssetDetailViewModel @Inject constructor(
 
     private val assetId = savedStateHandle.get<Int>(AssetDetailActivity.ASSET_ID) ?: 0
 
-    private val _initialAsset = MutableStateFlow(Asset.Default)
-    val initialAsset = _initialAsset.asStateFlow()
+    private val initialAsset = assetDao.getAssetById(assetId).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = Asset.Default
+    )
+    private val buyDate = MutableStateFlow(BuyDate.Default)
 
-    private val _buyDate = MutableStateFlow(BuyDate.Default)
-    val buyDate = _buyDate.asStateFlow()
+    val uiState: StateFlow<AssetDetailUiState> = combine(
+        initialAsset,
+        buyDate
+    ) { initialAsset, buyDate ->
+        if (buyDate == BuyDate.Default) {
+            AssetDetailUiState.Initial(initialAsset)
+        } else {
+            AssetDetailUiState.Success(buyDate)
+        }
+    }.catch {
+        emit(AssetDetailUiState.Error)
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = AssetDetailUiState.Idle
+    )
 
     private val _eventChannel = Channel<AssetDetailEvent>(Channel.BUFFERED)
     val eventFlow = _eventChannel.receiveAsFlow()
 
-    init {
-        viewModelScope.launch {
-            try {
-                val asset = assetDao.getAssetById(assetId)
-                _initialAsset.value = asset
-                _buyDate.value = BuyDate.fromString(asset.buyDateString)
-            } catch (e: Exception) {
-                _eventChannel.send(AssetDetailEvent.ShowToast(R.string.asset_detail_error_message))
-            }
-        }
-    }
 
     fun fixAsset(updatedName: String) {
         viewModelScope.launch {
@@ -56,27 +68,27 @@ class AssetDetailViewModel @Inject constructor(
             if (validateDiffDays(diffDays)) return@launch
 
             assetDao.update(
-                _initialAsset.value.copy(
+                initialAsset.value.copy(
                     name = updatedName,
                     dayCount = diffDays + 1,
-                    buyDateString = _buyDate.value.formattedString,
+                    buyDateString = buyDate.value.formattedString,
                 )
             )
-            finishAssetDetail()
+            eventFinishAssetDetail()
         }
     }
 
-    private suspend fun validateAssetName(assetName: String): Boolean {
+    private fun validateAssetName(assetName: String): Boolean {
         if (assetName.isBlank()) {
-            _eventChannel.send(AssetDetailEvent.ShowToast(R.string.asset_name_empty_message))
+            eventShowToast(R.string.asset_name_empty_message)
             return true
         }
         return false
     }
 
-    private suspend fun checkUserSetBuyDate(): Boolean {
-        if (_buyDate.value == BuyDate.Default) {
-            _eventChannel.send(AssetDetailEvent.ShowToast(R.string.date_empty_message))
+    private fun checkUserSetBuyDate(): Boolean {
+        if (buyDate.value == BuyDate.Default) {
+            eventShowToast(R.string.date_empty_message)
             return true
         }
         return false
@@ -84,7 +96,7 @@ class AssetDetailViewModel @Inject constructor(
 
     private fun getDiffDays(): Int {
         val buyDay = Calendar.getInstance().apply {
-            set(_buyDate.value.year, _buyDate.value.month - 1, _buyDate.value.day, 0, 0, 0)
+            set(buyDate.value.year, buyDate.value.month - 1, buyDate.value.day, 0, 0, 0)
             set(Calendar.MILLISECOND, 0)
         }.timeInMillis
         val today = Calendar.getInstance().apply {
@@ -97,25 +109,31 @@ class AssetDetailViewModel @Inject constructor(
         return diffDays
     }
 
-    private suspend fun validateDiffDays(diffDays: Int): Boolean {
+    private fun validateDiffDays(diffDays: Int): Boolean {
         if (diffDays < 0) {
-            _eventChannel.send(AssetDetailEvent.ShowToast(R.string.date_error_message))
+            eventShowToast(R.string.date_error_message)
             return true
         }
         return false
     }
 
     fun setBuyDate(year: Int, month: Int, day: Int) {
-        _buyDate.value = BuyDate(
+        buyDate.value = BuyDate(
             year = year,
             month = month,
             day = day
         )
     }
 
-    fun finishAssetDetail() {
+    fun eventFinishAssetDetail() {
         viewModelScope.launch {
             _eventChannel.send(AssetDetailEvent.FinishAssetDetail)
+        }
+    }
+
+    fun eventShowToast(@StringRes messageId: Int) {
+        viewModelScope.launch {
+            _eventChannel.send(AssetDetailEvent.ShowToast(messageId))
         }
     }
 
