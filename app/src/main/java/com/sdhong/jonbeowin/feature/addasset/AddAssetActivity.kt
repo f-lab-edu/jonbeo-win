@@ -13,9 +13,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseActivity
 import com.sdhong.jonbeowin.databinding.ActivityAddAssetBinding
+import com.sdhong.jonbeowin.feature.addasset.uistate.AddAssetUiState
 import com.sdhong.jonbeowin.feature.addasset.viewmodel.AddAssetViewModel
 import com.sdhong.jonbeowin.feature.addasset.viewmodel.AddAssetViewModel.AddAssetEvent
-import com.sdhong.jonbeowin.feature.assetdetail.model.BuyDate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -38,7 +38,7 @@ class AddAssetActivity : BaseActivity<ActivityAddAssetBinding>(
         binding.toolbarAddAsset.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menuClose -> {
-                    viewModel.finishAddAsset()
+                    viewModel.eventFinishAddAsset()
                     true
                 }
 
@@ -70,11 +70,17 @@ class AddAssetActivity : BaseActivity<ActivityAddAssetBinding>(
     private fun setCollectors() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.buyDate.collectLatest { buyDate ->
-                    if (buyDate == BuyDate.Default) {
-                        binding.textViewBuyDate.text = getString(R.string.choose_date)
-                    } else {
-                        binding.textViewBuyDate.text = buyDate.formattedString
+                viewModel.uiState.collectLatest { uiState ->
+                    when (uiState) {
+                        is AddAssetUiState.Idle -> Unit
+
+                        is AddAssetUiState.Success -> {
+                            binding.textViewBuyDate.text = uiState.buyDate.formattedString
+                        }
+
+                        is AddAssetUiState.Error -> {
+                            viewModel.eventShowToast(R.string.add_asset_error_message)
+                        }
                     }
                 }
             }
