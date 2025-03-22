@@ -15,7 +15,6 @@
     <string name="choose_date">날짜 선택</string>
     <string name="save">저장</string>
     <string name="fix">수정</string>
-    <string name="date_format">%d/%d/%d"</string>
     <string name="asset_name_empty_message">자산 이름을 한 글자 이상 입력해 주세요</string>
     <string name="asset_detail_error_message">자산 상세 데이터를 불러올 수 없습니다</string>
     <string name="date_empty_message">날짜를 선택해 주세요</string>

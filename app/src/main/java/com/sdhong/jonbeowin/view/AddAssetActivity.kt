@@ -74,12 +74,7 @@ class AddAssetActivity : BaseActivity<ActivityAddAssetBinding>(
                     if (buyDate == BuyDate.Default) {
                         binding.textViewBuyDate.text = getString(R.string.choose_date)
                     } else {
-                        binding.textViewBuyDate.text = getString(
-                            R.string.date_format,
-                            buyDate.year,
-                            buyDate.month,
-                            buyDate.day
-                        )
+                        binding.textViewBuyDate.text = buyDate.formattedString
                     }
                 }
             }
