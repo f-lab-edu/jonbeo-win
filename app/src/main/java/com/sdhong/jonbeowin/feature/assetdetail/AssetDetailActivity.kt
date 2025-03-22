@@ -75,12 +75,25 @@ class AssetDetailActivity : BaseActivity<ActivityAssetDetailBinding>(
                         is AssetDetailUiState.Idle -> Unit
 
                         is AssetDetailUiState.Initial -> {
-                            binding.editTextAssetName.setText(uiState.initialAsset.name)
-                            binding.textViewBuyDate.text = uiState.initialAsset.buyDateString
+                            val asset = uiState.initialAsset
+                            val buyDate = asset.buyDate
+                            binding.editTextAssetName.setText(asset.name)
+                            binding.textViewBuyDate.text = getString(
+                                R.string.date_format,
+                                buyDate.year,
+                                buyDate.month,
+                                buyDate.day
+                            )
                         }
 
                         is AssetDetailUiState.Success -> {
-                            binding.textViewBuyDate.text = uiState.buyDate.formattedString
+                            val buyDate = uiState.buyDate
+                            binding.textViewBuyDate.text = getString(
+                                R.string.date_format,
+                                buyDate.year,
+                                buyDate.month,
+                                buyDate.day
+                            )
                         }
 
                         is AssetDetailUiState.Error -> {

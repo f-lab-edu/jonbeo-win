@@ -1,6 +1,6 @@
 package com.sdhong.jonbeowin.feature.addasset.uistate
 
-import com.sdhong.jonbeowin.feature.assetdetail.model.BuyDate
+import com.sdhong.jonbeowin.local.model.BuyDate
 
 sealed interface AddAssetUiState {
     data object Idle : AddAssetUiState

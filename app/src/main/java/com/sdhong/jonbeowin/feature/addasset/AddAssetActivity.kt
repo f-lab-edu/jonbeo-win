@@ -75,7 +75,12 @@ class AddAssetActivity : BaseActivity<ActivityAddAssetBinding>(
                         is AddAssetUiState.Idle -> Unit
 
                         is AddAssetUiState.Success -> {
-                            binding.textViewBuyDate.text = uiState.buyDate.formattedString
+                            binding.textViewBuyDate.text = getString(
+                                R.string.date_format,
+                                uiState.buyDate.year,
+                                uiState.buyDate.month,
+                                uiState.buyDate.day
+                            )
                         }
 
                         is AddAssetUiState.Error -> {

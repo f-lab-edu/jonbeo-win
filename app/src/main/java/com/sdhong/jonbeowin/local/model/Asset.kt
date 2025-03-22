@@ -9,7 +9,7 @@ data class Asset(
     val id: Int = 0,
     val name: String,
     val dayCount: Int,
-    val buyDateString: String,
+    val buyDate: BuyDate,
     val generatedTime: String
 ) {
     companion object {
@@ -17,7 +17,7 @@ data class Asset(
             id = 0,
             name = "",
             dayCount = 0,
-            buyDateString = "",
+            buyDate = BuyDate.Default,
             generatedTime = ""
         )
     }
