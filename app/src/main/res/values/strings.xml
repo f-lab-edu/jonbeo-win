@@ -5,6 +5,7 @@
     <string name="asset_day_count">%d일째 버티는 중!</string>
     <string name="add">추가하기</string>
     <string name="edit">편집</string>
+    <string name="remove">제거</string>
     <string name="close">닫기</string>
     <string name="title_add_asset">자산 추가</string>
     <string name="title_asset_detail">자산 상세</string>

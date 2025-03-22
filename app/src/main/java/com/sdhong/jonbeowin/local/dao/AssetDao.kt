@@ -14,4 +14,7 @@ interface AssetDao {
 
     @Upsert
     suspend fun update(asset: Asset)
+
+    @Query("DELETE FROM asset WHERE id IN (:assetIds)")
+    suspend fun delete(assetIds: Set<Int>)
 }

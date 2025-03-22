@@ -28,7 +28,7 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
         binding.toolbarJonbeocount.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.menuEditAsset -> {
-                    viewModel.editAssetList()
+                    viewModel.toggleEditMode()
                     true
                 }
 
@@ -46,14 +46,23 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
     private fun setCollectors() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.assetList.collectLatest {
+                viewModel.assetUiStateList.collectLatest {
                     jonbeoCountAdapter.submitList(it)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isEditMode.collectLatest { isEditMode ->
+                    val title = getString(if (isEditMode) R.string.remove else R.string.edit)
+                    binding.toolbarJonbeocount.menu.findItem(R.id.menuEditAsset).title = title
                 }
             }
         }
     }
 
     private fun onAssetItemClick(asset: Asset) {
-        // TODO: 클릭 시 상세화면으로 이동
+        viewModel.onAssetItemClick(asset)
     }
 }

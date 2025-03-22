@@ -44,6 +44,16 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/dusk_gray" />
 
+        <CheckBox
+            android:id="@+id/checkboxEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>
