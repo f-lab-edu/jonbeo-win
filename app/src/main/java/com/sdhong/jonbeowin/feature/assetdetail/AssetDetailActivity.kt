@@ -84,6 +84,8 @@ class AssetDetailActivity : BaseActivity<ActivityAssetDetailBinding>(
                                 buyDate.month,
                                 buyDate.day
                             )
+
+                            viewModel.setBuyDate(buyDate.year, buyDate.month, buyDate.day)
                         }
 
                         is AssetDetailUiState.Success -> {

@@ -5,7 +5,6 @@ data class BuyDate(
     val month: Int,
     val day: Int
 ) {
-//    val formattedString: String = "$year/$month/$day"
 
     companion object {
 
