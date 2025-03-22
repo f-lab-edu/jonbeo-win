@@ -6,11 +6,13 @@ import com.sdhong.jonbeowin.local.dao.AssetDao
 import com.sdhong.jonbeowin.local.model.Asset
 import com.sdhong.jonbeowin.view.uistate.AssetUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -43,6 +45,9 @@ class JonbeoCountViewModel @Inject constructor(
         initialValue = emptyList()
     )
 
+    private val _eventChannel = Channel<JonbeoCountEvent>(Channel.BUFFERED)
+    val eventFlow = _eventChannel.receiveAsFlow()
+
     fun toggleEditMode() {
         viewModelScope.launch {
             val preValue = _isEditMode.value
@@ -62,7 +67,13 @@ class JonbeoCountViewModel @Inject constructor(
                 map[asset.id] = !currentValue
             }
         } else {
-            // TODO: 상세화면으로 이동
+            viewModelScope.launch {
+                _eventChannel.send(JonbeoCountEvent.StartAssetDetail(asset.id))
+            }
         }
+    }
+
+    sealed interface JonbeoCountEvent {
+        data class StartAssetDetail(val assetId: Int) : JonbeoCountEvent
     }
 }

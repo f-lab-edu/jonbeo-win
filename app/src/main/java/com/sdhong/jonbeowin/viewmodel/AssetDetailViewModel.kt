@@ -2,6 +2,7 @@ package com.sdhong.jonbeowin.viewmodel
 
 import android.icu.util.Calendar
 import androidx.annotation.StringRes
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sdhong.jonbeowin.R
@@ -18,8 +19,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AssetDetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val assetDao: AssetDao
 ) : ViewModel() {
+
+    val assetId = savedStateHandle.get<Int>("assetId")
+
     private val _buyDate = MutableStateFlow(BuyDate.Default)
     val buyDate = _buyDate.asStateFlow()
 
