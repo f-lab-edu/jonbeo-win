@@ -9,11 +9,17 @@ import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.local.dao.AssetDao
 import com.sdhong.jonbeowin.local.model.Asset
 import com.sdhong.jonbeowin.local.model.BuyDate
+import com.sdhong.jonbeowin.view.AssetDetailActivity
+import com.sdhong.jonbeowin.view.uistate.AssetDetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,13 +29,24 @@ class AssetDetailViewModel @Inject constructor(
     private val assetDao: AssetDao
 ) : ViewModel() {
 
-    val assetId = savedStateHandle.get<Int>("assetId")
+    private val assetId = savedStateHandle.get<Int>(AssetDetailActivity.ASSET_ID) ?: 0
 
     private val _buyDate = MutableStateFlow(BuyDate.Default)
     val buyDate = _buyDate.asStateFlow()
 
     private val _eventChannel = Channel<AssetDetailEvent>(Channel.BUFFERED)
     val eventFlow = _eventChannel.receiveAsFlow()
+
+    val assetDetailUiState: StateFlow<AssetDetailUiState> = assetDao.getAsset(assetId).map {
+        AssetDetailUiState(
+            name = it.name,
+            buyDateString = it.buyDateString
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = AssetDetailUiState.Default
+    )
 
     fun fixAsset(assetName: String) {
         viewModelScope.launch {
@@ -43,6 +60,7 @@ class AssetDetailViewModel @Inject constructor(
                 Asset(
                     name = assetName,
                     dayCount = diffDays + 1,
+                    buyDateString = _buyDate.value.formattedString,
                     generatedTime = Calendar.getInstance().time.toString()
                 )
             )

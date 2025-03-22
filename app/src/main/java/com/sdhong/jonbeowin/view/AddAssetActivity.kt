@@ -46,7 +46,7 @@ class AddAssetActivity : BaseActivity<ActivityAddAssetBinding>(
             }
         }
 
-        binding.textViewCalendar.setOnClickListener {
+        binding.textViewBuyDate.setOnClickListener {
             val calendar = Calendar.getInstance()
 
             val datePicker = DatePickerDialog(
@@ -72,9 +72,9 @@ class AddAssetActivity : BaseActivity<ActivityAddAssetBinding>(
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.buyDate.collectLatest { buyDate ->
                     if (buyDate == BuyDate.Default) {
-                        binding.textViewCalendar.text = getString(R.string.choose_date)
+                        binding.textViewBuyDate.text = getString(R.string.choose_date)
                     } else {
-                        binding.textViewCalendar.text = getString(
+                        binding.textViewBuyDate.text = getString(
                             R.string.date_format,
                             buyDate.year,
                             buyDate.month,
