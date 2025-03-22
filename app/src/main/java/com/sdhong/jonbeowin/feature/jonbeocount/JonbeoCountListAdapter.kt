@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sdhong.jonbeowin.databinding.ItemAssetBinding
-import com.sdhong.jonbeowin.local.model.Asset
 import com.sdhong.jonbeowin.feature.jonbeocount.uistate.AssetUiState
+import com.sdhong.jonbeowin.local.model.Asset
 
 class JonbeoCountListAdapter(
     private val onAssetItemClick: (asset: Asset) -> Unit
