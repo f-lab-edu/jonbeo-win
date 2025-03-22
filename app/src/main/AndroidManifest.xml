@@ -17,10 +17,10 @@
             android:name=".feature.assetdetail.AssetDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".view.AddAssetActivity"
+            android:name=".feature.addasset.AddAssetActivity"
             android:exported="false" />
         <activity
-            android:name=".view.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

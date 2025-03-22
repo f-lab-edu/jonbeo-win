@@ -1,4 +1,4 @@
-package com.sdhong.jonbeowin.viewmodel
+package com.sdhong.jonbeowin.feature.addasset.viewmodel
 
 import android.icu.util.Calendar
 import androidx.annotation.StringRes
