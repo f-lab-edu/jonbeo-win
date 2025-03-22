@@ -108,8 +108,10 @@ class AssetDetailActivity : BaseActivity<ActivityAssetDetailBinding>(
 
     companion object {
 
-        fun newIntent(context: Context): Intent {
-            return Intent(context, AssetDetailActivity::class.java)
+        private const val ASSET_ID = "ASSET_ID"
+
+        fun newIntent(context: Context, assetId: Int): Intent {
+            return Intent(context, AssetDetailActivity::class.java).putExtra(ASSET_ID, assetId)
         }
     }
 }

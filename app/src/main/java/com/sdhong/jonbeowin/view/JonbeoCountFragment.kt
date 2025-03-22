@@ -60,6 +60,23 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.eventFlow.collect { event ->
+                    when (event) {
+                        is JonbeoCountViewModel.JonbeoCountEvent.StartAssetDetail -> {
+                            startActivity(
+                                AssetDetailActivity.newIntent(
+                                    requireContext(),
+                                    event.assetId
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun onAssetItemClick(asset: Asset) {
