@@ -14,14 +14,5 @@ data class BuyDate(
             month = 0,
             day = 0
         )
-
-        fun fromString(buyDateString: String): BuyDate {
-            val date = buyDateString.split("/")
-            return BuyDate(
-                year = date[0].toInt(),
-                month = date[1].toInt(),
-                day = date[2].toInt()
-            )
-        }
     }
 }
