@@ -16,7 +16,6 @@ abstract class BaseActivity<VB : ViewBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         binding = bindingFactory(layoutInflater)
         setContentView(binding.root)
