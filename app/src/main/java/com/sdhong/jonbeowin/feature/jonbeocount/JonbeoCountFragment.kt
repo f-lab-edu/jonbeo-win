@@ -1,4 +1,4 @@
-package com.sdhong.jonbeowin.view
+package com.sdhong.jonbeowin.feature.jonbeocount
 
 import android.os.Bundle
 import android.view.View
@@ -10,7 +10,8 @@ import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseFragment
 import com.sdhong.jonbeowin.databinding.FragmentJonbeoCountBinding
 import com.sdhong.jonbeowin.local.model.Asset
-import com.sdhong.jonbeowin.viewmodel.JonbeoCountViewModel
+import com.sdhong.jonbeowin.view.AddAssetActivity
+import com.sdhong.jonbeowin.view.AssetDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

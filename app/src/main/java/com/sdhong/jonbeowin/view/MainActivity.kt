@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseActivity
 import com.sdhong.jonbeowin.databinding.ActivityMainBinding
+import com.sdhong.jonbeowin.feature.jonbeocount.JonbeoCountFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,10 +1,10 @@
-package com.sdhong.jonbeowin.viewmodel
+package com.sdhong.jonbeowin.feature.jonbeocount
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sdhong.jonbeowin.local.dao.AssetDao
 import com.sdhong.jonbeowin.local.model.Asset
-import com.sdhong.jonbeowin.view.uistate.AssetUiState
+import com.sdhong.jonbeowin.feature.jonbeocount.uistate.AssetUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

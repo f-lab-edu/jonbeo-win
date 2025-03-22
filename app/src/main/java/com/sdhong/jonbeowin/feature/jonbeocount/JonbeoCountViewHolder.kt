@@ -1,10 +1,10 @@
-package com.sdhong.jonbeowin.view
+package com.sdhong.jonbeowin.feature.jonbeocount
 
 import android.view.View
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseViewHolder
 import com.sdhong.jonbeowin.databinding.ItemAssetBinding
-import com.sdhong.jonbeowin.view.uistate.AssetUiState
+import com.sdhong.jonbeowin.feature.jonbeocount.uistate.AssetUiState
 
 class JonbeoCountViewHolder(
     private val binding: ItemAssetBinding
