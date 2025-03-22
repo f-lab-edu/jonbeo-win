@@ -1,11 +1,11 @@
-package com.sdhong.jonbeowin.feature.assetdetail.model
+package com.sdhong.jonbeowin.local.model
 
 data class BuyDate(
     val year: Int,
     val month: Int,
     val day: Int
 ) {
-    val formattedString: String = "$year/$month/$day"
+//    val formattedString: String = "$year/$month/$day"
 
     companion object {
 
