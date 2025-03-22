@@ -1,4 +1,4 @@
-package com.sdhong.jonbeowin.view.uistate
+package com.sdhong.jonbeowin.feature.jonbeocount.uistate
 
 import com.sdhong.jonbeowin.local.model.Asset
 
