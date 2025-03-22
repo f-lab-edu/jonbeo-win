@@ -46,7 +46,7 @@ class AssetDetailActivity : BaseActivity<ActivityAssetDetailBinding>(
             }
         }
 
-        binding.textViewCalendar.setOnClickListener {
+        binding.textViewBuyDate.setOnClickListener {
             val calendar = Calendar.getInstance()
 
             val datePicker = DatePickerDialog(
@@ -72,15 +72,24 @@ class AssetDetailActivity : BaseActivity<ActivityAssetDetailBinding>(
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.buyDate.collectLatest { buyDate ->
                     if (buyDate == BuyDate.Default) {
-                        binding.textViewCalendar.text = getString(R.string.choose_date)
+                        binding.textViewBuyDate.text = getString(R.string.choose_date)
                     } else {
-                        binding.textViewCalendar.text = getString(
+                        binding.textViewBuyDate.text = getString(
                             R.string.date_format,
                             buyDate.year,
                             buyDate.month,
                             buyDate.day
                         )
                     }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.assetDetailUiState.collectLatest { uiState ->
+                    binding.editTextAssetName.setText(uiState.name)
+                    binding.textViewBuyDate.text = uiState.buyDateString
                 }
             }
         }
@@ -108,7 +117,7 @@ class AssetDetailActivity : BaseActivity<ActivityAssetDetailBinding>(
 
     companion object {
 
-        private const val ASSET_ID = "ASSET_ID"
+        const val ASSET_ID = "ASSET_ID"
 
         fun newIntent(context: Context, assetId: Int): Intent {
             return Intent(context, AssetDetailActivity::class.java).putExtra(ASSET_ID, assetId)

@@ -9,5 +9,6 @@ data class Asset(
     val id: Int = 0,
     val name: String,
     val dayCount: Int,
+    val buyDateString: String,
     val generatedTime: String
 )
