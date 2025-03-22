@@ -85,7 +85,7 @@ class JonbeoCountViewModel @Inject constructor(
         }
     }
 
-    fun startAddAsset() {
+    fun eventStartAddAsset() {
         viewModelScope.launch {
             _eventChannel.send(JonbeoCountEvent.StartAddAsset)
         }

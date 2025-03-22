@@ -1,4 +1,4 @@
-package com.sdhong.jonbeowin.view
+package com.sdhong.jonbeowin.feature.encouragingword
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.sdhong.jonbeowin.view
+package com.sdhong.jonbeowin.feature.addasset
 
 import android.app.DatePickerDialog
 import android.content.Context
@@ -13,9 +13,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseActivity
 import com.sdhong.jonbeowin.databinding.ActivityAddAssetBinding
+import com.sdhong.jonbeowin.feature.addasset.viewmodel.AddAssetViewModel
+import com.sdhong.jonbeowin.feature.addasset.viewmodel.AddAssetViewModel.AddAssetEvent
 import com.sdhong.jonbeowin.feature.assetdetail.model.BuyDate
-import com.sdhong.jonbeowin.viewmodel.AddAssetViewModel
-import com.sdhong.jonbeowin.viewmodel.AddAssetViewModel.AddAssetEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
