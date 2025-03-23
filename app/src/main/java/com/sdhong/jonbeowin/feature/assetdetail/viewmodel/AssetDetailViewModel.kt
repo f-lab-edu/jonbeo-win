@@ -3,9 +3,8 @@ package com.sdhong.jonbeowin.feature.assetdetail.viewmodel
 import android.icu.util.Calendar
 import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.sdhong.jonbeowin.R
+import com.sdhong.jonbeowin.base.BaseViewModel
 import com.sdhong.jonbeowin.feature.assetdetail.AssetDetailActivity
 import com.sdhong.jonbeowin.feature.assetdetail.uistate.AssetDetailUiState
 import com.sdhong.jonbeowin.local.model.Asset
@@ -14,12 +13,10 @@ import com.sdhong.jonbeowin.repository.JonbeoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,15 +24,14 @@ import javax.inject.Inject
 class AssetDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val jonbeoRepository: JonbeoRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val assetId = savedStateHandle.get<Int>(AssetDetailActivity.ASSET_ID) ?: 0
 
-    private val initialAsset = jonbeoRepository.flowAssetById(assetId).stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = Asset.Default
-    )
+    private val initialAsset = jonbeoRepository.flowAssetById(assetId)
+        .stateIn(
+            initialValue = Asset.Default
+        )
     private val buyDate = MutableStateFlow(BuyDate.Default)
 
     val uiState: StateFlow<AssetDetailUiState> = combine(
@@ -50,8 +46,6 @@ class AssetDetailViewModel @Inject constructor(
     }.catch {
         emit(AssetDetailUiState.Error)
     }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
         initialValue = AssetDetailUiState.Idle
     )
 
@@ -60,7 +54,7 @@ class AssetDetailViewModel @Inject constructor(
 
 
     fun fixAsset(updatedName: String) {
-        viewModelScope.launch {
+        launch {
             if (validateAssetName(updatedName)) return@launch
             if (checkUserSetBuyDate()) return@launch
 
@@ -126,13 +120,13 @@ class AssetDetailViewModel @Inject constructor(
     }
 
     fun eventFinishAssetDetail() {
-        viewModelScope.launch {
+        launch {
             _eventChannel.send(AssetDetailEvent.FinishAssetDetail)
         }
     }
 
     fun eventShowToast(@StringRes messageId: Int) {
-        viewModelScope.launch {
+        launch {
             _eventChannel.send(AssetDetailEvent.ShowToast(messageId))
         }
     }

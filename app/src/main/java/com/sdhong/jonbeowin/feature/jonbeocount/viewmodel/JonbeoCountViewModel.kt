@@ -2,6 +2,7 @@ package com.sdhong.jonbeowin.feature.jonbeocount.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sdhong.jonbeowin.base.BaseViewModel
 import com.sdhong.jonbeowin.feature.jonbeocount.uistate.AssetUiState
 import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
 import com.sdhong.jonbeowin.local.model.Asset
@@ -21,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class JonbeoCountViewModel @Inject constructor(
     private val jonbeoRepository: JonbeoRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val isEditMode = MutableStateFlow(false)
 
@@ -49,8 +50,6 @@ class JonbeoCountViewModel @Inject constructor(
     }.catch {
         emit(JonbeoCountUiState.Error)
     }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
         initialValue = JonbeoCountUiState.Idle
     )
 
@@ -61,7 +60,7 @@ class JonbeoCountViewModel @Inject constructor(
     fun toggleEditMode() {
         if (uiState.value !is JonbeoCountUiState.Success) return
 
-        viewModelScope.launch {
+        launch {
             val preValue = isEditMode.value
             if (preValue) {
                 val checkedAssetIdSet = checkedMap.value.keys
@@ -79,14 +78,14 @@ class JonbeoCountViewModel @Inject constructor(
                 map[asset.id] = !currentValue
             }
         } else {
-            viewModelScope.launch {
+            launch {
                 _eventChannel.send(JonbeoCountEvent.StartAssetDetail(asset.id))
             }
         }
     }
 
     fun eventStartAddAsset() {
-        viewModelScope.launch {
+        launch {
             _eventChannel.send(JonbeoCountEvent.StartAddAsset)
         }
     }
