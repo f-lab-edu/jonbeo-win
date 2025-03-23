@@ -3,9 +3,6 @@ package com.sdhong.jonbeowin.feature.jonbeocount
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseFragment
 import com.sdhong.jonbeowin.databinding.FragmentJonbeoCountBinding
@@ -15,9 +12,9 @@ import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
 import com.sdhong.jonbeowin.feature.jonbeocount.viewmodel.JonbeoCountViewModel
 import com.sdhong.jonbeowin.feature.jonbeocount.viewmodel.JonbeoCountViewModel.JonbeoCountEvent
 import com.sdhong.jonbeowin.local.model.Asset
+import com.sdhong.jonbeowin.util.collectFlow
+import com.sdhong.jonbeowin.util.collectLatestFlow
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
@@ -48,20 +45,12 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
     }
 
     private fun setCollectors() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collectLatest { uiState ->
-                    handleUiState(uiState)
-                }
-            }
+        viewLifecycleOwner.collectLatestFlow(viewModel.uiState) { uiState ->
+            handleUiState(uiState)
         }
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.eventFlow.collect { event ->
-                    handleEvent(event)
-                }
-            }
+        viewLifecycleOwner.collectFlow(viewModel.eventFlow) { event ->
+            handleEvent(event)
         }
     }
 

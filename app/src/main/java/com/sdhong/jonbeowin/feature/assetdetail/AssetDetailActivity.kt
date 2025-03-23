@@ -6,19 +6,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.StringRes
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseActivity
 import com.sdhong.jonbeowin.databinding.ActivityAssetDetailBinding
 import com.sdhong.jonbeowin.feature.assetdetail.uistate.AssetDetailUiState
 import com.sdhong.jonbeowin.feature.assetdetail.viewmodel.AssetDetailViewModel
 import com.sdhong.jonbeowin.feature.assetdetail.viewmodel.AssetDetailViewModel.AssetDetailEvent
+import com.sdhong.jonbeowin.util.collectFlow
+import com.sdhong.jonbeowin.util.collectLatestFlow
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.util.Calendar
 
 @AndroidEntryPoint
@@ -68,63 +64,59 @@ class AssetDetailActivity : BaseActivity<ActivityAssetDetailBinding>(
     }
 
     private fun setCollectors() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collectLatest { uiState ->
-                    when (uiState) {
-                        is AssetDetailUiState.Idle -> Unit
-
-                        is AssetDetailUiState.Initial -> {
-                            val asset = uiState.initialAsset
-                            val buyDate = asset.buyDate
-                            binding.editTextAssetName.setText(asset.name)
-                            binding.textViewBuyDate.text = getString(
-                                R.string.date_format,
-                                buyDate.year,
-                                buyDate.month,
-                                buyDate.day
-                            )
-
-                            viewModel.setBuyDate(buyDate.year, buyDate.month, buyDate.day)
-                        }
-
-                        is AssetDetailUiState.Success -> {
-                            val buyDate = uiState.buyDate
-                            binding.textViewBuyDate.text = getString(
-                                R.string.date_format,
-                                buyDate.year,
-                                buyDate.month,
-                                buyDate.day
-                            )
-                        }
-
-                        is AssetDetailUiState.Error -> {
-                            viewModel.eventShowToast(R.string.asset_detail_error_message)
-                        }
-                    }
-                }
-            }
+        collectLatestFlow(viewModel.uiState) { uiState ->
+            handleUiState(uiState)
         }
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.eventFlow.collect { event ->
-                    when (event) {
-                        is AssetDetailEvent.ShowToast -> {
-                            showToast(event.messageId)
-                        }
+        collectFlow(viewModel.eventFlow) { event ->
+            handleEvent(event)
+        }
+    }
 
-                        is AssetDetailEvent.FinishAssetDetail -> {
-                            finish()
-                        }
-                    }
-                }
+    private fun handleUiState(uiState: AssetDetailUiState) {
+        when (uiState) {
+            is AssetDetailUiState.Idle -> Unit
+
+            is AssetDetailUiState.Initial -> {
+                val asset = uiState.initialAsset
+                val buyDate = asset.buyDate
+                binding.editTextAssetName.setText(asset.name)
+                binding.textViewBuyDate.text = getString(
+                    R.string.date_format,
+                    buyDate.year,
+                    buyDate.month,
+                    buyDate.day
+                )
+
+                viewModel.setBuyDate(buyDate.year, buyDate.month, buyDate.day)
+            }
+
+            is AssetDetailUiState.Success -> {
+                val buyDate = uiState.buyDate
+                binding.textViewBuyDate.text = getString(
+                    R.string.date_format,
+                    buyDate.year,
+                    buyDate.month,
+                    buyDate.day
+                )
+            }
+
+            is AssetDetailUiState.Error -> {
+                viewModel.eventShowToast(R.string.asset_detail_error_message)
             }
         }
     }
 
-    private fun showToast(@StringRes messageId: Int) {
-        Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show()
+    private fun handleEvent(event: AssetDetailEvent) {
+        when (event) {
+            is AssetDetailEvent.ShowToast -> {
+                Toast.makeText(this, getString(event.messageId), Toast.LENGTH_SHORT).show()
+            }
+
+            is AssetDetailEvent.FinishAssetDetail -> {
+                finish()
+            }
+        }
     }
 
     companion object {
