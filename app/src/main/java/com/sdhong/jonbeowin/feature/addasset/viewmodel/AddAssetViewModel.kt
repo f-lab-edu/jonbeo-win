@@ -2,9 +2,8 @@ package com.sdhong.jonbeowin.feature.addasset.viewmodel
 
 import android.icu.util.Calendar
 import androidx.annotation.StringRes
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.sdhong.jonbeowin.R
+import com.sdhong.jonbeowin.base.BaseViewModel
 import com.sdhong.jonbeowin.feature.addasset.uistate.AddAssetUiState
 import com.sdhong.jonbeowin.local.model.Asset
 import com.sdhong.jonbeowin.local.model.BuyDate
@@ -12,19 +11,17 @@ import com.sdhong.jonbeowin.repository.JonbeoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AddAssetViewModel @Inject constructor(
     private val jonbeoRepository: JonbeoRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val buyDate = MutableStateFlow(BuyDate.Default)
 
@@ -37,8 +34,6 @@ class AddAssetViewModel @Inject constructor(
     }.catch {
         emit(AddAssetUiState.Error)
     }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
         initialValue = AddAssetUiState.Idle
     )
 
@@ -47,7 +42,7 @@ class AddAssetViewModel @Inject constructor(
 
 
     fun saveAsset(assetName: String) {
-        viewModelScope.launch {
+        launch {
             if (validateAssetName(assetName)) return@launch
             if (checkUserSetBuyDate()) return@launch
 
@@ -114,13 +109,13 @@ class AddAssetViewModel @Inject constructor(
     }
 
     fun eventFinishAddAsset() {
-        viewModelScope.launch {
+        launch {
             _eventChannel.send(AddAssetEvent.FinishAddAsset)
         }
     }
 
     fun eventShowToast(@StringRes messageId: Int) {
-        viewModelScope.launch {
+        launch {
             _eventChannel.send(AddAssetEvent.ShowToast(messageId))
         }
     }
