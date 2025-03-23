@@ -6,19 +6,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.StringRes
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseActivity
 import com.sdhong.jonbeowin.databinding.ActivityAddAssetBinding
 import com.sdhong.jonbeowin.feature.addasset.uistate.AddAssetUiState
 import com.sdhong.jonbeowin.feature.addasset.viewmodel.AddAssetViewModel
 import com.sdhong.jonbeowin.feature.addasset.viewmodel.AddAssetViewModel.AddAssetEvent
+import com.sdhong.jonbeowin.util.collectFlow
+import com.sdhong.jonbeowin.util.collectLatestFlow
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.util.Calendar
 
 @AndroidEntryPoint
@@ -68,48 +64,44 @@ class AddAssetActivity : BaseActivity<ActivityAddAssetBinding>(
     }
 
     private fun setCollectors() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collectLatest { uiState ->
-                    when (uiState) {
-                        is AddAssetUiState.Idle -> Unit
-
-                        is AddAssetUiState.Success -> {
-                            binding.textViewBuyDate.text = getString(
-                                R.string.date_format,
-                                uiState.buyDate.year,
-                                uiState.buyDate.month,
-                                uiState.buyDate.day
-                            )
-                        }
-
-                        is AddAssetUiState.Error -> {
-                            viewModel.eventShowToast(R.string.add_asset_error_message)
-                        }
-                    }
-                }
-            }
+        collectLatestFlow(viewModel.uiState) { uiState ->
+            handleUiState(uiState)
         }
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.eventFlow.collect { event ->
-                    when (event) {
-                        is AddAssetEvent.ShowToast -> {
-                            showToast(event.messageId)
-                        }
+        collectFlow(viewModel.eventFlow) { event ->
+            handleEvent(event)
+        }
+    }
 
-                        is AddAssetEvent.FinishAddAsset -> {
-                            finish()
-                        }
-                    }
-                }
+    private fun handleUiState(uiState: AddAssetUiState) {
+        when (uiState) {
+            is AddAssetUiState.Idle -> Unit
+
+            is AddAssetUiState.Success -> {
+                binding.textViewBuyDate.text = getString(
+                    R.string.date_format,
+                    uiState.buyDate.year,
+                    uiState.buyDate.month,
+                    uiState.buyDate.day
+                )
+            }
+
+            is AddAssetUiState.Error -> {
+                viewModel.eventShowToast(R.string.add_asset_error_message)
             }
         }
     }
 
-    private fun showToast(@StringRes messageId: Int) {
-        Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show()
+    private fun handleEvent(event: AddAssetEvent) {
+        when (event) {
+            is AddAssetEvent.ShowToast -> {
+                Toast.makeText(this, getString(event.messageId), Toast.LENGTH_SHORT).show()
+            }
+
+            is AddAssetEvent.FinishAddAsset -> {
+                finish()
+            }
+        }
     }
 
     companion object {
