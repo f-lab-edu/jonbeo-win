@@ -1,7 +1,13 @@
 <resources>
 
     <style name="Base.Theme.JonbeoWin" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:textViewStyle">@style/TextViewStyleDark</item>
+        <item name="colorPrimary">@color/dark_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/dark_blue</item>
+        <item name="toolbarStyle">@style/ToolbarDark</item>
     </style>
 
 </resources>

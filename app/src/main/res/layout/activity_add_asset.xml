@@ -12,9 +12,9 @@
         android:id="@+id/toolbarAddAsset"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/light_blue"
         app:menu="@menu/app_bar_add_asset"
-        app:title="@string/title_add_asset" />
+        app:title="@string/title_add_asset"
+        tools:background="@color/light_blue" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
