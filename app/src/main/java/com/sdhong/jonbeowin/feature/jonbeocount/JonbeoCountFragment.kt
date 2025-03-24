@@ -6,8 +6,7 @@ import androidx.fragment.app.viewModels
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseFragment
 import com.sdhong.jonbeowin.databinding.FragmentJonbeoCountBinding
-import com.sdhong.jonbeowin.feature.addasset.AddAssetActivity
-import com.sdhong.jonbeowin.feature.assetdetail.AssetDetailActivity
+import com.sdhong.jonbeowin.feature.asset.AssetActivity
 import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
 import com.sdhong.jonbeowin.feature.jonbeocount.viewmodel.JonbeoCountViewModel
 import com.sdhong.jonbeowin.feature.jonbeocount.viewmodel.JonbeoCountViewModel.JonbeoCountEvent
@@ -90,12 +89,8 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
 
     private fun handleEvent(event: JonbeoCountEvent) {
         when (event) {
-            is JonbeoCountEvent.StartAddAsset -> {
-                startActivity(AddAssetActivity.newIntent(requireContext()))
-            }
-
-            is JonbeoCountEvent.StartAssetDetail -> {
-                startActivity(AssetDetailActivity.newIntent(requireContext(), event.assetId))
+            is JonbeoCountEvent.StartAsset -> {
+                startActivity(AssetActivity.newIntent(requireContext(), event.assetId))
             }
         }
     }

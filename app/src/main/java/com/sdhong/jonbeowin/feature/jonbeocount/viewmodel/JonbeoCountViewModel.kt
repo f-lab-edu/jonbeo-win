@@ -75,19 +75,18 @@ class JonbeoCountViewModel @Inject constructor(
             }
         } else {
             launch {
-                _eventChannel.send(JonbeoCountEvent.StartAssetDetail(asset.id))
+                _eventChannel.send(JonbeoCountEvent.StartAsset(asset.id))
             }
         }
     }
 
     fun eventStartAddAsset() {
         launch {
-            _eventChannel.send(JonbeoCountEvent.StartAddAsset)
+            _eventChannel.send(JonbeoCountEvent.StartAsset())
         }
     }
 
     sealed interface JonbeoCountEvent {
-        data object StartAddAsset : JonbeoCountEvent
-        data class StartAssetDetail(val assetId: Int) : JonbeoCountEvent
+        data class StartAsset(val assetId: Int? = null) : JonbeoCountEvent
     }
 }
