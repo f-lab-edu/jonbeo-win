@@ -82,7 +82,7 @@ class AssetViewModel @Inject constructor(
                     name = updatedName,
                     dayCount = diffDays + 1,
                     buyDate = buyDate.value,
-                    generatedTime = Calendar.getInstance().time.toString()
+                    createdAt = Calendar.getInstance().time.toString()
                 )
             }
 

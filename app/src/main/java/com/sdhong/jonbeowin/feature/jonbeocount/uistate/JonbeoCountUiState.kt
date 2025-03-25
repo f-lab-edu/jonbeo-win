@@ -1,5 +1,7 @@
 package com.sdhong.jonbeowin.feature.jonbeocount.uistate
 
+import com.sdhong.jonbeowin.feature.jonbeocount.model.JonbeoCountItem
+
 sealed interface JonbeoCountUiState {
 
     data object Idle : JonbeoCountUiState
@@ -7,7 +9,7 @@ sealed interface JonbeoCountUiState {
     data object Empty : JonbeoCountUiState
 
     data class Success(
-        val assetUiStateList: List<AssetUiState>,
+        val jonbeoCountItemList: List<JonbeoCountItem>,
         val isEditMode: Boolean
     ) : JonbeoCountUiState
 

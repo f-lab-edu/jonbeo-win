@@ -11,7 +11,7 @@ data class Asset(
     val name: String,
     val dayCount: Int,
     val buyDate: BuyDate,
-    val generatedTime: String
+    val createdAt: String
 ) {
     companion object {
         val Default = Asset(
@@ -19,7 +19,7 @@ data class Asset(
             name = "",
             dayCount = 0,
             buyDate = BuyDate.Default,
-            generatedTime = ""
+            createdAt = ""
         )
     }
 }

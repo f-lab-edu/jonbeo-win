@@ -20,7 +20,7 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
     bindingFactory = FragmentJonbeoCountBinding::inflate
 ) {
     private val viewModel: JonbeoCountViewModel by viewModels()
-    private val jonbeoCountAdapter = JonbeoCountListAdapter(::onAssetItemClick)
+    private val jonbeoCountAdapter = JonbeoCountListAdapter(::onJonbeoCountItemClick)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,7 +67,7 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
             }
 
             is JonbeoCountUiState.Success -> {
-                jonbeoCountAdapter.submitList(uiState.assetUiStateList)
+                jonbeoCountAdapter.submitList(uiState.jonbeoCountItemList)
 
                 val title = getString(if (uiState.isEditMode) R.string.remove else R.string.edit)
                 binding.toolbarJonbeocount.menu.findItem(R.id.menuEditAsset).title = title
@@ -95,7 +95,7 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
         }
     }
 
-    private fun onAssetItemClick(asset: Asset) {
-        viewModel.onAssetItemClick(asset)
+    private fun onJonbeoCountItemClick(asset: Asset) {
+        viewModel.onJonbeoCountItemClick(asset)
     }
 }

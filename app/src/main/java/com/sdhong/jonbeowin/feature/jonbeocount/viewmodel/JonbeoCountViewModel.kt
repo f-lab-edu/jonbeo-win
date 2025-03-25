@@ -1,7 +1,7 @@
 package com.sdhong.jonbeowin.feature.jonbeocount.viewmodel
 
 import com.sdhong.jonbeowin.base.BaseViewModel
-import com.sdhong.jonbeowin.feature.jonbeocount.uistate.AssetUiState
+import com.sdhong.jonbeowin.feature.jonbeocount.model.JonbeoCountItem
 import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
 import com.sdhong.jonbeowin.local.model.Asset
 import com.sdhong.jonbeowin.repository.JonbeoRepository
@@ -31,8 +31,8 @@ class JonbeoCountViewModel @Inject constructor(
     ) { assetList, isEditMode, checkedMap ->
         if (assetList.isNotEmpty()) {
             JonbeoCountUiState.Success(
-                assetUiStateList = assetList.map { asset ->
-                    AssetUiState(
+                jonbeoCountItemList = assetList.map { asset ->
+                    JonbeoCountItem(
                         asset = asset,
                         isEditMode = isEditMode,
                         isChecked = if (isEditMode) (checkedMap[asset.id] ?: false) else false
@@ -67,7 +67,7 @@ class JonbeoCountViewModel @Inject constructor(
         }
     }
 
-    fun onAssetItemClick(asset: Asset) {
+    fun onJonbeoCountItemClick(asset: Asset) {
         if (isEditMode.value) {
             checkedMap.value = checkedMap.value.toMutableMap().also { map ->
                 val currentValue = map[asset.id] ?: false
