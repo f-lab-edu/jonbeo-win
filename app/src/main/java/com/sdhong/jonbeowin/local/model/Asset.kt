@@ -2,6 +2,7 @@ package com.sdhong.jonbeowin.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.sdhong.jonbeowin.feature.asset.model.BuyDate
 
 @Entity
 data class Asset(

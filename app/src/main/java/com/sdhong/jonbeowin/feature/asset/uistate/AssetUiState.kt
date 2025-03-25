@@ -1,7 +1,7 @@
 package com.sdhong.jonbeowin.feature.asset.uistate
 
+import com.sdhong.jonbeowin.feature.asset.model.BuyDate
 import com.sdhong.jonbeowin.local.model.Asset
-import com.sdhong.jonbeowin.local.model.BuyDate
 
 sealed interface AssetUiState {
 

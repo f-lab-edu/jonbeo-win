@@ -1,4 +1,4 @@
-package com.sdhong.jonbeowin.local.model
+package com.sdhong.jonbeowin.feature.asset.model
 
 data class BuyDate(
     val year: Int,

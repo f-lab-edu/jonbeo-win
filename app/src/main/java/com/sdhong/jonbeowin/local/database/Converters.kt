@@ -1,7 +1,7 @@
 package com.sdhong.jonbeowin.local.database
 
 import androidx.room.TypeConverter
-import com.sdhong.jonbeowin.local.model.BuyDate
+import com.sdhong.jonbeowin.feature.asset.model.BuyDate
 
 class Converters {
 
