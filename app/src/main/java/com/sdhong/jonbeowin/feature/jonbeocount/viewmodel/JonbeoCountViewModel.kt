@@ -1,5 +1,6 @@
 package com.sdhong.jonbeowin.feature.jonbeocount.viewmodel
 
+import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseViewModel
 import com.sdhong.jonbeowin.feature.jonbeocount.model.JonbeoCountItem
 import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
@@ -21,7 +22,6 @@ class JonbeoCountViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val isEditMode = MutableStateFlow(false)
-
     private val checkedMap = MutableStateFlow<Map<Int, Boolean>>(emptyMap())
 
     val uiState: StateFlow<JonbeoCountUiState> = combine(
@@ -38,7 +38,7 @@ class JonbeoCountViewModel @Inject constructor(
                         isChecked = if (isEditMode) (checkedMap[asset.id] ?: false) else false
                     )
                 },
-                isEditMode = isEditMode
+                appBarButtonId = if (isEditMode) R.string.remove else R.string.edit
             )
         } else {
             JonbeoCountUiState.Empty
@@ -59,8 +59,8 @@ class JonbeoCountViewModel @Inject constructor(
         launch {
             val preValue = isEditMode.value
             if (preValue) {
-                val checkedAssetIdSet = checkedMap.value.keys
-                jonbeoRepository.delete(checkedAssetIdSet)
+                val checkedIdSet = checkedMap.value.keys
+                jonbeoRepository.delete(checkedIdSet)
                 checkedMap.value = emptyMap()
             }
             isEditMode.value = !preValue

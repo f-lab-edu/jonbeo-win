@@ -1,5 +1,6 @@
 package com.sdhong.jonbeowin.feature.jonbeocount.uistate
 
+import androidx.annotation.StringRes
 import com.sdhong.jonbeowin.feature.jonbeocount.model.JonbeoCountItem
 
 sealed interface JonbeoCountUiState {
@@ -10,7 +11,7 @@ sealed interface JonbeoCountUiState {
 
     data class Success(
         val jonbeoCountItemList: List<JonbeoCountItem>,
-        val isEditMode: Boolean
+        @StringRes val appBarButtonId: Int
     ) : JonbeoCountUiState
 
     data object Error : JonbeoCountUiState

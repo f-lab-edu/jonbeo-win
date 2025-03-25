@@ -58,6 +58,8 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
             is JonbeoCountUiState.Idle -> Unit
 
             is JonbeoCountUiState.Empty -> {
+                jonbeoCountAdapter.submitList(emptyList())
+
                 binding.textViewMessage.also {
                     it.visibility = View.VISIBLE
                     it.text = getString(R.string.jonbeo_asset_empty_message)
@@ -69,9 +71,7 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
             is JonbeoCountUiState.Success -> {
                 jonbeoCountAdapter.submitList(uiState.jonbeoCountItemList)
 
-                val title = getString(if (uiState.isEditMode) R.string.remove else R.string.edit)
-                binding.toolbarJonbeocount.menu.findItem(R.id.menuEditAsset).title = title
-
+                binding.toolbarJonbeocount.menu.findItem(R.id.menuEditAsset).title = getString(uiState.appBarButtonId)
                 binding.recyclerViewJonbeoCount.visibility = View.VISIBLE
                 binding.textViewMessage.visibility = View.GONE
             }
