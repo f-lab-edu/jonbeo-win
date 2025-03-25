@@ -1,10 +1,12 @@
-package com.sdhong.jonbeowin.feature.addasset.viewmodel
+package com.sdhong.jonbeowin.feature.asset.viewmodel
 
 import android.icu.util.Calendar
 import androidx.annotation.StringRes
+import androidx.lifecycle.SavedStateHandle
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseViewModel
-import com.sdhong.jonbeowin.feature.addasset.uistate.AddAssetUiState
+import com.sdhong.jonbeowin.feature.asset.AssetActivity
+import com.sdhong.jonbeowin.feature.asset.uistate.AssetUiState
 import com.sdhong.jonbeowin.local.model.Asset
 import com.sdhong.jonbeowin.local.model.BuyDate
 import com.sdhong.jonbeowin.repository.JonbeoRepository
@@ -13,51 +15,80 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddAssetViewModel @Inject constructor(
+class AssetViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val jonbeoRepository: JonbeoRepository
 ) : BaseViewModel() {
 
+    private val assetId = savedStateHandle.get<Int>(AssetActivity.EXTRA_ASSET_ID) ?: 0
+
+    private val isAssetDetail = assetId != 0
+
+    private val initialAsset = jonbeoRepository.flowAssetById(assetId)
+        .stateIn(
+            initialValue = Asset.Default
+        )
     private val buyDate = MutableStateFlow(BuyDate.Default)
 
-    val uiState: StateFlow<AddAssetUiState> = buyDate.map { buyDate ->
-        if (buyDate == BuyDate.Default) {
-            AddAssetUiState.Idle
+    val uiState: StateFlow<AssetUiState> = combine(
+        initialAsset,
+        buyDate
+    ) { initialAsset, buyDate ->
+        if (isAssetDetail) {
+            if (buyDate == BuyDate.Default) {
+                AssetUiState.AssetDetailInitial(initialAsset)
+            } else {
+                AssetUiState.AssetDetailDateSelected(buyDate)
+            }
         } else {
-            AddAssetUiState.Success(buyDate)
+            if (buyDate == BuyDate.Default) {
+                AssetUiState.AddAssetInitial
+            } else {
+                AssetUiState.AddAssetDateSelected(buyDate)
+            }
         }
     }.catch {
-        emit(AddAssetUiState.Error)
+        emit(AssetUiState.Error)
     }.stateIn(
-        initialValue = AddAssetUiState.Idle
+        initialValue = AssetUiState.Idle
     )
 
-    private val _eventChannel = Channel<AddAssetEvent>(Channel.BUFFERED)
+    private val _eventChannel = Channel<AssetEvent>(Channel.BUFFERED)
     val eventFlow = _eventChannel.receiveAsFlow()
 
 
-    fun saveAsset(assetName: String) {
+    fun saveAsset(updatedName: String) {
         launch {
-            if (validateAssetName(assetName)) return@launch
+            if (validateAssetName(updatedName)) return@launch
             if (checkUserSetBuyDate()) return@launch
 
             val diffDays = getDiffDays()
             if (validateDiffDays(diffDays)) return@launch
 
-            jonbeoRepository.update(
+            val updatedAsset = if (isAssetDetail) {
+                initialAsset.value.copy(
+                    name = updatedName,
+                    dayCount = diffDays + 1,
+                    buyDate = buyDate.value
+                )
+            } else {
                 Asset(
-                    name = assetName,
+                    name = updatedName,
                     dayCount = diffDays + 1,
                     buyDate = buyDate.value,
                     generatedTime = Calendar.getInstance().time.toString()
                 )
-            )
-            eventFinishAddAsset()
+            }
+
+            jonbeoRepository.update(updatedAsset)
+
+            eventFinishAsset()
         }
     }
 
@@ -108,20 +139,20 @@ class AddAssetViewModel @Inject constructor(
         )
     }
 
-    fun eventFinishAddAsset() {
+    fun eventFinishAsset() {
         launch {
-            _eventChannel.send(AddAssetEvent.FinishAddAsset)
+            _eventChannel.send(AssetEvent.FinishAsset)
         }
     }
 
     fun eventShowToast(@StringRes messageId: Int) {
         launch {
-            _eventChannel.send(AddAssetEvent.ShowToast(messageId))
+            _eventChannel.send(AssetEvent.ShowToast(messageId))
         }
     }
 
-    sealed interface AddAssetEvent {
-        data class ShowToast(@StringRes val messageId: Int) : AddAssetEvent
-        data object FinishAddAsset : AddAssetEvent
+    sealed interface AssetEvent {
+        data class ShowToast(@StringRes val messageId: Int) : AssetEvent
+        data object FinishAsset : AssetEvent
     }
 }

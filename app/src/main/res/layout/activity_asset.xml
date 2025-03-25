@@ -9,12 +9,12 @@
     tools:context=".feature.addasset.AddAssetActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarAssetDetail"
+        android:id="@+id/toolbarAsset"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:menu="@menu/app_bar_add_asset"
-        app:title="@string/title_asset_detail"
-        tools:background="@color/light_blue" />
+        tools:background="@color/light_blue"
+        tools:title="@string/title_asset_detail" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -58,8 +58,8 @@
                 android:background="@drawable/selector_bg_rounded_corner_rectangle"
                 android:gravity="center_vertical"
                 android:padding="8dp"
-                android:text="@string/choose_date"
-                app:drawableEndCompat="@drawable/ic_calendar" />
+                app:drawableEndCompat="@drawable/ic_calendar"
+                tools:text="@string/choose_date" />
 
         </LinearLayout>
 
@@ -71,11 +71,11 @@
         android:layout_weight="1" />
 
     <Button
-        android:id="@+id/buttonFix"
+        android:id="@+id/buttonAssetConfirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:backgroundTint="@color/blue"
-        android:text="@string/fix" />
+        tools:text="@string/fix" />
 
 </LinearLayout>
