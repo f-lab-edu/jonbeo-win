@@ -32,6 +32,9 @@ class AssetActivity : BaseActivity<ActivityAssetBinding>(
     }
 
     private fun setUpView() {
+        binding.toolbarAsset.title = getString(viewModel.basicUiState.appBarTitleId)
+        binding.buttonAssetConfirm.text = getString(viewModel.basicUiState.buttonTextId)
+
         binding.toolbarAsset.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menuClose -> {
@@ -79,9 +82,6 @@ class AssetActivity : BaseActivity<ActivityAssetBinding>(
             is AssetUiState.Idle -> Unit
 
             is AssetUiState.AssetDetailInitial -> {
-                binding.toolbarAsset.title = getString(R.string.title_asset_detail)
-                binding.buttonAssetConfirm.text = getString(R.string.fix)
-
                 val asset = uiState.initialAsset
                 val buyDate = asset.buyDate
                 binding.editTextAssetName.setText(asset.name)
@@ -96,27 +96,10 @@ class AssetActivity : BaseActivity<ActivityAssetBinding>(
             }
 
             is AssetUiState.AddAssetInitial -> {
-                binding.toolbarAsset.title = getString(R.string.title_add_asset)
-                binding.buttonAssetConfirm.text = getString(R.string.save)
                 binding.textViewBuyDate.text = getString(R.string.choose_date)
             }
 
-            is AssetUiState.AssetDetailDateSelected -> {
-                binding.toolbarAsset.title = getString(R.string.title_asset_detail)
-                binding.buttonAssetConfirm.text = getString(R.string.fix)
-
-                binding.textViewBuyDate.text = getString(
-                    R.string.date_format,
-                    uiState.buyDate.year,
-                    uiState.buyDate.month,
-                    uiState.buyDate.day
-                )
-            }
-
-            is AssetUiState.AddAssetDateSelected -> {
-                binding.toolbarAsset.title = getString(R.string.title_add_asset)
-                binding.buttonAssetConfirm.text = getString(R.string.save)
-
+            is AssetUiState.AssetDateSelected -> {
                 binding.textViewBuyDate.text = getString(
                     R.string.date_format,
                     uiState.buyDate.year,

@@ -10,8 +10,7 @@ sealed interface AssetUiState {
     data class AssetDetailInitial(val initialAsset: Asset) : AssetUiState
     data object AddAssetInitial : AssetUiState
 
-    data class AssetDetailDateSelected(val buyDate: BuyDate) : AssetUiState
-    data class AddAssetDateSelected(val buyDate: BuyDate) : AssetUiState
+    data class AssetDateSelected(val buyDate: BuyDate) : AssetUiState
 
     data object Error : AssetUiState
 }

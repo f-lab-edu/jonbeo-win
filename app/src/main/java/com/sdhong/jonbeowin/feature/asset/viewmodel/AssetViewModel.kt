@@ -7,6 +7,7 @@ import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseViewModel
 import com.sdhong.jonbeowin.feature.asset.AssetActivity
 import com.sdhong.jonbeowin.feature.asset.model.BuyDate
+import com.sdhong.jonbeowin.feature.asset.uistate.AssetBasicUiState
 import com.sdhong.jonbeowin.feature.asset.uistate.AssetUiState
 import com.sdhong.jonbeowin.local.model.Asset
 import com.sdhong.jonbeowin.repository.JonbeoRepository
@@ -30,6 +31,11 @@ class AssetViewModel @Inject constructor(
 
     private val isAssetDetail = assetId != 0
 
+    val basicUiState = AssetBasicUiState(
+        appBarTitleId = if (isAssetDetail) R.string.title_asset_detail else R.string.title_add_asset,
+        buttonTextId = if (isAssetDetail) R.string.fix else R.string.save
+    )
+
     private val initialAsset = jonbeoRepository.flowAssetById(assetId)
         .stateIn(
             initialValue = Asset.Default
@@ -40,18 +46,14 @@ class AssetViewModel @Inject constructor(
         initialAsset,
         buyDate
     ) { initialAsset, buyDate ->
-        if (isAssetDetail) {
-            if (buyDate == BuyDate.Default) {
+        if (buyDate == BuyDate.Default) {
+            if (isAssetDetail) {
                 AssetUiState.AssetDetailInitial(initialAsset)
             } else {
-                AssetUiState.AssetDetailDateSelected(buyDate)
+                AssetUiState.AddAssetInitial
             }
         } else {
-            if (buyDate == BuyDate.Default) {
-                AssetUiState.AddAssetInitial
-            } else {
-                AssetUiState.AddAssetDateSelected(buyDate)
-            }
+            AssetUiState.AssetDateSelected(buyDate)
         }
     }.catch {
         emit(AssetUiState.Error)
