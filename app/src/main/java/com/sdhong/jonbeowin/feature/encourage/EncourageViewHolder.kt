@@ -13,7 +13,7 @@ class EncourageViewHolder(
         binding.textViewEncourage.text = item.encourage.content
 
         binding.checkboxEncourage.also {
-            it.visibility = if (item.isEditMode) View.VISIBLE else View.GONE
+            it.visibility = if (item.isEditMode) View.VISIBLE else View.INVISIBLE
             it.isChecked = item.isChecked
         }
 
