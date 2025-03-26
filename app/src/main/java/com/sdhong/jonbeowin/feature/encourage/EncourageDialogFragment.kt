@@ -59,48 +59,56 @@ class EncourageDialogFragment : DialogFragment() {
 
     private fun setCollectors() {
         viewLifecycleOwner.collectLatestFlow(viewModel.uiState) { uiState ->
-            when (uiState) {
-                EncourageDialogUiState.Loading -> {
-                    binding.run {
-                        buttonEncourageDialogSave.isEnabled = false
-                        buttonEncourageDialogGenerate.isEnabled = false
-
-                        progressBarEncourageDialog.visibility = View.VISIBLE
-                        textViewEncourageDialog.visibility = View.INVISIBLE
-                    }
-                }
-
-                is EncourageDialogUiState.Success -> {
-                    binding.run {
-                        buttonEncourageDialogSave.isEnabled = true
-                        buttonEncourageDialogGenerate.isEnabled = true
-
-                        progressBarEncourageDialog.visibility = View.GONE
-                        textViewEncourageDialog.visibility = View.VISIBLE
-
-                        textViewEncourageDialog.text = uiState.content
-                    }
-                }
-
-                EncourageDialogUiState.Error -> {
-                    binding.run {
-                        buttonEncourageDialogSave.isEnabled = true
-                        buttonEncourageDialogGenerate.isEnabled = true
-
-                        progressBarEncourageDialog.visibility = View.GONE
-                        textViewEncourageDialog.visibility = View.VISIBLE
-
-                        textViewEncourageDialog.text = getString(R.string.encourage_dialog_error_message)
-                    }
-                }
-            }
+            handleUiState(uiState)
         }
 
         viewLifecycleOwner.collectFlow(viewModel.eventFlow) { event ->
-            when (event) {
-                is EncourageDialogViewModel.EncourageDialogEvent.Close -> {
-                    dismiss()
+            handleEvent(event)
+        }
+    }
+
+    private fun handleUiState(uiState: EncourageDialogUiState) {
+        when (uiState) {
+            EncourageDialogUiState.Loading -> {
+                binding.run {
+                    buttonEncourageDialogSave.isEnabled = false
+                    buttonEncourageDialogGenerate.isEnabled = false
+
+                    progressBarEncourageDialog.visibility = View.VISIBLE
+                    textViewEncourageDialog.visibility = View.INVISIBLE
                 }
+            }
+
+            is EncourageDialogUiState.Success -> {
+                binding.run {
+                    buttonEncourageDialogSave.isEnabled = true
+                    buttonEncourageDialogGenerate.isEnabled = true
+
+                    progressBarEncourageDialog.visibility = View.GONE
+                    textViewEncourageDialog.visibility = View.VISIBLE
+
+                    textViewEncourageDialog.text = uiState.content
+                }
+            }
+
+            EncourageDialogUiState.Error -> {
+                binding.run {
+                    buttonEncourageDialogSave.isEnabled = true
+                    buttonEncourageDialogGenerate.isEnabled = true
+
+                    progressBarEncourageDialog.visibility = View.GONE
+                    textViewEncourageDialog.visibility = View.VISIBLE
+
+                    textViewEncourageDialog.text = getString(R.string.encourage_dialog_error_message)
+                }
+            }
+        }
+    }
+
+    private fun handleEvent(event: EncourageDialogViewModel.EncourageDialogEvent) {
+        when (event) {
+            is EncourageDialogViewModel.EncourageDialogEvent.Close -> {
+                dismiss()
             }
         }
     }

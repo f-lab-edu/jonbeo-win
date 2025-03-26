@@ -46,44 +46,52 @@ class EncourageFragment : BaseFragment<FragmentEncourageBinding>(
 
     private fun setCollectors() {
         viewLifecycleOwner.collectLatestFlow(viewModel.uiState) { uiState ->
-            when (uiState) {
-                EncourageUiState.Idle -> Unit
-
-                EncourageUiState.Empty -> {
-                    encourageAdapter.submitList(emptyList())
-
-                    binding.textViewMessage.also {
-                        it.visibility = View.VISIBLE
-                        it.text = getString(R.string.encourage_list_empty_message)
-                        it.setTextColor(requireContext().getColor(R.color.dusk_gray))
-                    }
-                    binding.recyclerViewEncourage.visibility = View.INVISIBLE
-                }
-
-                is EncourageUiState.Success -> {
-                    encourageAdapter.submitList(uiState.encourageItemList)
-
-                    binding.toolbarEncourage.menu.findItem(R.id.menuEditAsset).title = getString(uiState.appBarButtonId)
-                    binding.recyclerViewEncourage.visibility = View.VISIBLE
-                    binding.textViewMessage.visibility = View.GONE
-                }
-
-                EncourageUiState.Error -> {
-                    binding.textViewMessage.also {
-                        it.visibility = View.VISIBLE
-                        it.text = getString(R.string.encourage_list_error_message)
-                        it.setTextColor(requireContext().getColor(R.color.red))
-                    }
-                    binding.recyclerViewEncourage.visibility = View.INVISIBLE
-                }
-            }
+            handleUiState(uiState)
         }
 
         viewLifecycleOwner.collectFlow(viewModel.eventFlow) { event ->
-            when (event) {
-                is EncourageViewModel.EncourageEvent.ShowEncourageDialog -> {
-                    EncourageDialogFragment().show(childFragmentManager, null)
+            handleEvent(event)
+        }
+    }
+
+    private fun handleUiState(uiState: EncourageUiState) {
+        when (uiState) {
+            EncourageUiState.Idle -> Unit
+
+            EncourageUiState.Empty -> {
+                encourageAdapter.submitList(emptyList())
+
+                binding.textViewMessage.also {
+                    it.visibility = View.VISIBLE
+                    it.text = getString(R.string.encourage_list_empty_message)
+                    it.setTextColor(requireContext().getColor(R.color.dusk_gray))
                 }
+                binding.recyclerViewEncourage.visibility = View.INVISIBLE
+            }
+
+            is EncourageUiState.Success -> {
+                encourageAdapter.submitList(uiState.encourageItemList)
+
+                binding.toolbarEncourage.menu.findItem(R.id.menuEditAsset).title = getString(uiState.appBarButtonId)
+                binding.recyclerViewEncourage.visibility = View.VISIBLE
+                binding.textViewMessage.visibility = View.GONE
+            }
+
+            EncourageUiState.Error -> {
+                binding.textViewMessage.also {
+                    it.visibility = View.VISIBLE
+                    it.text = getString(R.string.encourage_list_error_message)
+                    it.setTextColor(requireContext().getColor(R.color.red))
+                }
+                binding.recyclerViewEncourage.visibility = View.INVISIBLE
+            }
+        }
+    }
+
+    private fun handleEvent(event: EncourageViewModel.EncourageEvent) {
+        when (event) {
+            is EncourageViewModel.EncourageEvent.ShowEncourageDialog -> {
+                EncourageDialogFragment().show(childFragmentManager, null)
             }
         }
     }
