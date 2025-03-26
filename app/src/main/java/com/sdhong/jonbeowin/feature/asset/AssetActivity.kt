@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.sdhong.jonbeowin.R
@@ -125,7 +126,10 @@ class AssetActivity : BaseActivity<ActivityAssetBinding>(
             }
 
             is AssetUiState.Error -> {
-                viewModel.eventShowToast(R.string.asset_detail_error_message)
+                binding.textViewAssetError.visibility = View.VISIBLE
+                binding.cardViewAsset.visibility = View.GONE
+                binding.space.visibility = View.GONE
+                binding.buttonAssetConfirm.visibility = View.GONE
             }
         }
     }

@@ -92,17 +92,17 @@ class AssetViewModel @Inject constructor(
         }
     }
 
-    private fun validateAssetName(assetName: String): Boolean {
+    private suspend fun validateAssetName(assetName: String): Boolean {
         if (assetName.isBlank()) {
-            eventShowToast(R.string.asset_name_empty_message)
+            _eventChannel.send(AssetEvent.ShowToast(R.string.asset_name_empty_message))
             return true
         }
         return false
     }
 
-    private fun checkUserSetBuyDate(): Boolean {
+    private suspend fun checkUserSetBuyDate(): Boolean {
         if (buyDate.value == BuyDate.Default) {
-            eventShowToast(R.string.date_empty_message)
+            _eventChannel.send(AssetEvent.ShowToast(R.string.date_empty_message))
             return true
         }
         return false
@@ -123,9 +123,9 @@ class AssetViewModel @Inject constructor(
         return diffDays
     }
 
-    private fun validateDiffDays(diffDays: Int): Boolean {
+    private suspend fun validateDiffDays(diffDays: Int): Boolean {
         if (diffDays < 0) {
-            eventShowToast(R.string.date_error_message)
+            _eventChannel.send(AssetEvent.ShowToast(R.string.date_error_message))
             return true
         }
         return false
@@ -142,12 +142,6 @@ class AssetViewModel @Inject constructor(
     fun eventFinishAsset() {
         launch {
             _eventChannel.send(AssetEvent.FinishAsset)
-        }
-    }
-
-    fun eventShowToast(@StringRes messageId: Int) {
-        launch {
-            _eventChannel.send(AssetEvent.ShowToast(messageId))
         }
     }
 
