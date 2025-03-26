@@ -4,7 +4,6 @@ import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseViewModel
 import com.sdhong.jonbeowin.feature.jonbeocount.model.JonbeoCountItem
 import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
-import com.sdhong.jonbeowin.local.model.Asset
 import com.sdhong.jonbeowin.repository.JonbeoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -66,7 +65,11 @@ class JonbeoCountViewModel @Inject constructor(
         }
     }
 
-    fun onJonbeoCountItemClick(asset: Asset) {
+    fun onJonbeoCountItemClick(position: Int) {
+        val asset = (uiState.value as? JonbeoCountUiState.Success ?: return)
+            .jonbeoCountItemList[position]
+            .asset
+
         if (isEditMode.value) {
             checkedIdSet.value = checkedIdSet.value.toMutableSet().also { set ->
                 if (set.contains(asset.id)) {

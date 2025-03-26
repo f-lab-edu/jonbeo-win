@@ -8,10 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sdhong.jonbeowin.databinding.ItemJonbeoCountBinding
 import com.sdhong.jonbeowin.feature.jonbeocount.model.JonbeoCountItem
-import com.sdhong.jonbeowin.local.model.Asset
 
 class JonbeoCountListAdapter(
-    private val onJonbeoCountItemClick: (asset: Asset) -> Unit
+    private val onJonbeoCountItemClick: (position: Int) -> Unit
 ) : ListAdapter<JonbeoCountItem, JonbeoCountViewHolder>(
     object : ItemCallback<JonbeoCountItem>() {
         override fun areItemsTheSame(oldItem: JonbeoCountItem, newItem: JonbeoCountItem): Boolean =
@@ -28,7 +27,7 @@ class JonbeoCountListAdapter(
         val onClick = { _: View ->
             val position = viewHolder.absoluteAdapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                onJonbeoCountItemClick(getItem(position).asset)
+                onJonbeoCountItemClick(position)
             }
         }
         binding.root.setOnClickListener(onClick)

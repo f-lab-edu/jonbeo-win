@@ -4,7 +4,6 @@ import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseViewModel
 import com.sdhong.jonbeowin.feature.encourage.model.EncourageItem
 import com.sdhong.jonbeowin.feature.encourage.uistate.EncourageUiState
-import com.sdhong.jonbeowin.local.model.Encourage
 import com.sdhong.jonbeowin.repository.EncourageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -66,8 +65,11 @@ class EncourageViewModel @Inject constructor(
         }
     }
 
-    fun onEncourageItemClick(encourage: Encourage) {
+    fun onEncourageItemClick(position: Int) {
         if (!isEditMode.value) return
+        val encourage = (uiState.value as? EncourageUiState.Success ?: return)
+            .encourageItemList[position]
+            .encourage
 
         checkedIdSet.value = checkedIdSet.value.toMutableSet().also { set ->
             if (set.contains(encourage.id)) {

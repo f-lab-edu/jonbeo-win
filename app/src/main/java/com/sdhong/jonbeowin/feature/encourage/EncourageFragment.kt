@@ -8,7 +8,6 @@ import com.sdhong.jonbeowin.base.BaseFragment
 import com.sdhong.jonbeowin.databinding.FragmentEncourageBinding
 import com.sdhong.jonbeowin.feature.encourage.uistate.EncourageUiState
 import com.sdhong.jonbeowin.feature.encourage.viewmodel.EncourageViewModel
-import com.sdhong.jonbeowin.local.model.Encourage
 import com.sdhong.jonbeowin.util.collectFlow
 import com.sdhong.jonbeowin.util.collectLatestFlow
 import dagger.hilt.android.AndroidEntryPoint
@@ -96,7 +95,7 @@ class EncourageFragment : BaseFragment<FragmentEncourageBinding>(
         }
     }
 
-    private fun onEncourageItemClick(encourage: Encourage) {
-        viewModel.onEncourageItemClick(encourage)
+    private fun onEncourageItemClick(position: Int) {
+        viewModel.onEncourageItemClick(position)
     }
 }

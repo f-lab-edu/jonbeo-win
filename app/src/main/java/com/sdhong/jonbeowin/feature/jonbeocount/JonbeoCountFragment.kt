@@ -10,7 +10,6 @@ import com.sdhong.jonbeowin.feature.asset.AssetActivity
 import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
 import com.sdhong.jonbeowin.feature.jonbeocount.viewmodel.JonbeoCountViewModel
 import com.sdhong.jonbeowin.feature.jonbeocount.viewmodel.JonbeoCountViewModel.JonbeoCountEvent
-import com.sdhong.jonbeowin.local.model.Asset
 import com.sdhong.jonbeowin.util.collectFlow
 import com.sdhong.jonbeowin.util.collectLatestFlow
 import dagger.hilt.android.AndroidEntryPoint
@@ -95,7 +94,7 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
         }
     }
 
-    private fun onJonbeoCountItemClick(asset: Asset) {
-        viewModel.onJonbeoCountItemClick(asset)
+    private fun onJonbeoCountItemClick(position: Int) {
+        viewModel.onJonbeoCountItemClick(position)
     }
 }

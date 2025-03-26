@@ -8,10 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sdhong.jonbeowin.databinding.ItemEncourageBinding
 import com.sdhong.jonbeowin.feature.encourage.model.EncourageItem
-import com.sdhong.jonbeowin.local.model.Encourage
 
 class EncourageListAdapter(
-    private val onEncourageItemClick: (encourage: Encourage) -> Unit
+    private val onEncourageItemClick: (position: Int) -> Unit
 ) : ListAdapter<EncourageItem, EncourageViewHolder>(
     object : ItemCallback<EncourageItem>() {
         override fun areItemsTheSame(oldItem: EncourageItem, newItem: EncourageItem): Boolean {
@@ -27,7 +26,7 @@ class EncourageListAdapter(
         val onClick = { _: View ->
             val position = viewHolder.absoluteAdapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                onEncourageItemClick(getItem(position).encourage)
+                onEncourageItemClick(position)
             }
         }
         binding.root.setOnClickListener(onClick)
