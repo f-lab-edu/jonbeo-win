@@ -22,20 +22,21 @@ class JonbeoCountViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val isEditMode = MutableStateFlow(false)
-    private val checkedMap = MutableStateFlow<Map<Int, Boolean>>(emptyMap())
+    private val checkedIdSet = MutableStateFlow<Set<Int>>(emptySet())
 
     val uiState: StateFlow<JonbeoCountUiState> = combine(
         jonbeoRepository.flowAllAssets(),
         isEditMode,
-        checkedMap
-    ) { assetList, isEditMode, checkedMap ->
+        checkedIdSet
+    ) { assetList, isEditMode, checkedIdSet ->
+        setOf(1, 2, 3)
         if (assetList.isNotEmpty()) {
             JonbeoCountUiState.Success(
                 jonbeoCountItemList = assetList.map { asset ->
                     JonbeoCountItem(
                         asset = asset,
                         isEditMode = isEditMode,
-                        isChecked = if (isEditMode) (checkedMap[asset.id] ?: false) else false
+                        isChecked = if (isEditMode) checkedIdSet.contains(asset.id) else false
                     )
                 },
                 appBarButtonId = if (isEditMode) R.string.remove else R.string.edit
@@ -59,9 +60,8 @@ class JonbeoCountViewModel @Inject constructor(
         launch {
             val preValue = isEditMode.value
             if (preValue) {
-                val checkedIdSet = checkedMap.value.keys
-                jonbeoRepository.delete(checkedIdSet)
-                checkedMap.value = emptyMap()
+                jonbeoRepository.delete(checkedIdSet.value)
+                checkedIdSet.value = emptySet()
             }
             isEditMode.value = !preValue
         }
@@ -69,9 +69,12 @@ class JonbeoCountViewModel @Inject constructor(
 
     fun onJonbeoCountItemClick(asset: Asset) {
         if (isEditMode.value) {
-            checkedMap.value = checkedMap.value.toMutableMap().also { map ->
-                val currentValue = map[asset.id] ?: false
-                map[asset.id] = !currentValue
+            checkedIdSet.value = checkedIdSet.value.toMutableSet().also { set ->
+                if (set.contains(asset.id)) {
+                    set.remove(asset.id)
+                } else {
+                    set.add(asset.id)
+                }
             }
         } else {
             launch {

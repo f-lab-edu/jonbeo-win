@@ -22,20 +22,20 @@ class EncourageViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val isEditMode = MutableStateFlow(false)
-    private val checkedMap = MutableStateFlow<Map<Int, Boolean>>(emptyMap())
+    private val checkedIdSet = MutableStateFlow<Set<Int>>(emptySet())
 
     val uiState: StateFlow<EncourageUiState> = combine(
         encourageRepository.flowAllEncourages(),
         isEditMode,
-        checkedMap
-    ) { encourageList, isEditMode, checkedMap ->
+        checkedIdSet
+    ) { encourageList, isEditMode, checkedIdSet ->
         if (encourageList.isNotEmpty()) {
             EncourageUiState.Success(
                 encourageItemList = encourageList.map { encourage ->
                     EncourageItem(
                         encourage = encourage,
                         isEditMode = isEditMode,
-                        isChecked = if (isEditMode) (checkedMap[encourage.id] ?: false) else false
+                        isChecked = if (isEditMode) checkedIdSet.contains(encourage.id) else false
                     )
                 },
                 appBarButtonId = if (isEditMode) R.string.remove else R.string.edit
@@ -59,9 +59,8 @@ class EncourageViewModel @Inject constructor(
         launch {
             val preValue = isEditMode.value
             if (preValue) {
-                val checkedIdSet = checkedMap.value.keys
-                encourageRepository.delete(checkedIdSet)
-                checkedMap.value = emptyMap()
+                encourageRepository.delete(checkedIdSet.value)
+                checkedIdSet.value = emptySet()
             }
             isEditMode.value = !preValue
         }
@@ -70,9 +69,12 @@ class EncourageViewModel @Inject constructor(
     fun onEncourageItemClick(encourage: Encourage) {
         if (!isEditMode.value) return
 
-        checkedMap.value = checkedMap.value.toMutableMap().also { map ->
-            val currentValue = map[encourage.id] ?: false
-            map[encourage.id] = !currentValue
+        checkedIdSet.value = checkedIdSet.value.toMutableSet().also { set ->
+            if (set.contains(encourage.id)) {
+                set.remove(encourage.id)
+            } else {
+                set.add(encourage.id)
+            }
         }
     }
 
