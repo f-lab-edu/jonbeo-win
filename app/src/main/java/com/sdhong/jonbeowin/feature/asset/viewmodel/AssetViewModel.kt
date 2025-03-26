@@ -87,9 +87,9 @@ class AssetViewModel @Inject constructor(
             }
 
             jonbeoRepository.update(updatedAsset)
-        }
 
-        eventFinishAsset()
+            eventFinishAsset()
+        }
     }
 
     private fun validateAssetName(assetName: String): Boolean {

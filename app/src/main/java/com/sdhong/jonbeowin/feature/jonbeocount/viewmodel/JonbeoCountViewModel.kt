@@ -29,7 +29,6 @@ class JonbeoCountViewModel @Inject constructor(
         isEditMode,
         checkedIdSet
     ) { assetList, isEditMode, checkedIdSet ->
-        setOf(1, 2, 3)
         if (assetList.isNotEmpty()) {
             JonbeoCountUiState.Success(
                 jonbeoCountItemList = assetList.map { asset ->
