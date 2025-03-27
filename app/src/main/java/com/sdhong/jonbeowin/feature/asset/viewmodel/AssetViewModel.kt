@@ -48,6 +48,7 @@ class AssetViewModel @Inject constructor(
     ) { initialAsset, buyDate ->
         if (buyDate == BuyDate.Default) {
             if (isAssetDetail) {
+                setBuyDate(initialAsset.buyDate.year, initialAsset.buyDate.month, initialAsset.buyDate.day)
                 AssetUiState.AssetDetailInitial(initialAsset)
             } else {
                 AssetUiState.AddAssetInitial

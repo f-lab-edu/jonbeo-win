@@ -91,8 +91,6 @@ class AssetActivity : BaseActivity<ActivityAssetBinding>(
                     buyDate.month,
                     buyDate.day
                 )
-
-                viewModel.setBuyDate(buyDate.year, buyDate.month, buyDate.day)
             }
 
             is AssetUiState.AddAssetInitial -> {
