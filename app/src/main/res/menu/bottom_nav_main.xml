@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/jonbeoCount"
+        android:icon="@drawable/ic_jonbeo_count"
+        android:title="@string/title_jonbeo_count" />
+    <item
+        android:id="@+id/encouragingWord"
+        android:icon="@drawable/ic_encouraging_word"
+        android:title="@string/title_encouraging_word" />
+</menu>

@@ -1,20 +1,47 @@
 package com.sdhong.jonbeowin
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import com.sdhong.jonbeowin.base.BaseActivity
+import com.sdhong.jonbeowin.databinding.ActivityMainBinding
+import com.sdhong.jonbeowin.feature.encourage.EncourageFragment
+import com.sdhong.jonbeowin.feature.jonbeocount.JonbeoCountFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class MainActivity : BaseActivity<ActivityMainBinding>(
+    bindingFactory = ActivityMainBinding::inflate
+) {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.jonbeoCount -> {
+                    openFragment(JonbeoCountFragment())
+                    true
+                }
+
+                R.id.encouragingWord -> {
+                    openFragment(EncourageFragment())
+                    true
+                }
+
+                else -> false
+            }
         }
+
+        if (savedInstanceState == null) {
+            binding.bottomNav.selectedItemId = R.id.jonbeoCount
+        }
+
+        binding.bottomNav.setOnApplyWindowInsetsListener(null)
+    }
+
+    private fun openFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.mainContainer, fragment)
+            .commit()
     }
 }
