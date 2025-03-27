@@ -27,12 +27,15 @@ class EncourageDialogFragment : BaseDialogFragment<FragmentEncourageDialogBindin
         setCollectors()
     }
 
-    private fun setUpView() {
+    override fun onStart() {
+        super.onStart()
         dialog?.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
+    }
 
+    private fun setUpView() {
         binding.buttonEncourageDialogClose.setOnClickListener {
             viewModel.eventDialogClose()
         }
