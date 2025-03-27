@@ -2,6 +2,7 @@ package com.sdhong.jonbeowin.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.sdhong.jonbeowin.feature.asset.model.BuyDate
 
 @Entity
 data class Asset(
@@ -10,7 +11,7 @@ data class Asset(
     val name: String,
     val dayCount: Int,
     val buyDate: BuyDate,
-    val generatedTime: String
+    val createdAt: String
 ) {
     companion object {
         val Default = Asset(
@@ -18,7 +19,7 @@ data class Asset(
             name = "",
             dayCount = 0,
             buyDate = BuyDate.Default,
-            generatedTime = ""
+            createdAt = ""
         )
     }
 }

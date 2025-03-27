@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface AssetDao {
 
-    @Query("SELECT * FROM asset ORDER BY generatedTime DESC")
+    @Query("SELECT * FROM asset ORDER BY createdAt DESC")
     fun getAll(): Flow<List<Asset>>
 
     @Query("SELECT * FROM asset WHERE id = :id")

@@ -6,9 +6,10 @@ import androidx.lifecycle.SavedStateHandle
 import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseViewModel
 import com.sdhong.jonbeowin.feature.asset.AssetActivity
+import com.sdhong.jonbeowin.feature.asset.model.BuyDate
+import com.sdhong.jonbeowin.feature.asset.uistate.AssetBasicUiState
 import com.sdhong.jonbeowin.feature.asset.uistate.AssetUiState
 import com.sdhong.jonbeowin.local.model.Asset
-import com.sdhong.jonbeowin.local.model.BuyDate
 import com.sdhong.jonbeowin.repository.JonbeoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -30,6 +31,11 @@ class AssetViewModel @Inject constructor(
 
     private val isAssetDetail = assetId != 0
 
+    val basicUiState = AssetBasicUiState(
+        appBarTitleId = if (isAssetDetail) R.string.title_asset_detail else R.string.title_add_asset,
+        buttonTextId = if (isAssetDetail) R.string.fix else R.string.save
+    )
+
     private val initialAsset = jonbeoRepository.flowAssetById(assetId)
         .stateIn(
             initialValue = Asset.Default
@@ -40,18 +46,15 @@ class AssetViewModel @Inject constructor(
         initialAsset,
         buyDate
     ) { initialAsset, buyDate ->
-        if (isAssetDetail) {
-            if (buyDate == BuyDate.Default) {
+        if (buyDate == BuyDate.Default) {
+            if (isAssetDetail) {
+                setBuyDate(initialAsset.buyDate.year, initialAsset.buyDate.month, initialAsset.buyDate.day)
                 AssetUiState.AssetDetailInitial(initialAsset)
             } else {
-                AssetUiState.AssetDetailDateSelected(buyDate)
+                AssetUiState.AddAssetInitial
             }
         } else {
-            if (buyDate == BuyDate.Default) {
-                AssetUiState.AddAssetInitial
-            } else {
-                AssetUiState.AddAssetDateSelected(buyDate)
-            }
+            AssetUiState.AssetDateSelected(buyDate)
         }
     }.catch {
         emit(AssetUiState.Error)
@@ -82,7 +85,7 @@ class AssetViewModel @Inject constructor(
                     name = updatedName,
                     dayCount = diffDays + 1,
                     buyDate = buyDate.value,
-                    generatedTime = Calendar.getInstance().time.toString()
+                    createdAt = Calendar.getInstance().time.toString()
                 )
             }
 
@@ -92,17 +95,17 @@ class AssetViewModel @Inject constructor(
         }
     }
 
-    private fun validateAssetName(assetName: String): Boolean {
+    private suspend fun validateAssetName(assetName: String): Boolean {
         if (assetName.isBlank()) {
-            eventShowToast(R.string.asset_name_empty_message)
+            _eventChannel.send(AssetEvent.ShowToast(R.string.asset_name_empty_message))
             return true
         }
         return false
     }
 
-    private fun checkUserSetBuyDate(): Boolean {
+    private suspend fun checkUserSetBuyDate(): Boolean {
         if (buyDate.value == BuyDate.Default) {
-            eventShowToast(R.string.date_empty_message)
+            _eventChannel.send(AssetEvent.ShowToast(R.string.date_empty_message))
             return true
         }
         return false
@@ -123,9 +126,9 @@ class AssetViewModel @Inject constructor(
         return diffDays
     }
 
-    private fun validateDiffDays(diffDays: Int): Boolean {
+    private suspend fun validateDiffDays(diffDays: Int): Boolean {
         if (diffDays < 0) {
-            eventShowToast(R.string.date_error_message)
+            _eventChannel.send(AssetEvent.ShowToast(R.string.date_error_message))
             return true
         }
         return false
@@ -142,12 +145,6 @@ class AssetViewModel @Inject constructor(
     fun eventFinishAsset() {
         launch {
             _eventChannel.send(AssetEvent.FinishAsset)
-        }
-    }
-
-    fun eventShowToast(@StringRes messageId: Int) {
-        launch {
-            _eventChannel.send(AssetEvent.ShowToast(messageId))
         }
     }
 

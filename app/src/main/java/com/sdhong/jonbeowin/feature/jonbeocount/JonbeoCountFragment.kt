@@ -10,7 +10,6 @@ import com.sdhong.jonbeowin.feature.asset.AssetActivity
 import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
 import com.sdhong.jonbeowin.feature.jonbeocount.viewmodel.JonbeoCountViewModel
 import com.sdhong.jonbeowin.feature.jonbeocount.viewmodel.JonbeoCountViewModel.JonbeoCountEvent
-import com.sdhong.jonbeowin.local.model.Asset
 import com.sdhong.jonbeowin.util.collectFlow
 import com.sdhong.jonbeowin.util.collectLatestFlow
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,7 +19,7 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
     bindingFactory = FragmentJonbeoCountBinding::inflate
 ) {
     private val viewModel: JonbeoCountViewModel by viewModels()
-    private val jonbeoCountAdapter = JonbeoCountListAdapter(::onAssetItemClick)
+    private val jonbeoCountAdapter = JonbeoCountListAdapter(::onJonbeoCountItemClick)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,6 +57,8 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
             is JonbeoCountUiState.Idle -> Unit
 
             is JonbeoCountUiState.Empty -> {
+                jonbeoCountAdapter.submitList(emptyList())
+
                 binding.textViewMessage.also {
                     it.visibility = View.VISIBLE
                     it.text = getString(R.string.jonbeo_asset_empty_message)
@@ -67,11 +68,9 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
             }
 
             is JonbeoCountUiState.Success -> {
-                jonbeoCountAdapter.submitList(uiState.assetUiStateList)
+                jonbeoCountAdapter.submitList(uiState.jonbeoCountItemList)
 
-                val title = getString(if (uiState.isEditMode) R.string.remove else R.string.edit)
-                binding.toolbarJonbeocount.menu.findItem(R.id.menuEditAsset).title = title
-
+                binding.toolbarJonbeocount.menu.findItem(R.id.menuEditAsset).title = getString(uiState.appBarButtonId)
                 binding.recyclerViewJonbeoCount.visibility = View.VISIBLE
                 binding.textViewMessage.visibility = View.GONE
             }
@@ -95,7 +94,7 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
         }
     }
 
-    private fun onAssetItemClick(asset: Asset) {
-        viewModel.onAssetItemClick(asset)
+    private fun onJonbeoCountItemClick(position: Int) {
+        viewModel.onJonbeoCountItemClick(position)
     }
 }

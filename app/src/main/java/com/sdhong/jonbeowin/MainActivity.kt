@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.sdhong.jonbeowin.base.BaseActivity
 import com.sdhong.jonbeowin.databinding.ActivityMainBinding
-import com.sdhong.jonbeowin.feature.encouragingword.EncouragingWordFragment
+import com.sdhong.jonbeowin.feature.encourage.EncourageFragment
 import com.sdhong.jonbeowin.feature.jonbeocount.JonbeoCountFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +24,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
                 }
 
                 R.id.encouragingWord -> {
-                    openFragment(EncouragingWordFragment())
+                    openFragment(EncourageFragment())
                     true
                 }
 

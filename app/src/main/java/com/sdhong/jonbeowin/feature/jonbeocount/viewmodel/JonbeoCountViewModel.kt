@@ -1,9 +1,9 @@
 package com.sdhong.jonbeowin.feature.jonbeocount.viewmodel
 
+import com.sdhong.jonbeowin.R
 import com.sdhong.jonbeowin.base.BaseViewModel
-import com.sdhong.jonbeowin.feature.jonbeocount.uistate.AssetUiState
+import com.sdhong.jonbeowin.feature.jonbeocount.model.JonbeoCountItem
 import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
-import com.sdhong.jonbeowin.local.model.Asset
 import com.sdhong.jonbeowin.repository.JonbeoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -21,24 +21,23 @@ class JonbeoCountViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val isEditMode = MutableStateFlow(false)
-
-    private val checkedMap = MutableStateFlow<Map<Int, Boolean>>(emptyMap())
+    private val checkedIdSet = MutableStateFlow<Set<Int>>(emptySet())
 
     val uiState: StateFlow<JonbeoCountUiState> = combine(
         jonbeoRepository.flowAllAssets(),
         isEditMode,
-        checkedMap
-    ) { assetList, isEditMode, checkedMap ->
+        checkedIdSet
+    ) { assetList, isEditMode, checkedIdSet ->
         if (assetList.isNotEmpty()) {
             JonbeoCountUiState.Success(
-                assetUiStateList = assetList.map { asset ->
-                    AssetUiState(
+                jonbeoCountItemList = assetList.map { asset ->
+                    JonbeoCountItem(
                         asset = asset,
                         isEditMode = isEditMode,
-                        isChecked = if (isEditMode) (checkedMap[asset.id] ?: false) else false
+                        isChecked = if (isEditMode) checkedIdSet.contains(asset.id) else false
                     )
                 },
-                isEditMode = isEditMode
+                appBarButtonId = if (isEditMode) R.string.remove else R.string.edit
             )
         } else {
             JonbeoCountUiState.Empty
@@ -59,19 +58,25 @@ class JonbeoCountViewModel @Inject constructor(
         launch {
             val preValue = isEditMode.value
             if (preValue) {
-                val checkedAssetIdSet = checkedMap.value.keys
-                jonbeoRepository.delete(checkedAssetIdSet)
-                checkedMap.value = emptyMap()
+                jonbeoRepository.delete(checkedIdSet.value)
+                checkedIdSet.value = emptySet()
             }
             isEditMode.value = !preValue
         }
     }
 
-    fun onAssetItemClick(asset: Asset) {
+    fun onJonbeoCountItemClick(position: Int) {
+        val asset = (uiState.value as? JonbeoCountUiState.Success ?: return)
+            .jonbeoCountItemList[position]
+            .asset
+
         if (isEditMode.value) {
-            checkedMap.value = checkedMap.value.toMutableMap().also { map ->
-                val currentValue = map[asset.id] ?: false
-                map[asset.id] = !currentValue
+            checkedIdSet.value = checkedIdSet.value.toMutableSet().also { set ->
+                if (set.contains(asset.id)) {
+                    set.remove(asset.id)
+                } else {
+                    set.add(asset.id)
+                }
             }
         } else {
             launch {

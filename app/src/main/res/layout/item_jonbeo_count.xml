@@ -45,7 +45,7 @@
             app:tint="@color/dusk_gray" />
 
         <CheckBox
-            android:id="@+id/checkboxEdit"
+            android:id="@+id/checkboxJonbeo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="0dp"
