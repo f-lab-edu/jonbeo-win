@@ -1,7 +1,7 @@
-package com.sdhong.core.remote.di
+package com.sdhong.jonbeowin.core.remote.di
 
 import com.sdhong.jonbeowin.core.data.remote.EncourageRemoteDataSource
-import com.sdhong.core.remote.impl.EncourageRemoteDataSourceImpl
+import com.sdhong.jonbeowin.core.remote.impl.EncourageRemoteDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

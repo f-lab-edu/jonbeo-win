@@ -1,4 +1,4 @@
-package com.sdhong.core.remote.impl
+package com.sdhong.jonbeowin.core.remote.impl
 
 import com.google.ai.client.generativeai.GenerativeModel
 import com.sdhong.jonbeowin.core.data.remote.EncourageRemoteDataSource
