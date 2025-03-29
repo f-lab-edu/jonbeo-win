@@ -4,7 +4,7 @@ import com.sdhong.jonbeowin.core.data.model.EncourageEntity
 
 interface EncourageLocalDataSource {
 
-    fun getAllEncourages(): List<EncourageEntity>
+    suspend fun getAllEncourages(): List<EncourageEntity>
 
     suspend fun update(encourage: EncourageEntity)
 

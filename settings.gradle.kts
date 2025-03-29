@@ -23,3 +23,4 @@ rootProject.name = "jonbeo win"
 include(":app")
 include(":core:domain")
 include(":core:data")
+include(":core:local")

@@ -4,9 +4,9 @@ import com.sdhong.jonbeowin.core.data.model.AssetEntity
 
 interface AssetLocalDataSource {
 
-    fun getAllAssets(): List<AssetEntity>
+    suspend fun getAllAssets(): List<AssetEntity>
 
-    fun getAsset(assetId: Int): AssetEntity
+    suspend fun getAsset(assetId: Int): AssetEntity
 
     suspend fun updateAsset(asset: AssetEntity)
 
