@@ -6,7 +6,9 @@ import kotlinx.coroutines.flow.Flow
 interface EncourageRepository {
 
     fun getAllEncourages(): Flow<List<Encourage>>
+
     suspend fun update(encourage: Encourage)
+
     suspend fun delete(encourageIds: Set<Int>)
 
     suspend fun generateContent(): String?

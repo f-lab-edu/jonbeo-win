@@ -7,5 +7,5 @@ class GetAssetUseCase @Inject constructor(
     private val jonbeoRepository: JonbeoRepository
 ) {
 
-    operator fun invoke(assetId: Int) = jonbeoRepository.getAssetById(assetId)
+    operator fun invoke(assetId: Int) = jonbeoRepository.getAsset(assetId)
 }

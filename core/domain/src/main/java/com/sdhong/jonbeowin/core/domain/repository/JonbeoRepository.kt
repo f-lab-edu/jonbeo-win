@@ -7,7 +7,7 @@ interface JonbeoRepository {
 
     fun getAllAssets(): Flow<List<Asset>>
 
-    fun getAssetById(id: Int): Flow<Asset>
+    fun getAsset(assetId: Int): Flow<Asset>
 
     suspend fun updateAsset(asset: Asset)
 
