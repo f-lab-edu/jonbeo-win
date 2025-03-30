@@ -3,6 +3,7 @@ package com.sdhong.jonbeowin.core.local.di
 import android.content.Context
 import androidx.room.Room
 import com.sdhong.jonbeowin.core.local.room.AssetDatabase
+import com.sdhong.jonbeowin.core.local.room.RoomConstant
 import com.sdhong.jonbeowin.core.local.room.dao.AssetDao
 import dagger.Module
 import dagger.Provides
@@ -25,7 +26,7 @@ internal object AssetDatabaseModule {
         return Room.databaseBuilder(
             context.applicationContext,
             AssetDatabase::class.java,
-            "asset-database"
+            RoomConstant.ASSET_DB_NAME
         ).build()
     }
 }

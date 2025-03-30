@@ -7,7 +7,7 @@ import com.sdhong.jonbeowin.core.local.room.dao.EncourageDao
 
 @Database(
     entities = [EncourageLocal::class],
-    version = 1,
+    version = RoomConstant.ENCOURAGE_DB_VERSION,
     exportSchema = false
 )
 abstract class EncourageDatabase : RoomDatabase() {

@@ -3,6 +3,7 @@ package com.sdhong.jonbeowin.core.local.di
 import android.content.Context
 import androidx.room.Room
 import com.sdhong.jonbeowin.core.local.room.EncourageDatabase
+import com.sdhong.jonbeowin.core.local.room.RoomConstant
 import com.sdhong.jonbeowin.core.local.room.dao.EncourageDao
 import dagger.Module
 import dagger.Provides
@@ -25,7 +26,7 @@ internal object EncourageDatabaseModule {
         return Room.databaseBuilder(
             context.applicationContext,
             EncourageDatabase::class.java,
-            "encourage-database"
+            RoomConstant.ENCOURAGE_DB_NAME
         ).build()
     }
 }

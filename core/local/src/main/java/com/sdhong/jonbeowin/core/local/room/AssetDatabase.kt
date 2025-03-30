@@ -8,7 +8,7 @@ import com.sdhong.jonbeowin.core.local.room.dao.AssetDao
 
 @Database(
     entities = [AssetLocal::class],
-    version = 1,
+    version = RoomConstant.ASSET_DB_VERSION,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
