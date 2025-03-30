@@ -1,6 +1,5 @@
 package com.sdhong.jonbeowin.feature.jonbeocount.uistate
 
-import androidx.annotation.StringRes
 import com.sdhong.jonbeowin.feature.jonbeocount.model.JonbeoCountModel
 
 sealed interface JonbeoCountUiState {

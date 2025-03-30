@@ -1,17 +1,14 @@
 package com.sdhong.jonbeowin.feature.asset.viewmodel
 
-import android.icu.util.Calendar
-import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
 import com.sdhong.jonbeowin.core.common.base.BaseViewModel
 import com.sdhong.jonbeowin.core.domain.usecase.GetAssetUseCase
 import com.sdhong.jonbeowin.core.domain.usecase.UpdateAssetUseCase
-import com.sdhong.jonbeowin.feature.asset.R
+import com.sdhong.jonbeowin.feature.asset.enum.AssetToast
 import com.sdhong.jonbeowin.feature.asset.mapper.toDomain
 import com.sdhong.jonbeowin.feature.asset.mapper.toPresentation
 import com.sdhong.jonbeowin.feature.asset.model.AssetModel
 import com.sdhong.jonbeowin.feature.asset.model.BuyDateModel
-import com.sdhong.jonbeowin.feature.asset.uistate.AssetBasicUiState
 import com.sdhong.jonbeowin.feature.asset.uistate.AssetUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -22,6 +19,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,12 +37,7 @@ class AssetViewModel @Inject constructor(
         }
     }
 
-    private val isAssetDetail = assetId != 0
-
-    val basicUiState = AssetBasicUiState(
-        appBarTitleId = if (isAssetDetail) R.string.title_asset_detail else R.string.title_add_asset,
-        buttonTextId = if (isAssetDetail) R.string.fix else R.string.save
-    )
+    val isAssetDetail = assetId != 0
 
     private val initialAsset = getAssetUseCase(assetId)
         .map { it.toPresentation() }
@@ -112,7 +105,7 @@ class AssetViewModel @Inject constructor(
 
     private suspend fun validateAssetName(assetName: String): Boolean {
         if (assetName.isBlank()) {
-            _eventChannel.send(AssetEvent.ShowToast(R.string.asset_name_empty_message))
+            _eventChannel.send(AssetEvent.ShowToast(AssetToast.ASSET_NAME_EMPTY))
             return true
         }
         return false
@@ -120,7 +113,7 @@ class AssetViewModel @Inject constructor(
 
     private suspend fun checkUserSetBuyDate(): Boolean {
         if (buyDate.value == BuyDateModel.Default) {
-            _eventChannel.send(AssetEvent.ShowToast(R.string.date_empty_message))
+            _eventChannel.send(AssetEvent.ShowToast(AssetToast.ASSET_BUY_DATE_EMPTY))
             return true
         }
         return false
@@ -143,7 +136,7 @@ class AssetViewModel @Inject constructor(
 
     private suspend fun validateDiffDays(diffDays: Int): Boolean {
         if (diffDays < 0) {
-            _eventChannel.send(AssetEvent.ShowToast(R.string.date_error_message))
+            _eventChannel.send(AssetEvent.ShowToast(AssetToast.ASSET_BUY_DATE_INVALID))
             return true
         }
         return false
@@ -164,7 +157,7 @@ class AssetViewModel @Inject constructor(
     }
 
     sealed interface AssetEvent {
-        data class ShowToast(@StringRes val messageId: Int) : AssetEvent
+        data class ShowToast(val assetToast: AssetToast) : AssetEvent
         data object FinishAsset : AssetEvent
     }
 }

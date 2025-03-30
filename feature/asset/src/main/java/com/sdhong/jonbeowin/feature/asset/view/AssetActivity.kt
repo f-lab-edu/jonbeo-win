@@ -1,8 +1,6 @@
 package com.sdhong.jonbeowin.feature.asset.view
 
 import android.app.DatePickerDialog
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -32,8 +30,14 @@ class AssetActivity : BaseActivity<ActivityAssetBinding>(
     }
 
     private fun setUpView() {
-        binding.toolbarAsset.title = getString(viewModel.basicUiState.appBarTitleId)
-        binding.buttonAssetConfirm.text = getString(viewModel.basicUiState.buttonTextId)
+        binding.toolbarAsset.title = getString(
+            if (viewModel.isAssetDetail) R.string.title_asset_detail
+            else R.string.title_add_asset
+        )
+        binding.buttonAssetConfirm.text = getString(
+            if (viewModel.isAssetDetail) R.string.fix
+            else R.string.save
+        )
 
         binding.toolbarAsset.setOnMenuItemClickListener {
             when (it.itemId) {
@@ -118,7 +122,7 @@ class AssetActivity : BaseActivity<ActivityAssetBinding>(
     private fun handleEvent(event: AssetEvent) {
         when (event) {
             is AssetEvent.ShowToast -> {
-                Toast.makeText(this, getString(event.messageId), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(event.assetToast.messageId), Toast.LENGTH_SHORT).show()
             }
 
             is AssetEvent.FinishAsset -> {
