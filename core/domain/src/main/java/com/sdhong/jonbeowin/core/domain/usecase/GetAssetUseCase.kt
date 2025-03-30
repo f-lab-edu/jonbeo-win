@@ -1,11 +1,11 @@
 package com.sdhong.jonbeowin.core.domain.usecase
 
-import com.sdhong.jonbeowin.core.domain.repository.JonbeoRepository
+import com.sdhong.jonbeowin.core.domain.repository.AssetRepository
 import javax.inject.Inject
 
 class GetAssetUseCase @Inject constructor(
-    private val jonbeoRepository: JonbeoRepository
+    private val assetRepository: AssetRepository
 ) {
 
-    operator fun invoke(assetId: Int) = jonbeoRepository.getAsset(assetId)
+    operator fun invoke(assetId: Int) = assetRepository.getAsset(assetId)
 }

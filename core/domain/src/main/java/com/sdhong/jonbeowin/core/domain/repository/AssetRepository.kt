@@ -3,7 +3,7 @@ package com.sdhong.jonbeowin.core.domain.repository
 import com.sdhong.jonbeowin.core.domain.model.Asset
 import kotlinx.coroutines.flow.Flow
 
-interface JonbeoRepository {
+interface AssetRepository {
 
     fun getAllAssets(): Flow<List<Asset>>
 

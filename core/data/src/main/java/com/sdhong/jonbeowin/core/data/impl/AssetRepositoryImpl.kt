@@ -4,15 +4,15 @@ import com.sdhong.jonbeowin.core.data.local.AssetLocalDataSource
 import com.sdhong.jonbeowin.core.data.mapper.toData
 import com.sdhong.jonbeowin.core.data.mapper.toDomain
 import com.sdhong.jonbeowin.core.domain.model.Asset
-import com.sdhong.jonbeowin.core.domain.repository.JonbeoRepository
+import com.sdhong.jonbeowin.core.domain.repository.AssetRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-internal class JonbeoRepositoryImpl @Inject constructor(
+internal class AssetRepositoryImpl @Inject constructor(
     private val assetLocalDataSource: AssetLocalDataSource,
-) : JonbeoRepository {
+) : AssetRepository {
 
     override fun getAllAssets(): Flow<List<Asset>> =
         assetLocalDataSource.getAllAssets().map { list ->
