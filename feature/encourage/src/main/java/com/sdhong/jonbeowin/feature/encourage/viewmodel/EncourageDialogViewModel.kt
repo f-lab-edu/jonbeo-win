@@ -1,6 +1,5 @@
 package com.sdhong.jonbeowin.feature.encourage.viewmodel
 
-import android.icu.util.Calendar
 import com.sdhong.jonbeowin.core.common.base.BaseViewModel
 import com.sdhong.jonbeowin.core.domain.usecase.GenerateEncourageUseCase
 import com.sdhong.jonbeowin.core.domain.usecase.UpdateEncourageUseCase
@@ -16,6 +15,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
