@@ -13,7 +13,6 @@ import com.sdhong.jonbeowin.feature.asset.model.AssetModel
 import com.sdhong.jonbeowin.feature.asset.model.BuyDateModel
 import com.sdhong.jonbeowin.feature.asset.uistate.AssetBasicUiState
 import com.sdhong.jonbeowin.feature.asset.uistate.AssetUiState
-import com.sdhong.jonbeowin.feature.asset.view.AssetActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +31,13 @@ class AssetViewModel @Inject constructor(
     private val updateAssetUseCase: UpdateAssetUseCase
 ) : BaseViewModel() {
 
-    private val assetId = savedStateHandle.get<Int>(AssetActivity.EXTRA_ASSET_ID) ?: 0
+    private val assetId = (savedStateHandle["assetId"] ?: "").let {
+        if (it.isBlank()) {
+            0
+        } else {
+            it.toInt()
+        }
+    }
 
     private val isAssetDetail = assetId != 0
 
@@ -43,6 +48,9 @@ class AssetViewModel @Inject constructor(
 
     private val initialAsset = getAssetUseCase(assetId)
         .map { it.toPresentation() }
+        .catch {
+            emit(AssetModel.Default)
+        }
         .stateIn(
             initialValue = AssetModel.Default
         )

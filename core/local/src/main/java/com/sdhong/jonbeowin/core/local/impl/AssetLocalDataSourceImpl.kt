@@ -5,13 +5,18 @@ import com.sdhong.jonbeowin.core.data.model.AssetEntity
 import com.sdhong.jonbeowin.core.local.mapper.toData
 import com.sdhong.jonbeowin.core.local.mapper.toLocal
 import com.sdhong.jonbeowin.core.local.room.dao.AssetDao
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 internal class AssetLocalDataSourceImpl @Inject constructor(
     private val assetDao: AssetDao
 ) : AssetLocalDataSource {
 
-    override suspend fun getAllAssets(): List<AssetEntity> = assetDao.getAllAssets().map { it.toData() }
+    override fun getAllAssets(): Flow<List<AssetEntity>> =
+        assetDao.getAllAssets().map { list ->
+            list.map { it.toData() }
+        }
 
     override suspend fun getAsset(assetId: Int): AssetEntity = assetDao.getAsset(assetId).toData()
 

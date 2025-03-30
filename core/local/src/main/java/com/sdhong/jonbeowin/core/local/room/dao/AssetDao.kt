@@ -5,12 +5,13 @@ import androidx.room.Query
 import androidx.room.Upsert
 import com.sdhong.jonbeowin.core.local.model.AssetLocal
 import com.sdhong.jonbeowin.core.local.room.RoomConstant
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AssetDao {
 
     @Query("SELECT * FROM ${RoomConstant.Table.ASSET} ORDER BY createdAt DESC")
-    suspend fun getAllAssets(): List<AssetLocal>
+    fun getAllAssets(): Flow<List<AssetLocal>>
 
     @Query("SELECT * FROM ${RoomConstant.Table.ASSET} WHERE id = :assetId")
     suspend fun getAsset(assetId: Int): AssetLocal

@@ -1,7 +1,9 @@
 package com.sdhong.jonbeowin.feature.jonbeocount.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import com.sdhong.jonbeowin.core.common.base.BaseFragment
 import com.sdhong.jonbeowin.core.common.extension.collectFlow
@@ -88,7 +90,11 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
     private fun handleEvent(event: JonbeoCountEvent) {
         when (event) {
             is JonbeoCountEvent.StartAsset -> {
-//                startActivity(AssetActivity.newIntent(requireContext(), event.assetId))
+                val uri = "jonbeowin://asset/detail".toUri()
+                    .buildUpon()
+                    .appendQueryParameter("assetId", event.assetId?.toString())
+                    .build()
+                startActivity(Intent(Intent.ACTION_VIEW, uri))
             }
         }
     }

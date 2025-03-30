@@ -14,11 +14,12 @@ internal class JonbeoRepositoryImpl @Inject constructor(
     private val assetLocalDataSource: AssetLocalDataSource,
 ) : JonbeoRepository {
 
-    override fun getAllAssets(): Flow<List<Asset>> = flow {
-        emit(assetLocalDataSource.getAllAssets())
-    }.map { list ->
-        list.map { it.toDomain() }
-    }
+    override fun getAllAssets(): Flow<List<Asset>> =
+        assetLocalDataSource.getAllAssets().map { list ->
+            list.map {
+                it.toDomain()
+            }
+        }
 
     override fun getAsset(assetId: Int): Flow<Asset> = flow {
         emit(assetLocalDataSource.getAsset(assetId))

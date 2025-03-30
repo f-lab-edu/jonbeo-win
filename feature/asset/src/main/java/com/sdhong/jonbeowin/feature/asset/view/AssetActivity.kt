@@ -126,15 +126,4 @@ class AssetActivity : BaseActivity<ActivityAssetBinding>(
             }
         }
     }
-
-    companion object {
-
-        const val EXTRA_ASSET_ID = "EXTRA_ASSET_ID"
-
-        fun newIntent(context: Context, assetId: Int? = null): Intent {
-            return Intent(context, AssetActivity::class.java).apply {
-                assetId?.let { putExtra(EXTRA_ASSET_ID, it) }
-            }
-        }
-    }
 }
