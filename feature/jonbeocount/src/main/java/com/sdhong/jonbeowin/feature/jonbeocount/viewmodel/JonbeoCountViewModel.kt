@@ -3,7 +3,6 @@ package com.sdhong.jonbeowin.feature.jonbeocount.viewmodel
 import com.sdhong.jonbeowin.core.common.base.BaseViewModel
 import com.sdhong.jonbeowin.core.domain.usecase.DeleteAssetUseCase
 import com.sdhong.jonbeowin.core.domain.usecase.GetAssetListUseCase
-import com.sdhong.jonbeowin.feature.jonbeocount.R
 import com.sdhong.jonbeowin.feature.jonbeocount.model.BuyDateModel
 import com.sdhong.jonbeowin.feature.jonbeocount.model.JonbeoCountModel
 import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
@@ -48,7 +47,7 @@ class JonbeoCountViewModel @Inject constructor(
                         isChecked = if (isEditMode) checkedIdSet.contains(asset.id) else false
                     )
                 },
-                appBarButtonId = if (isEditMode) R.string.remove else R.string.edit
+                isEditMode = isEditMode
             )
         } else {
             JonbeoCountUiState.Empty

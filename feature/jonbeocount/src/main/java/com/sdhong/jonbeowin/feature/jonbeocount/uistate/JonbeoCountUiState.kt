@@ -11,7 +11,7 @@ sealed interface JonbeoCountUiState {
 
     data class Success(
         val jonbeoCountItemList: List<JonbeoCountModel>,
-        @StringRes val appBarButtonId: Int
+        val isEditMode: Boolean
     ) : JonbeoCountUiState
 
     data object Error : JonbeoCountUiState
