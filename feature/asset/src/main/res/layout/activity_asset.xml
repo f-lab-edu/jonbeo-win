@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".feature.asset.AssetActivity">
+    tools:context="com.sdhong.jonbeowin.feature.asset.view.AssetActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarAsset"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:menu="@menu/app_bar_add_asset"
+        app:menu="@menu/app_bar_asset"
         tools:background="@color/light_blue"
         tools:title="@string/title_asset_detail" />
 
