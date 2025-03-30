@@ -3,9 +3,9 @@ package com.sdhong.jonbeowin.feature.encourage.view
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.sdhong.jonbeowin.common.base.BaseFragment
-import com.sdhong.jonbeowin.common.extension.collectFlow
-import com.sdhong.jonbeowin.common.extension.collectLatestFlow
+import com.sdhong.jonbeowin.core.common.base.BaseFragment
+import com.sdhong.jonbeowin.core.common.extension.collectFlow
+import com.sdhong.jonbeowin.core.common.extension.collectLatestFlow
 import com.sdhong.jonbeowin.feature.encourage.R
 import com.sdhong.jonbeowin.feature.encourage.databinding.FragmentEncourageBinding
 import com.sdhong.jonbeowin.feature.encourage.uistate.EncourageUiState

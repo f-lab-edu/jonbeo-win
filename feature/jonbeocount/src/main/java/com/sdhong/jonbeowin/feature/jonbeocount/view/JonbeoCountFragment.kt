@@ -1,17 +1,17 @@
-package com.sdhong.jonbeowin.jonbeocount.view
+package com.sdhong.jonbeowin.feature.jonbeocount.view
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.sdhong.jonbeowin.common.base.BaseFragment
-import com.sdhong.jonbeowin.common.extension.collectFlow
-import com.sdhong.jonbeowin.common.extension.collectLatestFlow
+import com.sdhong.jonbeowin.core.common.base.BaseFragment
+import com.sdhong.jonbeowin.core.common.extension.collectFlow
+import com.sdhong.jonbeowin.core.common.extension.collectLatestFlow
 import com.sdhong.jonbeowin.feature.asset.AssetActivity
 import com.sdhong.jonbeowin.jonbeocount.R
 import com.sdhong.jonbeowin.jonbeocount.databinding.FragmentJonbeoCountBinding
-import com.sdhong.jonbeowin.jonbeocount.uistate.JonbeoCountUiState
-import com.sdhong.jonbeowin.jonbeocount.viewmodel.JonbeoCountViewModel
-import com.sdhong.jonbeowin.jonbeocount.viewmodel.JonbeoCountViewModel.JonbeoCountEvent
+import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
+import com.sdhong.jonbeowin.feature.jonbeocount.viewmodel.JonbeoCountViewModel
+import com.sdhong.jonbeowin.feature.jonbeocount.viewmodel.JonbeoCountViewModel.JonbeoCountEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

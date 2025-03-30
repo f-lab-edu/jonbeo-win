@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.sdhong.jonbeowin.jonbeocount"
+    namespace = "com.sdhong.jonbeowin.feature.jonbeocount"
     compileSdk = 35
 
     defaultConfig {

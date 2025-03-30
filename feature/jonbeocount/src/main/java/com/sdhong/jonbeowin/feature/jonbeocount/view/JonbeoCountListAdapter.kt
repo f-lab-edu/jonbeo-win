@@ -1,4 +1,4 @@
-package com.sdhong.jonbeowin.jonbeocount.view
+package com.sdhong.jonbeowin.feature.jonbeocount.view
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sdhong.jonbeowin.jonbeocount.databinding.ItemJonbeoCountBinding
-import com.sdhong.jonbeowin.jonbeocount.model.JonbeoCountModel
+import com.sdhong.jonbeowin.feature.jonbeocount.model.JonbeoCountModel
 
 class JonbeoCountListAdapter(
     private val onJonbeoCountItemClick: (position: Int) -> Unit

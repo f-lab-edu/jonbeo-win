@@ -1,11 +1,11 @@
-package com.sdhong.jonbeowin.jonbeocount.viewmodel
+package com.sdhong.jonbeowin.feature.jonbeocount.viewmodel
 
-import com.sdhong.jonbeowin.common.base.BaseViewModel
+import com.sdhong.jonbeowin.core.common.base.BaseViewModel
 import com.sdhong.jonbeowin.core.domain.usecase.DeleteAssetUseCase
 import com.sdhong.jonbeowin.core.domain.usecase.GetAssetListUseCase
 import com.sdhong.jonbeowin.jonbeocount.R
-import com.sdhong.jonbeowin.jonbeocount.model.JonbeoCountModel
-import com.sdhong.jonbeowin.jonbeocount.uistate.JonbeoCountUiState
+import com.sdhong.jonbeowin.feature.jonbeocount.model.JonbeoCountModel
+import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

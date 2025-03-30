@@ -1,4 +1,4 @@
-package com.sdhong.jonbeowin.common.base
+package com.sdhong.jonbeowin.core.common.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

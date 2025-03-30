@@ -1,4 +1,4 @@
-package com.sdhong.jonbeowin.common.extension
+package com.sdhong.jonbeowin.core.common.extension
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner

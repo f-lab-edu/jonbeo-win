@@ -1,4 +1,4 @@
-package com.sdhong.jonbeowin.common.base
+package com.sdhong.jonbeowin.core.common.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

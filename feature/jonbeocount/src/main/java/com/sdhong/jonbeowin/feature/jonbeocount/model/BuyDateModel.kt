@@ -1,4 +1,4 @@
-package com.sdhong.jonbeowin.jonbeocount.model
+package com.sdhong.jonbeowin.feature.jonbeocount.model
 
 data class BuyDateModel(
     val year: Int,

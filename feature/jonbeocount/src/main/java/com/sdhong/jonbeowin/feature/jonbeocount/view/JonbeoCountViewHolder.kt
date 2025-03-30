@@ -1,10 +1,10 @@
-package com.sdhong.jonbeowin.jonbeocount.view
+package com.sdhong.jonbeowin.feature.jonbeocount.view
 
 import android.view.View
-import com.sdhong.jonbeowin.common.base.BaseViewHolder
+import com.sdhong.jonbeowin.core.common.base.BaseViewHolder
 import com.sdhong.jonbeowin.jonbeocount.R
 import com.sdhong.jonbeowin.jonbeocount.databinding.ItemJonbeoCountBinding
-import com.sdhong.jonbeowin.jonbeocount.model.JonbeoCountModel
+import com.sdhong.jonbeowin.feature.jonbeocount.model.JonbeoCountModel
 
 class JonbeoCountViewHolder(
     private val binding: ItemJonbeoCountBinding

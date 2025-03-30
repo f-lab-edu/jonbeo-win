@@ -1,8 +1,8 @@
-package com.sdhong.jonbeowin.jonbeocount.mapper
+package com.sdhong.jonbeowin.feature.jonbeocount.mapper
 
 import com.sdhong.jonbeowin.core.domain.model.Encourage
 import com.sdhong.jonbeowin.feature.encourage.model.EncourageModel
-import com.sdhong.jonbeowin.jonbeocount.model.JonbeoCountModel
+import com.sdhong.jonbeowin.feature.jonbeocount.model.JonbeoCountModel
 
 internal fun JonbeoCountModel.toDomain() =
     JonbeoCount(

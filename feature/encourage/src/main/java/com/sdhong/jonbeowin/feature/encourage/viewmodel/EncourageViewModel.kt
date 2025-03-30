@@ -1,7 +1,7 @@
 package com.sdhong.jonbeowin.feature.encourage.viewmodel
 
 import com.sdhong.jonbeowin.R
-import com.sdhong.jonbeowin.common.base.BaseViewModel
+import com.sdhong.jonbeowin.core.common.base.BaseViewModel
 import com.sdhong.jonbeowin.core.domain.usecase.DeleteEncourageUseCase
 import com.sdhong.jonbeowin.core.domain.usecase.GetEncourageListUseCase
 import com.sdhong.jonbeowin.feature.encourage.model.EncourageModel

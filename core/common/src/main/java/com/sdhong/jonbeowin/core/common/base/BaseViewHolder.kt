@@ -1,4 +1,4 @@
-package com.sdhong.jonbeowin.common.base
+package com.sdhong.jonbeowin.core.common.base
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView.ViewHolder

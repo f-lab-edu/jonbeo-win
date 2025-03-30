@@ -1,7 +1,7 @@
 package com.sdhong.jonbeowin.feature.encourage.view
 
 import android.view.View
-import com.sdhong.jonbeowin.common.base.BaseViewHolder
+import com.sdhong.jonbeowin.core.common.base.BaseViewHolder
 import com.sdhong.jonbeowin.feature.encourage.databinding.ItemEncourageBinding
 import com.sdhong.jonbeowin.feature.encourage.model.EncourageModel
 

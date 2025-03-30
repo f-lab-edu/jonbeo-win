@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.sdhong.jonbeowin.common"
+    namespace = "com.sdhong.jonbeowin.core.common"
     compileSdk = 35
 
     defaultConfig {
