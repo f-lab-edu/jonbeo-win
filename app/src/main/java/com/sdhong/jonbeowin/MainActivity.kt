@@ -2,10 +2,10 @@ package com.sdhong.jonbeowin
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.sdhong.jonbeowin.base.BaseActivity
+import com.sdhong.jonbeowin.core.common.base.BaseActivity
 import com.sdhong.jonbeowin.databinding.ActivityMainBinding
-import com.sdhong.jonbeowin.feature.encourage.EncourageFragment
-import com.sdhong.jonbeowin.feature.jonbeocount.JonbeoCountFragment
+import com.sdhong.jonbeowin.feature.encourage.view.EncourageFragment
+import com.sdhong.jonbeowin.feature.jonbeocount.view.JonbeoCountFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

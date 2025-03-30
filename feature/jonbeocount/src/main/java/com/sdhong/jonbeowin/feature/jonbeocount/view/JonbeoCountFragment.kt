@@ -6,7 +6,6 @@ import androidx.fragment.app.viewModels
 import com.sdhong.jonbeowin.core.common.base.BaseFragment
 import com.sdhong.jonbeowin.core.common.extension.collectFlow
 import com.sdhong.jonbeowin.core.common.extension.collectLatestFlow
-import com.sdhong.jonbeowin.feature.asset.AssetActivity
 import com.sdhong.jonbeowin.feature.jonbeocount.R
 import com.sdhong.jonbeowin.feature.jonbeocount.databinding.FragmentJonbeoCountBinding
 import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
@@ -89,7 +88,7 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
     private fun handleEvent(event: JonbeoCountEvent) {
         when (event) {
             is JonbeoCountEvent.StartAsset -> {
-                startActivity(AssetActivity.newIntent(requireContext(), event.assetId))
+//                startActivity(AssetActivity.newIntent(requireContext(), event.assetId))
             }
         }
     }

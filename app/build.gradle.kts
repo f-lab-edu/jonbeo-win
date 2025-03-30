@@ -44,18 +44,22 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:common"))
+    implementation(project(":core:data"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:local"))
+    implementation(project(":core:remote"))
+    implementation(project(":feature:asset"))
+    implementation(project(":feature:encourage"))
+    implementation(project(":feature:jonbeocount"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.recyclerview)
     implementation(libs.material)
 
     implementation(libs.timber)
-    ksp(libs.androidx.room.compiler)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

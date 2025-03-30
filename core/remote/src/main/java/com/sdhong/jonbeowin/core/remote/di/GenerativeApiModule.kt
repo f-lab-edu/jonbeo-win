@@ -1,7 +1,7 @@
 package com.sdhong.jonbeowin.core.remote.di
 
 import com.google.ai.client.generativeai.GenerativeModel
-import com.sdhong.core.remote.BuildConfig
+import com.sdhong.jonbeowin.core.remote.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

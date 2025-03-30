@@ -24,7 +24,7 @@ internal object EncourageDatabaseModule {
     @Provides
     fun provideEncourageDatabase(@ApplicationContext context: Context): EncourageDatabase {
         return Room.databaseBuilder(
-            context.applicationContext,
+            context,
             EncourageDatabase::class.java,
             RoomConstant.ENCOURAGE_DB_NAME
         ).build()

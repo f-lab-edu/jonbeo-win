@@ -24,7 +24,7 @@ internal object AssetDatabaseModule {
     @Provides
     fun provideAssetDatabase(@ApplicationContext context: Context): AssetDatabase {
         return Room.databaseBuilder(
-            context.applicationContext,
+            context,
             AssetDatabase::class.java,
             RoomConstant.ASSET_DB_NAME
         ).build()
