@@ -7,7 +7,6 @@ import com.sdhong.jonbeowin.core.data.remote.EncourageRemoteDataSource
 import com.sdhong.jonbeowin.core.domain.model.Encourage
 import com.sdhong.jonbeowin.core.domain.repository.EncourageRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -16,11 +15,11 @@ class EncourageRepositoryImpl @Inject constructor(
     private val encourageRemoteDataSource: EncourageRemoteDataSource
 ) : EncourageRepository {
 
-    override fun getAllEncourages(): Flow<List<Encourage>> = flow {
-        emit(encourageLocalDataSource.getAllEncourages())
-    }.map { list ->
-        list.map { it.toDomain() }
-    }
+    override fun getAllEncourages(): Flow<List<Encourage>> =
+        encourageLocalDataSource.getAllEncourages()
+            .map { list ->
+                list.map { it.toDomain() }
+            }
 
     override suspend fun update(encourage: Encourage) = encourageLocalDataSource.update(encourage.toData())
 

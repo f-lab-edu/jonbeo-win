@@ -5,12 +5,13 @@ import androidx.room.Query
 import androidx.room.Upsert
 import com.sdhong.jonbeowin.core.local.model.EncourageLocal
 import com.sdhong.jonbeowin.core.local.room.RoomConstant
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface EncourageDao {
 
     @Query("SELECT * FROM ${RoomConstant.Table.ENCOURAGE} ORDER BY createdAt DESC")
-    suspend fun getAllEncourages(): List<EncourageLocal>
+    fun getAllEncourages(): Flow<List<EncourageLocal>>
 
     @Upsert
     suspend fun update(encourage: EncourageLocal)
