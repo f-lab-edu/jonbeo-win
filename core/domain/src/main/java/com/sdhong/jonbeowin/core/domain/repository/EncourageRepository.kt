@@ -11,5 +11,5 @@ interface EncourageRepository {
 
     suspend fun delete(encourageIds: Set<Int>)
 
-    suspend fun generateContent(): String?
+    suspend fun generateEncourage(): String?
 }

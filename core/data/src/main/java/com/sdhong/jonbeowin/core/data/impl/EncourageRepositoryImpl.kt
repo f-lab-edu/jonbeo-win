@@ -26,5 +26,5 @@ class EncourageRepositoryImpl @Inject constructor(
 
     override suspend fun delete(encourageIds: Set<Int>) = encourageLocalDataSource.delete(encourageIds)
 
-    override suspend fun generateContent(): String? = encourageRemoteDataSource.generateContent()
+    override suspend fun generateEncourage(): String? = encourageRemoteDataSource.generateEncourage()
 }

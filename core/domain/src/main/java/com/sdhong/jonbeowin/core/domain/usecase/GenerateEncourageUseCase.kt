@@ -7,5 +7,5 @@ class GenerateEncourageUseCase @Inject constructor(
     private val encourageRepository: EncourageRepository
 ) {
 
-    suspend operator fun invoke(): String? = encourageRepository.generateContent()?.trim()
+    suspend operator fun invoke(): String? = encourageRepository.generateEncourage()?.trim()
 }
