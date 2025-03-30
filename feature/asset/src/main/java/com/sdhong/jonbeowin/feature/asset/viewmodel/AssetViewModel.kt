@@ -7,18 +7,20 @@ import com.sdhong.jonbeowin.core.common.base.BaseViewModel
 import com.sdhong.jonbeowin.core.domain.usecase.GetAssetUseCase
 import com.sdhong.jonbeowin.core.domain.usecase.UpdateAssetUseCase
 import com.sdhong.jonbeowin.feature.asset.R
-import com.sdhong.jonbeowin.feature.asset.model.BuyDate
+import com.sdhong.jonbeowin.feature.asset.mapper.toDomain
+import com.sdhong.jonbeowin.feature.asset.mapper.toPresentation
+import com.sdhong.jonbeowin.feature.asset.model.AssetModel
+import com.sdhong.jonbeowin.feature.asset.model.BuyDateModel
 import com.sdhong.jonbeowin.feature.asset.uistate.AssetBasicUiState
 import com.sdhong.jonbeowin.feature.asset.uistate.AssetUiState
 import com.sdhong.jonbeowin.feature.asset.view.AssetActivity
-import com.sdhong.jonbeowin.local.model.Asset
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.internal.NopCollector.emit
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -40,16 +42,17 @@ class AssetViewModel @Inject constructor(
     )
 
     private val initialAsset = getAssetUseCase(assetId)
+        .map { it.toPresentation() }
         .stateIn(
-            initialValue = Asset.Default
+            initialValue = AssetModel.Default
         )
-    private val buyDate = MutableStateFlow(BuyDate.Default)
+    private val buyDate = MutableStateFlow(BuyDateModel.Default)
 
     val uiState: StateFlow<AssetUiState> = combine(
         initialAsset,
         buyDate
     ) { initialAsset, buyDate ->
-        if (buyDate == BuyDate.Default) {
+        if (buyDate == BuyDateModel.Default) {
             if (isAssetDetail) {
                 setBuyDate(initialAsset.buyDate.year, initialAsset.buyDate.month, initialAsset.buyDate.day)
                 AssetUiState.AssetDetailInitial(initialAsset)
@@ -84,7 +87,8 @@ class AssetViewModel @Inject constructor(
                     buyDate = buyDate.value
                 )
             } else {
-                Asset(
+                AssetModel(
+                    id = 0,
                     name = updatedName,
                     dayCount = diffDays + 1,
                     buyDate = buyDate.value,
@@ -92,7 +96,7 @@ class AssetViewModel @Inject constructor(
                 )
             }
 
-            updateAssetUseCase(updatedAsset)
+            updateAssetUseCase(updatedAsset.toDomain())
 
             eventFinishAsset()
         }
@@ -107,7 +111,7 @@ class AssetViewModel @Inject constructor(
     }
 
     private suspend fun checkUserSetBuyDate(): Boolean {
-        if (buyDate.value == BuyDate.Default) {
+        if (buyDate.value == BuyDateModel.Default) {
             _eventChannel.send(AssetEvent.ShowToast(R.string.date_empty_message))
             return true
         }
@@ -138,7 +142,7 @@ class AssetViewModel @Inject constructor(
     }
 
     fun setBuyDate(year: Int, month: Int, day: Int) {
-        buyDate.value = BuyDate(
+        buyDate.value = BuyDateModel(
             year = year,
             month = month,
             day = day
