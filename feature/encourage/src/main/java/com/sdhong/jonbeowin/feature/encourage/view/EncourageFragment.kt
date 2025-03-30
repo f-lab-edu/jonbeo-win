@@ -71,7 +71,8 @@ class EncourageFragment : BaseFragment<FragmentEncourageBinding>(
             is EncourageUiState.Success -> {
                 encourageAdapter.submitList(uiState.encourageItemList)
 
-                binding.toolbarEncourage.menu.findItem(R.id.menuEditAsset).title = getString(uiState.appBarButtonId)
+                val title = if (uiState.isEditMode) R.string.remove else R.string.edit
+                binding.toolbarEncourage.menu.findItem(R.id.menuEditAsset).title = getString(title)
                 binding.recyclerViewEncourage.visibility = View.VISIBLE
                 binding.textViewMessage.visibility = View.GONE
             }

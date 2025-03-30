@@ -1,6 +1,5 @@
 package com.sdhong.jonbeowin.feature.encourage.uistate
 
-import androidx.annotation.StringRes
 import com.sdhong.jonbeowin.feature.encourage.model.EncourageModel
 
 sealed interface EncourageUiState {
@@ -11,7 +10,7 @@ sealed interface EncourageUiState {
 
     data class Success(
         val encourageItemList: List<EncourageModel>,
-        @StringRes val appBarButtonId: Int
+        val isEditMode: Boolean
     ) : EncourageUiState
 
     data object Error : EncourageUiState

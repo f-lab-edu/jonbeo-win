@@ -3,7 +3,6 @@ package com.sdhong.jonbeowin.feature.encourage.viewmodel
 import com.sdhong.jonbeowin.core.common.base.BaseViewModel
 import com.sdhong.jonbeowin.core.domain.usecase.DeleteEncourageUseCase
 import com.sdhong.jonbeowin.core.domain.usecase.GetEncourageListUseCase
-import com.sdhong.jonbeowin.feature.encourage.R
 import com.sdhong.jonbeowin.feature.encourage.model.EncourageModel
 import com.sdhong.jonbeowin.feature.encourage.uistate.EncourageUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,7 +40,7 @@ class EncourageViewModel @Inject constructor(
                         isChecked = if (isEditMode) checkedIdSet.contains(encourage.id) else false
                     )
                 },
-                appBarButtonId = if (isEditMode) R.string.remove else R.string.edit
+                isEditMode = isEditMode
             )
         } else {
             EncourageUiState.Empty
