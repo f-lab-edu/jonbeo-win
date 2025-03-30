@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="title_jonbeo_count">존버 카운트</string>
+    <string name="jonbeo_asset_empty_message">저장된 자산 목록이 없습니다</string>
     <string name="jonbeo_day_count">%d일째 버티는 중!</string>
+    <string name="jonbeo_asset_error_message">자산 목록을 불러올 수 없습니다</string>
+    <string name="add">추가하기</string>
+    <string name="edit">편집</string>
+    <string name="remove">제거</string>
 </resources>

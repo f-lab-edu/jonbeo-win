@@ -2,8 +2,8 @@ package com.sdhong.jonbeowin.feature.jonbeocount.view
 
 import android.view.View
 import com.sdhong.jonbeowin.core.common.base.BaseViewHolder
-import com.sdhong.jonbeowin.jonbeocount.R
-import com.sdhong.jonbeowin.jonbeocount.databinding.ItemJonbeoCountBinding
+import com.sdhong.jonbeowin.feature.jonbeocount.R
+import com.sdhong.jonbeowin.feature.jonbeocount.databinding.ItemJonbeoCountBinding
 import com.sdhong.jonbeowin.feature.jonbeocount.model.JonbeoCountModel
 
 class JonbeoCountViewHolder(

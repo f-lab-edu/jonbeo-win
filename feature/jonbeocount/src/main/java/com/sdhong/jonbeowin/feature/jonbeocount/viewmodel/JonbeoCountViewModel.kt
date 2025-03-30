@@ -3,7 +3,8 @@ package com.sdhong.jonbeowin.feature.jonbeocount.viewmodel
 import com.sdhong.jonbeowin.core.common.base.BaseViewModel
 import com.sdhong.jonbeowin.core.domain.usecase.DeleteAssetUseCase
 import com.sdhong.jonbeowin.core.domain.usecase.GetAssetListUseCase
-import com.sdhong.jonbeowin.jonbeocount.R
+import com.sdhong.jonbeowin.feature.jonbeocount.R
+import com.sdhong.jonbeowin.feature.jonbeocount.model.BuyDateModel
 import com.sdhong.jonbeowin.feature.jonbeocount.model.JonbeoCountModel
 import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,7 +38,11 @@ class JonbeoCountViewModel @Inject constructor(
                         id = asset.id,
                         name = asset.name,
                         dayCount = asset.dayCount,
-                        buyDate = asset.buyDate,
+                        buyDate = BuyDateModel(
+                            year = asset.buyDate.year,
+                            month = asset.buyDate.month,
+                            day = asset.buyDate.day
+                        ),
                         createdAt = asset.createdAt,
                         isEditMode = isEditMode,
                         isChecked = if (isEditMode) checkedIdSet.contains(asset.id) else false

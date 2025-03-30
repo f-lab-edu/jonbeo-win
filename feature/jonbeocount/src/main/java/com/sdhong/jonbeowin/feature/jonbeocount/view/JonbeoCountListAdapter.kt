@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.sdhong.jonbeowin.jonbeocount.databinding.ItemJonbeoCountBinding
+import com.sdhong.jonbeowin.feature.jonbeocount.databinding.ItemJonbeoCountBinding
 import com.sdhong.jonbeowin.feature.jonbeocount.model.JonbeoCountModel
 
 class JonbeoCountListAdapter(
