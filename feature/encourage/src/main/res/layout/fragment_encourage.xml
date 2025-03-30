@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".feature.encourage.EncourageFragment">
+    tools:context="com.sdhong.jonbeowin.feature.encourage.view.EncourageFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarEncourage"
@@ -14,8 +14,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/app_bar_jonbeo_count"
-        app:title="격려 한마디"
+        app:menu="@menu/app_bar_encourage"
+        app:title="@string/title_encouraging_word"
         tools:background="@color/light_blue" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -42,7 +42,7 @@
         android:elevation="8dp"
         android:padding="16dp"
         android:stateListAnimator="@null"
-        android:text="생성하기"
+        android:text="@string/generate"
         app:icon="@drawable/ic_add"
         app:iconGravity="textStart"
         app:iconPadding="2dp"
@@ -54,7 +54,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="저장된 격려 한마디 목록이 없습니다"
+        android:text="@string/encourage_list_empty_message"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

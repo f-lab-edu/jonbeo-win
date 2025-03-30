@@ -9,12 +9,3 @@ internal fun EncourageModel.toDomain() =
         content = content,
         createdAt = createdAt
     )
-
-internal fun Encourage.toPresentation() =
-    EncourageModel(
-        id = id,
-        content = content,
-        createdAt = createdAt,
-        isEditMode = false,
-        isChecked = false
-    )
