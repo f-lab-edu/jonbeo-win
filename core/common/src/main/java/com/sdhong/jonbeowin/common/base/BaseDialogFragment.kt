@@ -1,4 +1,4 @@
-package com.sdhong.jonbeowin.feature.encourage
+package com.sdhong.jonbeowin.common.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

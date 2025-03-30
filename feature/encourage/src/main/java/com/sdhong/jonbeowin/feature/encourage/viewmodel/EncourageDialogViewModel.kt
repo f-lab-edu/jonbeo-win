@@ -1,9 +1,9 @@
 package com.sdhong.jonbeowin.feature.encourage.viewmodel
 
 import android.icu.util.Calendar
+import com.sdhong.jonbeowin.common.base.BaseViewModel
 import com.sdhong.jonbeowin.core.domain.usecase.GenerateEncourageUseCase
 import com.sdhong.jonbeowin.core.domain.usecase.UpdateEncourageUseCase
-import com.sdhong.jonbeowin.feature.encourage.BaseViewModel
 import com.sdhong.jonbeowin.feature.encourage.mapper.toDomain
 import com.sdhong.jonbeowin.feature.encourage.model.EncourageModel
 import com.sdhong.jonbeowin.feature.encourage.uistate.EncourageDialogUiState

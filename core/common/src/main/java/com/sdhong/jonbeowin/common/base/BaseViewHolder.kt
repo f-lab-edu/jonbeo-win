@@ -1,4 +1,4 @@
-package com.sdhong.jonbeowin.feature.encourage
+package com.sdhong.jonbeowin.common.base
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView.ViewHolder

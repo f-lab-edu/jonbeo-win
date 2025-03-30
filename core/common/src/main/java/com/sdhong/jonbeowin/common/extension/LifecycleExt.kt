@@ -1,4 +1,4 @@
-package com.sdhong.jonbeowin.feature.encourage
+package com.sdhong.jonbeowin.common.extension
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
