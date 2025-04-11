@@ -9,11 +9,7 @@
         android:id="@+id/jonbeoCountFragment"
         android:name="com.sdhong.jonbeowin.feature.jonbeocount.view.JonbeoCountFragment"
         android:label="fragment_jonbeo_count"
-        tools:layout="@layout/fragment_jonbeo_count">
-        <action
-            android:id="@+id/actionJonbeoCountToAsset"
-            app:destination="@id/assetActivity" />
-    </fragment>
+        tools:layout="@layout/fragment_jonbeo_count" />
 
     <fragment
         android:id="@+id/encourageFragment"
@@ -25,5 +21,8 @@
         android:id="@+id/assetActivity"
         android:name="com.sdhong.jonbeowin.feature.asset.view.AssetActivity"
         android:label="activity_asset"
-        tools:layout="@layout/activity_asset" />
+        tools:layout="@layout/activity_asset">
+
+        <deepLink app:uri="jonbeowin://asset/detail" />
+    </activity>
 </navigation>

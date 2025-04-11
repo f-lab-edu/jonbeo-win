@@ -4,19 +4,7 @@
     <application>
         <activity
             android:name="com.sdhong.jonbeowin.feature.asset.view.AssetActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="asset"
-                    android:pathPrefix="/detail"
-                    android:scheme="jonbeowin" />
-            </intent-filter>
-        </activity>
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 </manifest>
