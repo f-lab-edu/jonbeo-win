@@ -21,8 +21,6 @@
         android:id="@+id/assetActivity"
         android:name="com.sdhong.jonbeowin.feature.asset.view.AssetActivity"
         android:label="activity_asset"
-        tools:layout="@layout/activity_asset">
+        tools:layout="@layout/activity_asset" />
 
-        <deepLink app:uri="jonbeowin://asset/detail" />
-    </activity>
 </navigation>
