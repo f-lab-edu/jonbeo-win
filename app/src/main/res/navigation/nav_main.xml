@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/jonbeoCountFragment">
+
+    <fragment
+        android:id="@+id/jonbeoCountFragment"
+        android:name="com.sdhong.jonbeowin.feature.jonbeocount.view.JonbeoCountFragment"
+        android:label="fragment_jonbeo_count"
+        tools:layout="@layout/fragment_jonbeo_count">
+        <action
+            android:id="@+id/actionJonbeoCountToAsset"
+            app:destination="@id/assetActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/encourageFragment"
+        android:name="com.sdhong.jonbeowin.feature.encourage.view.EncourageFragment"
+        android:label="fragment_encourage"
+        tools:layout="@layout/fragment_encourage" />
+
+    <activity
+        android:id="@+id/assetActivity"
+        android:name="com.sdhong.jonbeowin.feature.asset.view.AssetActivity"
+        android:label="activity_asset"
+        tools:layout="@layout/activity_asset" />
+</navigation>
