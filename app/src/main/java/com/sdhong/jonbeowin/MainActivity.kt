@@ -2,6 +2,7 @@ package com.sdhong.jonbeowin
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.sdhong.jonbeowin.core.common.base.BaseActivity
@@ -32,5 +33,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
             }
         }
 
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (navController.currentDestination?.id == R.id.jonbeoCountFragment) {
+                    finish()
+                } else {
+                    navController.popBackStack()
+                }
+            }
+        })
     }
 }
