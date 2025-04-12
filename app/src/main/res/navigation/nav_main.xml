@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_jonbeo_count">
         <action
             android:id="@+id/actionJonbeoCountToAsset"
-            app:destination="@id/assetActivity">
+            app:destination="@id/assetFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim">
             <argument
                 android:name="assetId"
                 android:defaultValue="0"
@@ -26,15 +30,15 @@
         android:label="fragment_encourage"
         tools:layout="@layout/fragment_encourage" />
 
-    <activity
-        android:id="@+id/assetActivity"
-        android:name="com.sdhong.jonbeowin.feature.asset.view.AssetActivity"
-        android:label="activity_asset"
-        tools:layout="@layout/activity_asset">
+    <fragment
+        android:id="@+id/assetFragment"
+        android:name="com.sdhong.jonbeowin.feature.asset.view.AssetFragment"
+        android:label="fragment_asset"
+        tools:layout="@layout/fragment_asset">
         <argument
             android:name="assetId"
             android:defaultValue="0"
             app:argType="integer" />
-    </activity>
+    </fragment>
 
 </navigation>
