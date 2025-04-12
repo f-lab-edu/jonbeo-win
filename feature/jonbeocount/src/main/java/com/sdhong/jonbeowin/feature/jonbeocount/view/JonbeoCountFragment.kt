@@ -3,6 +3,7 @@ package com.sdhong.jonbeowin.feature.jonbeocount.view
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.sdhong.jonbeowin.core.common.base.BaseFragment
 import com.sdhong.jonbeowin.core.common.extension.collectFlow
 import com.sdhong.jonbeowin.core.common.extension.collectLatestFlow
@@ -95,7 +96,7 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
     private fun handleEvent(event: JonbeoCountEvent) {
         when (event) {
             is JonbeoCountEvent.StartAsset -> {
-                startActivity(mainNavigator.getAssetIntent(event.assetId))
+                mainNavigator.navigateAsset(findNavController(), event.assetId)
             }
         }
     }
