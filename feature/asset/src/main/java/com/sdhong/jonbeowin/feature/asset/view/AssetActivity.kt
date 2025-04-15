@@ -1,6 +1,8 @@
 package com.sdhong.jonbeowin.feature.asset.view
 
 import android.app.DatePickerDialog
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -127,6 +129,17 @@ class AssetActivity : BaseActivity<ActivityAssetBinding>(
 
             is AssetEvent.FinishAsset -> {
                 finish()
+            }
+        }
+    }
+
+    companion object {
+
+        const val EXTRA_ASSET_ID = "EXTRA_ASSET_ID"
+
+        fun newIntent(context: Context, assetId: Int? = null): Intent {
+            return Intent(context, AssetActivity::class.java).apply {
+                assetId?.let { putExtra(EXTRA_ASSET_ID, it) }
             }
         }
     }

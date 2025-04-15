@@ -1,24 +1,28 @@
 package com.sdhong.jonbeowin.feature.jonbeocount.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import com.sdhong.jonbeowin.core.common.base.BaseFragment
 import com.sdhong.jonbeowin.core.common.extension.collectFlow
 import com.sdhong.jonbeowin.core.common.extension.collectLatestFlow
+import com.sdhong.jonbeowin.core.common.navigation.MainNavigator
 import com.sdhong.jonbeowin.feature.jonbeocount.R
 import com.sdhong.jonbeowin.feature.jonbeocount.databinding.FragmentJonbeoCountBinding
 import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
 import com.sdhong.jonbeowin.feature.jonbeocount.viewmodel.JonbeoCountViewModel
 import com.sdhong.jonbeowin.feature.jonbeocount.viewmodel.JonbeoCountViewModel.JonbeoCountEvent
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
     bindingFactory = FragmentJonbeoCountBinding::inflate
 ) {
+
+    @Inject
+    lateinit var mainNavigator: MainNavigator
+
     private val viewModel: JonbeoCountViewModel by viewModels()
     private val jonbeoCountAdapter = JonbeoCountListAdapter(::onJonbeoCountItemClick)
 
@@ -91,11 +95,7 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
     private fun handleEvent(event: JonbeoCountEvent) {
         when (event) {
             is JonbeoCountEvent.StartAsset -> {
-                val uri = "jonbeowin://asset/detail".toUri()
-                    .buildUpon()
-                    .appendQueryParameter("assetId", event.assetId?.toString())
-                    .build()
-                startActivity(Intent(Intent.ACTION_VIEW, uri))
+                startActivity(mainNavigator.getAssetIntent(event.assetId))
             }
         }
     }

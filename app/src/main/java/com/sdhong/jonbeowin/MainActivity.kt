@@ -1,11 +1,10 @@
 package com.sdhong.jonbeowin
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.sdhong.jonbeowin.core.common.base.BaseActivity
 import com.sdhong.jonbeowin.databinding.ActivityMainBinding
-import com.sdhong.jonbeowin.feature.encourage.view.EncourageFragment
-import com.sdhong.jonbeowin.feature.jonbeocount.view.JonbeoCountFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,32 +15,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding.bottomNav.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.jonbeoCount -> {
-                    openFragment(JonbeoCountFragment())
-                    true
-                }
-
-                R.id.encouragingWord -> {
-                    openFragment(EncourageFragment())
-                    true
-                }
-
-                else -> false
-            }
-        }
-
-        if (savedInstanceState == null) {
-            binding.bottomNav.selectedItemId = R.id.jonbeoCount
-        }
-
-        binding.bottomNav.setOnApplyWindowInsetsListener(null)
-    }
-
-    private fun openFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.mainContainer, fragment)
-            .commit()
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
+        binding.bottomNav.setupWithNavController(navHostFragment.navController)
     }
 }
