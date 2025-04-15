@@ -29,7 +29,7 @@ class AssetViewModel @Inject constructor(
     private val updateAssetUseCase: UpdateAssetUseCase
 ) : BaseViewModel() {
 
-    private val assetId = savedStateHandle.get<Int>("assetId") ?: 0
+    private val assetId = savedStateHandle.get<Int>(EXTRA_ASSET_ID) ?: 0
 
     val isAssetDetail = assetId != 0
 
@@ -153,5 +153,9 @@ class AssetViewModel @Inject constructor(
     sealed interface AssetEvent {
         data class ShowToast(val assetToast: AssetToast) : AssetEvent
         data object FinishAsset : AssetEvent
+    }
+
+    companion object {
+        private const val EXTRA_ASSET_ID = "assetId"
     }
 }
