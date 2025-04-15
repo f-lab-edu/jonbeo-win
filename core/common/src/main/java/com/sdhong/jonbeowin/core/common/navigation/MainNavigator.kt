@@ -1,7 +1,8 @@
 package com.sdhong.jonbeowin.core.common.navigation
 
-import android.content.Intent
+import androidx.navigation.NavDirections
 
 interface MainNavigator {
-    fun getAssetIntent(assetId: Int?): Intent
+
+    fun getAssetDirections(assetId: Int): NavDirections
 }

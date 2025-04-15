@@ -1,6 +1,8 @@
 package com.sdhong.jonbeowin
 
 import android.os.Bundle
+import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.sdhong.jonbeowin.core.common.base.BaseActivity
@@ -16,6 +18,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
         super.onCreate(savedInstanceState)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
-        binding.bottomNav.setupWithNavController(navHostFragment.navController)
+        val navController = navHostFragment.navController
+        binding.bottomNav.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.jonbeoCountFragment, R.id.encourageFragment -> {
+                    binding.bottomNav.visibility = View.VISIBLE
+                }
+
+                else -> {
+                    binding.bottomNav.visibility = View.GONE
+                }
+            }
+        }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (navController.currentDestination?.id == R.id.jonbeoCountFragment) {
+                    finish()
+                } else {
+                    navController.popBackStack()
+                }
+            }
+        })
     }
 }

@@ -102,6 +102,6 @@ class JonbeoCountViewModel @Inject constructor(
     }
 
     sealed interface JonbeoCountEvent {
-        data class StartAsset(val assetId: Int? = null) : JonbeoCountEvent
+        data class StartAsset(val assetId: Int = 0) : JonbeoCountEvent
     }
 }

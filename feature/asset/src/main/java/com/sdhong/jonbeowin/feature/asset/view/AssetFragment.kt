@@ -1,31 +1,33 @@
 package com.sdhong.jonbeowin.feature.asset.view
 
 import android.app.DatePickerDialog
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
-import com.sdhong.jonbeowin.core.common.base.BaseActivity
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.sdhong.jonbeowin.core.common.base.BaseFragment
 import com.sdhong.jonbeowin.core.common.extension.collectFlow
 import com.sdhong.jonbeowin.core.common.extension.collectLatestFlow
+import com.sdhong.jonbeowin.core.common.navigation.MainNavigator
 import com.sdhong.jonbeowin.feature.asset.R
-import com.sdhong.jonbeowin.feature.asset.databinding.ActivityAssetBinding
+import com.sdhong.jonbeowin.feature.asset.databinding.FragmentAssetBinding
 import com.sdhong.jonbeowin.feature.asset.uistate.AssetUiState
 import com.sdhong.jonbeowin.feature.asset.viewmodel.AssetViewModel
 import com.sdhong.jonbeowin.feature.asset.viewmodel.AssetViewModel.AssetEvent
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class AssetActivity : BaseActivity<ActivityAssetBinding>(
-    bindingFactory = ActivityAssetBinding::inflate
+class AssetFragment : BaseFragment<FragmentAssetBinding>(
+    bindingFactory = FragmentAssetBinding::inflate
 ) {
+
     private val viewModel: AssetViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         setUpView()
         setCollectors()
@@ -56,7 +58,7 @@ class AssetActivity : BaseActivity<ActivityAssetBinding>(
             val calendar = Calendar.getInstance()
 
             val datePicker = DatePickerDialog(
-                this,
+                requireContext(),
                 { _, year, month, day ->
                     viewModel.setBuyDate(year, month + 1, day)
                 },
@@ -124,22 +126,11 @@ class AssetActivity : BaseActivity<ActivityAssetBinding>(
     private fun handleEvent(event: AssetEvent) {
         when (event) {
             is AssetEvent.ShowToast -> {
-                Toast.makeText(this, getString(event.assetToast.messageId), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(event.assetToast.messageId), Toast.LENGTH_SHORT).show()
             }
 
             is AssetEvent.FinishAsset -> {
-                finish()
-            }
-        }
-    }
-
-    companion object {
-
-        const val EXTRA_ASSET_ID = "EXTRA_ASSET_ID"
-
-        fun newIntent(context: Context, assetId: Int? = null): Intent {
-            return Intent(context, AssetActivity::class.java).apply {
-                assetId?.let { putExtra(EXTRA_ASSET_ID, it) }
+                findNavController().popBackStack()
             }
         }
     }
