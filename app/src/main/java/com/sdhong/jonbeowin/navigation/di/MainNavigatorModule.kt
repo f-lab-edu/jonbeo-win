@@ -5,14 +5,14 @@ import com.sdhong.jonbeowin.navigation.MainNavigatorImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.scopes.ActivityScoped
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ActivityComponent::class)
 interface MainNavigatorModule {
 
     @Binds
-    @Singleton
+    @ActivityScoped
     fun bindMainNavigator(navigator: MainNavigatorImpl): MainNavigator
 }
