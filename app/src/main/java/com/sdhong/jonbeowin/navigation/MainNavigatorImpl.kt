@@ -1,21 +1,13 @@
 package com.sdhong.jonbeowin.navigation
 
-import android.content.Context
-import android.content.Intent
+import androidx.navigation.NavDirections
 import com.sdhong.jonbeowin.core.common.navigation.MainNavigator
-import com.sdhong.jonbeowin.feature.asset.view.AssetActivity
-import dagger.hilt.android.qualifiers.ActivityContext
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.sdhong.jonbeowin.feature.jonbeocount.view.JonbeoCountFragmentDirections
 import javax.inject.Inject
 
-class MainNavigatorImpl @Inject constructor(
-    @ActivityContext private val context: Context,
-) : MainNavigator {
+class MainNavigatorImpl @Inject constructor() : MainNavigator {
 
-    override fun getAssetIntent(assetId: Int?): Intent {
-        return AssetActivity.newIntent(
-            context = context,
-            assetId = assetId,
-        )
-    }
+    override fun getAssetDirections(assetId: Int): NavDirections =
+        JonbeoCountFragmentDirections.actionJonbeoCountToAsset(assetId)
 }
+

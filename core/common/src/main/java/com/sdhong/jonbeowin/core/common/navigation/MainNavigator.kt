@@ -1,8 +1,8 @@
 package com.sdhong.jonbeowin.core.common.navigation
 
-import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 
 interface MainNavigator {
 
-    fun navigateAsset(navController: NavController, assetId: Int)
+    fun getAssetDirections(assetId: Int): NavDirections
 }

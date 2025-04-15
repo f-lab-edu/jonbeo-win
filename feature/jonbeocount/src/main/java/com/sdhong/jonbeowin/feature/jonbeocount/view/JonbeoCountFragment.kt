@@ -96,7 +96,7 @@ class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
     private fun handleEvent(event: JonbeoCountEvent) {
         when (event) {
             is JonbeoCountEvent.StartAsset -> {
-                mainNavigator.navigateAsset(findNavController(), event.assetId)
+                findNavController().navigate(mainNavigator.getAssetDirections(event.assetId))
             }
         }
     }
