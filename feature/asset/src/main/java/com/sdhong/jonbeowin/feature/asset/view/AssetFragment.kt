@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import com.sdhong.jonbeowin.core.common.base.BaseFragment
 import com.sdhong.jonbeowin.core.common.extension.collectFlow
 import com.sdhong.jonbeowin.core.common.extension.collectLatestFlow
-import com.sdhong.jonbeowin.core.common.navigation.MainNavigator
 import com.sdhong.jonbeowin.feature.asset.R
 import com.sdhong.jonbeowin.feature.asset.databinding.FragmentAssetBinding
 import com.sdhong.jonbeowin.feature.asset.uistate.AssetUiState
@@ -17,7 +16,6 @@ import com.sdhong.jonbeowin.feature.asset.viewmodel.AssetViewModel
 import com.sdhong.jonbeowin.feature.asset.viewmodel.AssetViewModel.AssetEvent
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class AssetFragment : BaseFragment<FragmentAssetBinding>(
