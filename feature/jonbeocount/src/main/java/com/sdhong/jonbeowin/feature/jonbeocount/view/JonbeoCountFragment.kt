@@ -1,0 +1,107 @@
+package com.sdhong.jonbeowin.feature.jonbeocount.view
+
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.sdhong.jonbeowin.core.common.base.BaseFragment
+import com.sdhong.jonbeowin.core.common.extension.collectFlow
+import com.sdhong.jonbeowin.core.common.extension.collectLatestFlow
+import com.sdhong.jonbeowin.core.common.navigation.MainNavigator
+import com.sdhong.jonbeowin.feature.jonbeocount.R
+import com.sdhong.jonbeowin.feature.jonbeocount.databinding.FragmentJonbeoCountBinding
+import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
+import com.sdhong.jonbeowin.feature.jonbeocount.viewmodel.JonbeoCountViewModel
+import com.sdhong.jonbeowin.feature.jonbeocount.viewmodel.JonbeoCountViewModel.JonbeoCountEvent
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+@AndroidEntryPoint
+class JonbeoCountFragment : BaseFragment<FragmentJonbeoCountBinding>(
+    bindingFactory = FragmentJonbeoCountBinding::inflate
+) {
+
+    @Inject
+    lateinit var mainNavigator: MainNavigator
+
+    private val viewModel: JonbeoCountViewModel by viewModels()
+    private val jonbeoCountAdapter = JonbeoCountListAdapter(::onJonbeoCountItemClick)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.toolbarJonbeocount.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.menuEditAsset -> {
+                    viewModel.toggleEditMode()
+                    true
+                }
+
+                else -> false
+            }
+        }
+        binding.recyclerViewJonbeoCount.adapter = jonbeoCountAdapter
+        binding.buttonAdd.setOnClickListener {
+            viewModel.eventStartAddAsset()
+        }
+
+        setCollectors()
+    }
+
+    private fun setCollectors() {
+        viewLifecycleOwner.collectLatestFlow(viewModel.uiState) { uiState ->
+            handleUiState(uiState)
+        }
+
+        viewLifecycleOwner.collectFlow(viewModel.eventFlow) { event ->
+            handleEvent(event)
+        }
+    }
+
+    private fun handleUiState(uiState: JonbeoCountUiState) {
+        when (uiState) {
+            is JonbeoCountUiState.Idle -> Unit
+
+            is JonbeoCountUiState.Empty -> {
+                jonbeoCountAdapter.submitList(emptyList())
+
+                binding.textViewMessage.also {
+                    it.visibility = View.VISIBLE
+                    it.text = getString(R.string.jonbeo_asset_empty_message)
+                    it.setTextColor(requireContext().getColor(R.color.dusk_gray))
+                }
+                binding.recyclerViewJonbeoCount.visibility = View.INVISIBLE
+            }
+
+            is JonbeoCountUiState.Success -> {
+                jonbeoCountAdapter.submitList(uiState.jonbeoCountItemList)
+
+                val title = if (uiState.isEditMode) R.string.remove else R.string.edit
+                binding.toolbarJonbeocount.menu.findItem(R.id.menuEditAsset).title = getString(title)
+                binding.recyclerViewJonbeoCount.visibility = View.VISIBLE
+                binding.textViewMessage.visibility = View.GONE
+            }
+
+            is JonbeoCountUiState.Error -> {
+                binding.textViewMessage.also {
+                    it.visibility = View.VISIBLE
+                    it.text = getString(R.string.jonbeo_asset_error_message)
+                    it.setTextColor(requireContext().getColor(R.color.red))
+                }
+                binding.recyclerViewJonbeoCount.visibility = View.INVISIBLE
+            }
+        }
+    }
+
+    private fun handleEvent(event: JonbeoCountEvent) {
+        when (event) {
+            is JonbeoCountEvent.StartAsset -> {
+                findNavController().navigate(mainNavigator.getAssetDirections(event.assetId))
+            }
+        }
+    }
+
+    private fun onJonbeoCountItemClick(position: Int) {
+        viewModel.onJonbeoCountItemClick(position)
+    }
+}

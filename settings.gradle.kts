@@ -21,3 +21,11 @@ dependencyResolutionManagement {
 
 rootProject.name = "jonbeo win"
 include(":app")
+include(":core:domain")
+include(":core:data")
+include(":core:local")
+include(":core:remote")
+include(":feature:encourage")
+include(":core:common")
+include(":feature:jonbeocount")
+include(":feature:asset")
