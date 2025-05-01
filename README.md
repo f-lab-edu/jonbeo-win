@@ -21,6 +21,11 @@
 
 <br>
 
+## 🧱 모듈 구조
+![project module dependency](https://github.com/user-attachments/assets/e9998f5c-15c4-47db-8349-d35df7173ffe)
+
+<br>
+
 ## 📷 스크린샷
 |![Screenshot_20250501_214806_jonbeo win](https://github.com/user-attachments/assets/b8edb04c-17c5-4e59-99a0-69fc50b6c480)|![Screenshot_20250501_214817_jonbeo win](https://github.com/user-attachments/assets/2b734b75-9ddb-4d6b-a35b-c27459bb9667)|![Screenshot_20250501_214826_jonbeo win](https://github.com/user-attachments/assets/5f3b5b9f-c211-441a-a5c1-2b160a14e8df)|![Screenshot_20250501_214835_jonbeo win](https://github.com/user-attachments/assets/5ef1a05b-0728-4ca8-9e31-41af88fff2cc)|
 |-|-|-|-|
