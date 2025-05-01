@@ -1,33 +1,33 @@
 # 존버는 승리한다
 
-### 개요
+## 📝 프로젝트 소개
+* 존버는 승리한다 앱은 매수한 주식과 코인을 손절하고 싶은 마음을 참기 위한 안드로이드 앱 서비스입니다.
+* 사용자가 매수한 주식과 코인을 매수한 날짜와 함께 등록할 수 있습니다. 매수한 날짜를 기반으로 버틴 일수를 보여줍니다.
+* 사용자가 버티기 위한 동기부여를 위해 AI를 통해 격려 문장을 생성 및 저장할 수 있습니다.
 
-1. 앱 이름 : 존버는 승리한다
-2. 매수한 주식과 코인을 손절하고 싶은 마음을 참기 위해서 사용
+<br>
 
-### 프로젝트 목표
+## 🤖 Android 기술 스택
 
-1. MVI, 클린 아키텍처 등 해보지 않은 아키텍처 적용
-2. 멀티 모듈 적용 : 이미 멀티 모듈 경험은 있지만 모듈의 dependency를 효율적으로 관리하는 것을 Droid Knights 앱을 참고하여 적용해보고 싶습니다.
-3. xml -> Jetpack Compose로 마이그레이션하는 경험
-4. AI API를 활용하여 프로젝트를 진행하는 경험
+| 카테고리         | 기술 스택                                         |
+|----------------|------------------------------------------------|
+| UI             | XML                                            |
+| Architecture   | Clean Architecture, Multi Module               |
+| DI             | Hilt                                           |
+| Asynchronous   | Coroutines, Flow                               |
+| Jetpack        | ViewModel, Navigation, Room                    |
+| AI             | [Google AI Andriod SDK for the Gemini API](https://github.com/google-gemini/deprecated-generative-ai-android)       |
+| Logging        | Timber                                         |
 
-### 탭1 : 존버 카운트
+<br>
 
-1. 존버 종목을 목록형으로 표시
-    - 이름, 00일째 버티는 중! 으로 표시
-2. 종목 아이템을 누르면 상세화면으로 이동. 상세화면에서 내용을 수정 및 삭제 가능.
-3. FloatingButton 눌러서 종목 추가 화면으로 이동. UI는 상세화면과 비슷
-    - 종목 이름, 매수한 날짜 선택 가능. 매수한 날짜는 캘린더 API를 사용하여 선택하도록 구현.
-4. 화면 상단에 편집 버튼 만들고, 체크하여 아이템 제거할 수 있도록 구현
-5. 종목 데이터는 Room DB에 저장
+## 📷 스크린샷
+|![Screenshot_20250501_214806_jonbeo win](https://github.com/user-attachments/assets/b8edb04c-17c5-4e59-99a0-69fc50b6c480)|![Screenshot_20250501_214817_jonbeo win](https://github.com/user-attachments/assets/2b734b75-9ddb-4d6b-a35b-c27459bb9667)|![Screenshot_20250501_214826_jonbeo win](https://github.com/user-attachments/assets/5f3b5b9f-c211-441a-a5c1-2b160a14e8df)|![Screenshot_20250501_214835_jonbeo win](https://github.com/user-attachments/assets/5ef1a05b-0728-4ca8-9e31-41af88fff2cc)|
+|-|-|-|-|
 
-### 탭2 : 격려 한마디
+<br>
 
-1. 기본 UI는 자신이 북마크한 격려 문장을 목록형으로 표시
-2. FloatingButton으로 문장 생성. 버튼 누르면 작은 다이얼로그 표시하여 생성된 문장 표시.
-    - 문장은 AI API 활용하여 생성. 한 문장으로 생성하고 최대 20자로 제한.
-    - 다이얼로그에 북마크 버튼과 다른 문장 생성 버튼
-    - 다른 문장 생성 버튼을 클릭하거나, 다이얼로그를 빠져나오면 기존 문장은 그냥 사라짐.
-3. 화면 상단에 편집 버튼 만들고, 체크하여 아이템 제거할 수 있도록 구현
-4. 북마크한 문장 데이터는 Room DB에 저장
+## 📺 데모 영상
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/bd3a0a78-7e23-4bdb-9aa5-9eb8a9e993a5" />
+</div>
