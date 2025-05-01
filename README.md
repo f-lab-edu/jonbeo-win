@@ -1,4 +1,4 @@
-# 존버는 승리한다
+# 존버는 승리한다 - 개인 프로젝트
 
 ## 📝 프로젝트 소개
 * 존버는 승리한다 앱은 매수한 주식과 코인을 손절하고 싶은 마음을 참기 위한 안드로이드 앱 서비스입니다.
@@ -17,7 +17,6 @@
 | Asynchronous   | Coroutines, Flow                               |
 | Jetpack        | ViewModel, Navigation, Room                    |
 | AI             | [Google AI Andriod SDK for the Gemini API](https://github.com/google-gemini/deprecated-generative-ai-android)       |
-| Logging        | Timber                                         |
 
 <br>
 
