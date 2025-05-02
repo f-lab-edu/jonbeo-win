@@ -4,6 +4,10 @@
         <item name="colorPrimary">@color/blue</item>
         <item name="colorOnPrimary">@color/white</item>
 
+        <item name="android:colorBackground">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorSurfaceContainer">@color/light_blue</item>
+
         <item name="android:actionMenuTextColor">@color/blue</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@color/light_blue</item>
