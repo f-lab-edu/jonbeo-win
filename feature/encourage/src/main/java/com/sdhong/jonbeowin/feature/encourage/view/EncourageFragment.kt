@@ -9,7 +9,7 @@ import com.sdhong.jonbeowin.core.common.base.BaseFragment
 import com.sdhong.jonbeowin.core.common.extension.collectFlow
 import com.sdhong.jonbeowin.core.common.extension.collectLatestFlow
 import com.sdhong.jonbeowin.feature.encourage.R
-import com.sdhong.jonbeowin.feature.encourage.component.EncourageList
+import com.sdhong.jonbeowin.feature.encourage.component.EncourageContent
 import com.sdhong.jonbeowin.feature.encourage.databinding.FragmentEncourageBinding
 import com.sdhong.jonbeowin.feature.encourage.uistate.EncourageUiState
 import com.sdhong.jonbeowin.feature.encourage.viewmodel.EncourageViewModel
@@ -41,7 +41,7 @@ class EncourageFragment : BaseFragment<FragmentEncourageBinding>(
         }
         binding.composeView.setContent {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-            EncourageList(
+            EncourageContent(
                 uiState = uiState,
                 onEncourageItemClick = viewModel::onEncourageItemClick
             )
@@ -64,32 +64,12 @@ class EncourageFragment : BaseFragment<FragmentEncourageBinding>(
 
     private fun handleUiState(uiState: EncourageUiState) {
         when (uiState) {
-            EncourageUiState.Idle -> Unit
-
-            EncourageUiState.Empty -> {
-                binding.textViewMessage.also {
-                    it.visibility = View.VISIBLE
-                    it.text = getString(R.string.encourage_list_empty_message)
-                    it.setTextColor(requireContext().getColor(R.color.dusk_gray))
-                }
-                binding.composeView.visibility = View.INVISIBLE
-            }
-
             is EncourageUiState.Success -> {
                 val title = if (uiState.isEditMode) R.string.remove else R.string.edit
                 binding.toolbarEncourage.menu.findItem(R.id.menuEditAsset).title = getString(title)
-                binding.composeView.visibility = View.VISIBLE
-                binding.textViewMessage.visibility = View.GONE
             }
 
-            EncourageUiState.Error -> {
-                binding.textViewMessage.also {
-                    it.visibility = View.VISIBLE
-                    it.text = getString(R.string.encourage_list_error_message)
-                    it.setTextColor(requireContext().getColor(R.color.red))
-                }
-                binding.composeView.visibility = View.INVISIBLE
-            }
+            else -> Unit
         }
     }
 

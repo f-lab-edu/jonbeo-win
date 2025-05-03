@@ -19,12 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.sdhong.jonbeowin.feature.encourage.uistate.EncourageUiState
+import com.sdhong.jonbeowin.feature.encourage.model.EncourageModel
 
 @Composable
 internal fun EncourageList(
     modifier: Modifier = Modifier,
-    uiState: EncourageUiState,
+    items: List<EncourageModel>,
+    isEditMode: Boolean,
     onEncourageItemClick: (Int) -> Unit
 ) {
     LazyColumn(
@@ -32,45 +33,39 @@ internal fun EncourageList(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        when (uiState) {
-            is EncourageUiState.Success -> {
-                itemsIndexed(
-                    items = uiState.encourageItemList,
-                    key = { _, item -> item.id }
-                ) { index, item ->
-                    EncourageCard(
-                        modifier = Modifier.defaultMinSize(minHeight = 56.dp),
-                        enabled = uiState.isEditMode,
-                        onClick = {
-                            onEncourageItemClick(index)
-                        }
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(16.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                modifier = Modifier.weight(1f),
-                                text = item.content
+        itemsIndexed(
+            items = items,
+            key = { _, item -> item.id }
+        ) { index, item ->
+            EncourageCard(
+                modifier = Modifier.defaultMinSize(minHeight = 56.dp),
+                enabled = isEditMode,
+                onClick = {
+                    onEncourageItemClick(index)
+                }
+            ) {
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = item.content
+                    )
+                    if (isEditMode) {
+                        CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
+                            Checkbox(
+                                checked = items[index].isChecked,
+                                onCheckedChange = null,
+                                colors = CheckboxDefaults.colors(
+                                    checkedColor = Color(0xFF2563EB)
+                                ),
                             )
-                            if (uiState.isEditMode) {
-                                CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
-                                    Checkbox(
-                                        checked = uiState.encourageItemList[index].isChecked,
-                                        onCheckedChange = null,
-                                        colors = CheckboxDefaults.colors(
-                                            checkedColor = Color(0xFF2563EB)
-                                        ),
-                                    )
-                                }
-                            }
                         }
                     }
                 }
             }
-
-            else -> Unit
         }
     }
 }
