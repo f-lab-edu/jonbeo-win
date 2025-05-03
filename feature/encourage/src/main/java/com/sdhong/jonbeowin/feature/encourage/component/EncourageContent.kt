@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.sdhong.jonbeowin.feature.encourage.R
 import com.sdhong.jonbeowin.feature.encourage.uistate.EncourageUiState
 
@@ -51,4 +52,13 @@ internal fun EncourageContent(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun EncourageContentPreview() {
+    EncourageContent(
+        uiState = EncourageUiState.Error,
+        onEncourageItemClick = {}
+    )
 }

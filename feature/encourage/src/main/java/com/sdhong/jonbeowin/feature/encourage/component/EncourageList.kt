@@ -3,7 +3,6 @@ package com.sdhong.jonbeowin.feature.encourage.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,6 +16,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.sdhong.jonbeowin.feature.encourage.R
@@ -39,7 +39,6 @@ internal fun EncourageList(
             key = { item -> item.id }
         ) { item ->
             EncourageCard(
-                modifier = Modifier.defaultMinSize(minHeight = 56.dp),
                 enabled = isEditMode,
                 onClick = {
                     onEncourageItemClick(item.id)
@@ -69,4 +68,29 @@ internal fun EncourageList(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun EncourageListPreview() {
+    EncourageList(
+        items = listOf(
+            EncourageModel(
+                id = 1,
+                content = "Encourage Message 1",
+                createdAt = "",
+                isEditMode = true,
+                isChecked = true
+            ),
+            EncourageModel(
+                id = 2,
+                content = "Encourage Message 2",
+                createdAt = "",
+                isEditMode = true,
+                isChecked = false
+            )
+        ),
+        isEditMode = true,
+        onEncourageItemClick = {}
+    )
 }
