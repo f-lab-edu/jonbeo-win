@@ -6,7 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import com.sdhong.jonbeowin.feature.encourage.R
 import com.sdhong.jonbeowin.feature.encourage.uistate.EncourageUiState
@@ -26,7 +26,7 @@ internal fun EncourageContent(
             ) {
                 Text(
                     text = stringResource(id = R.string.encourage_list_empty_message),
-                    color = Color(0xFF868686)
+                    color = colorResource(R.color.dusk_gray)
                 )
             }
         }
@@ -46,7 +46,7 @@ internal fun EncourageContent(
             ) {
                 Text(
                     text = stringResource(id = R.string.encourage_list_error_message),
-                    color = Color(0xFFEB4444)
+                    color = colorResource(R.color.red)
                 )
             }
         }

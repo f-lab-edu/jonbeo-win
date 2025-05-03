@@ -5,9 +5,10 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import com.sdhong.jonbeowin.feature.encourage.R
 
 @Composable
 internal fun EncourageCard(
@@ -21,8 +22,8 @@ internal fun EncourageCard(
         modifier = modifier,
         enabled = enabled,
         shape = shape,
-        color = Color(0xFFFFFFFF),
-        border = BorderStroke(1.dp, Color(0xFF000000)),
+        color = colorResource(R.color.white),
+        border = BorderStroke(1.dp, colorResource(R.color.black)),
         onClick = onClick,
         content = content
     )

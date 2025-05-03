@@ -16,9 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.sdhong.jonbeowin.feature.encourage.R
 import com.sdhong.jonbeowin.feature.encourage.model.EncourageModel
 
 @Composable
@@ -59,7 +60,7 @@ internal fun EncourageList(
                                 checked = items[index].isChecked,
                                 onCheckedChange = null,
                                 colors = CheckboxDefaults.colors(
-                                    checkedColor = Color(0xFF2563EB)
+                                    checkedColor = colorResource(R.color.blue)
                                 ),
                             )
                         }
