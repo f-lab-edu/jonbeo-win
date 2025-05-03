@@ -68,17 +68,14 @@ class EncourageViewModel @Inject constructor(
         }
     }
 
-    fun onEncourageItemClick(position: Int) {
+    fun onEncourageItemClick(id: Int) {
         if (!isEditMode.value) return
-        val encourageId = (uiState.value as? EncourageUiState.Success ?: return)
-            .encourageItemList[position]
-            .id
 
         checkedIdSet.value = checkedIdSet.value.toMutableSet().also { set ->
-            if (set.contains(encourageId)) {
-                set.remove(encourageId)
+            if (set.contains(id)) {
+                set.remove(id)
             } else {
-                set.add(encourageId)
+                set.add(id)
             }
         }
     }

@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
@@ -34,15 +34,15 @@ internal fun EncourageList(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        itemsIndexed(
+        items(
             items = items,
-            key = { _, item -> item.id }
-        ) { index, item ->
+            key = { item -> item.id }
+        ) { item ->
             EncourageCard(
                 modifier = Modifier.defaultMinSize(minHeight = 56.dp),
                 enabled = isEditMode,
                 onClick = {
-                    onEncourageItemClick(index)
+                    onEncourageItemClick(item.id)
                 }
             ) {
                 Row(
@@ -57,7 +57,7 @@ internal fun EncourageList(
                     if (isEditMode) {
                         CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
                             Checkbox(
-                                checked = items[index].isChecked,
+                                checked = item.isChecked,
                                 onCheckedChange = null,
                                 colors = CheckboxDefaults.colors(
                                     checkedColor = colorResource(R.color.blue)
