@@ -25,7 +25,7 @@ internal fun EncourageContent(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = stringResource(id = R.string.encourage_list_empty_message),
+                    text = stringResource(R.string.encourage_list_empty_message),
                     color = colorResource(R.color.dusk_gray)
                 )
             }
@@ -45,7 +45,7 @@ internal fun EncourageContent(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = stringResource(id = R.string.encourage_list_error_message),
+                    text = stringResource(R.string.encourage_list_error_message),
                     color = colorResource(R.color.red)
                 )
             }
