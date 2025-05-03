@@ -34,7 +34,10 @@ internal fun EncourageList(
     ) {
         when (uiState) {
             is EncourageUiState.Success -> {
-                itemsIndexed(uiState.encourageItemList) { index, item ->
+                itemsIndexed(
+                    items = uiState.encourageItemList,
+                    key = { _, item -> item.id }
+                ) { index, item ->
                     EncourageCard(
                         modifier = Modifier.defaultMinSize(minHeight = 56.dp),
                         enabled = uiState.isEditMode,
