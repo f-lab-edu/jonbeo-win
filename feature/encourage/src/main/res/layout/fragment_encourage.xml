@@ -10,7 +10,7 @@
         android:id="@+id/toolbarEncourage"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:layout_constraintBottom_toTopOf="@id/recyclerViewEncourage"
+        app:layout_constraintBottom_toTopOf="@id/composeView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,15 +18,10 @@
         app:title="@string/title_encouraging_word"
         tools:background="@color/light_blue" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewEncourage"
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/composeView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="16dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,18 +43,5 @@
         app:iconPadding="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewMessage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/encourage_list_empty_message"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarEncourage"
-        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
