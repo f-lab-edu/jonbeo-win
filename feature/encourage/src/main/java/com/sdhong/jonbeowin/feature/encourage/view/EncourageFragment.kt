@@ -43,12 +43,9 @@ class EncourageFragment : BaseFragment<FragmentEncourageBinding>(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             EncourageContent(
                 uiState = uiState,
-                onEncourageItemClick = viewModel::onEncourageItemClick
+                onEncourageItemClick = viewModel::onEncourageItemClick,
+                onGenerateButtonClick = viewModel::eventShowEncourageDialog,
             )
-        }
-
-        binding.buttonGenerate.setOnClickListener {
-            viewModel.eventShowEncourageDialog()
         }
     }
 
