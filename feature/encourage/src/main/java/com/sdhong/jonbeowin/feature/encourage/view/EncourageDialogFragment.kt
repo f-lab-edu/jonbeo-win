@@ -2,15 +2,15 @@ package com.sdhong.jonbeowin.feature.encourage.view
 
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
+import androidx.compose.runtime.getValue
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sdhong.jonbeowin.core.common.base.BaseDialogFragment
 import com.sdhong.jonbeowin.core.common.extension.collectFlow
-import com.sdhong.jonbeowin.core.common.extension.collectLatestFlow
-import com.sdhong.jonbeowin.feature.encourage.R
+import com.sdhong.jonbeowin.feature.encourage.component.EncourageDialog
 import com.sdhong.jonbeowin.feature.encourage.databinding.FragmentEncourageDialogBinding
-import com.sdhong.jonbeowin.feature.encourage.uistate.EncourageDialogUiState
 import com.sdhong.jonbeowin.feature.encourage.viewmodel.EncourageDialogViewModel
+import com.sdhong.jonbeowin.feature.encourage.viewmodel.EncourageDialogViewModel.EncourageDialogEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,80 +27,24 @@ class EncourageDialogFragment : BaseDialogFragment<FragmentEncourageDialogBindin
         setCollectors()
     }
 
-    override fun onStart() {
-        super.onStart()
-        dialog?.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-    }
-
     private fun setUpView() {
-        binding.buttonEncourageDialogClose.setOnClickListener {
-            viewModel.eventDialogClose()
-        }
-
-        binding.buttonEncourageDialogSave.setOnClickListener {
-            viewModel.saveEncourage()
-        }
-
-        binding.buttonEncourageDialogGenerate.setOnClickListener {
-            viewModel.generateEncourage()
+        binding.composeView.setContent {
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+            EncourageDialog(
+                uiState = uiState,
+                onCloseClick = viewModel::eventDialogClose,
+                onSaveClick = viewModel::saveEncourage,
+                onGenerateClick = viewModel::generateEncourage
+            )
         }
     }
 
     private fun setCollectors() {
-        viewLifecycleOwner.collectLatestFlow(viewModel.uiState) { uiState ->
-            handleUiState(uiState)
-        }
-
         viewLifecycleOwner.collectFlow(viewModel.eventFlow) { event ->
-            handleEvent(event)
-        }
-    }
-
-    private fun handleUiState(uiState: EncourageDialogUiState) {
-        when (uiState) {
-            EncourageDialogUiState.Loading -> {
-                binding.run {
-                    buttonEncourageDialogSave.isEnabled = false
-                    buttonEncourageDialogGenerate.isEnabled = false
-
-                    progressBarEncourageDialog.visibility = View.VISIBLE
-                    textViewEncourageDialog.visibility = View.INVISIBLE
+            when (event) {
+                is EncourageDialogEvent.Close -> {
+                    dismiss()
                 }
-            }
-
-            is EncourageDialogUiState.Success -> {
-                binding.run {
-                    buttonEncourageDialogSave.isEnabled = true
-                    buttonEncourageDialogGenerate.isEnabled = true
-
-                    progressBarEncourageDialog.visibility = View.GONE
-                    textViewEncourageDialog.visibility = View.VISIBLE
-
-                    textViewEncourageDialog.text = uiState.content
-                }
-            }
-
-            EncourageDialogUiState.Error -> {
-                binding.run {
-                    buttonEncourageDialogSave.isEnabled = true
-                    buttonEncourageDialogGenerate.isEnabled = true
-
-                    progressBarEncourageDialog.visibility = View.GONE
-                    textViewEncourageDialog.visibility = View.VISIBLE
-
-                    textViewEncourageDialog.text = getString(R.string.encourage_dialog_error_message)
-                }
-            }
-        }
-    }
-
-    private fun handleEvent(event: EncourageDialogViewModel.EncourageDialogEvent) {
-        when (event) {
-            is EncourageDialogViewModel.EncourageDialogEvent.Close -> {
-                dismiss()
             }
         }
     }
