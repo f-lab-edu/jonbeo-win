@@ -1,6 +1,7 @@
 package com.sdhong.jonbeowin.feature.asset.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.sdhong.jonbeowin.core.common.base.BaseViewModel
 import com.sdhong.jonbeowin.core.domain.usecase.GetAssetUseCase
 import com.sdhong.jonbeowin.core.domain.usecase.UpdateAssetUseCase
@@ -15,8 +16,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -33,35 +35,27 @@ class AssetViewModel @Inject constructor(
 
     val isAssetDetail = assetId != 0
 
-    private val initialAsset = getAssetUseCase(assetId)
-        .map { it.toPresentation() }
-        .catch {
-            emit(AssetModel.Default)
-        }
-        .stateIn(
-            initialValue = AssetModel.Default
-        )
-    private val buyDate = MutableStateFlow(BuyDateModel.Default)
+    private val asset: MutableStateFlow<AssetModel> = MutableStateFlow(AssetModel.Default)
 
-    val uiState: StateFlow<AssetUiState> = combine(
-        initialAsset,
-        buyDate
-    ) { initialAsset, buyDate ->
-        if (buyDate == BuyDateModel.Default) {
-            if (isAssetDetail) {
-                setBuyDate(initialAsset.buyDate.year, initialAsset.buyDate.month, initialAsset.buyDate.day)
-                AssetUiState.AssetDetailInitial(initialAsset)
-            } else {
-                AssetUiState.AddAssetInitial
-            }
-        } else {
-            AssetUiState.AssetDateSelected(buyDate)
-        }
+    private val _uiState: MutableStateFlow<AssetUiState> = MutableStateFlow(AssetUiState.Idle)
+    val uiState: StateFlow<AssetUiState> = asset.map<AssetModel, AssetUiState> {
+        AssetUiState.Success(it)
     }.catch {
         emit(AssetUiState.Error)
-    }.stateIn(
-        initialValue = AssetUiState.Idle
-    )
+    }.stateIn(AssetUiState.Idle)
+
+    init {
+        if (isAssetDetail) {
+            getAssetUseCase(assetId)
+                .onEach {
+                    asset.value = it.toPresentation()
+                }
+                .catch {
+                    _uiState.value = AssetUiState.Error
+                }
+                .launchIn(viewModelScope)
+        }
+    }
 
     private val _eventChannel = Channel<AssetEvent>(Channel.BUFFERED)
     val eventFlow = _eventChannel.receiveAsFlow()
@@ -76,17 +70,17 @@ class AssetViewModel @Inject constructor(
             if (validateDiffDays(diffDays)) return@launch
 
             val updatedAsset = if (isAssetDetail) {
-                initialAsset.value.copy(
+                asset.value.copy(
                     name = updatedName,
                     dayCount = diffDays + 1,
-                    buyDate = buyDate.value
+                    buyDate = asset.value.buyDate
                 )
             } else {
                 AssetModel(
                     id = 0,
                     name = updatedName,
                     dayCount = diffDays + 1,
-                    buyDate = buyDate.value,
+                    buyDate = asset.value.buyDate,
                     createdAt = Calendar.getInstance().time.toString()
                 )
             }
@@ -106,7 +100,7 @@ class AssetViewModel @Inject constructor(
     }
 
     private suspend fun checkUserSetBuyDate(): Boolean {
-        if (buyDate.value == BuyDateModel.Default) {
+        if (asset.value.buyDate == BuyDateModel.Default) {
             _eventChannel.send(AssetEvent.ShowToast(AssetToast.ASSET_BUY_DATE_EMPTY))
             return true
         }
@@ -115,7 +109,7 @@ class AssetViewModel @Inject constructor(
 
     private fun getDiffDays(): Int {
         val buyDay = Calendar.getInstance().apply {
-            set(buyDate.value.year, buyDate.value.month - 1, buyDate.value.day, 0, 0, 0)
+            set(asset.value.buyDate.year, asset.value.buyDate.month - 1, asset.value.buyDate.day, 0, 0, 0)
             set(Calendar.MILLISECOND, 0)
         }.timeInMillis
         val today = Calendar.getInstance().apply {
@@ -136,11 +130,17 @@ class AssetViewModel @Inject constructor(
         return false
     }
 
+    fun setAssetName(name: String) {
+        asset.value = asset.value.copy(name = name)
+    }
+
     fun setBuyDate(year: Int, month: Int, day: Int) {
-        buyDate.value = BuyDateModel(
-            year = year,
-            month = month,
-            day = day
+        asset.value = asset.value.copy(
+            buyDate = BuyDateModel(
+                year = year,
+                month = month,
+                day = day
+            )
         )
     }
 

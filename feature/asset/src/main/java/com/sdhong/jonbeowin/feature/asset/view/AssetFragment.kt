@@ -55,6 +55,7 @@ class AssetFragment : BaseFragment<FragmentAssetBinding>(
             AssetContent(
                 uiState = uiState,
                 buttonTextId = if (viewModel.isAssetDetail) R.string.fix else R.string.save,
+                onAssetNameChange = viewModel::setAssetName,
                 onClickBuyDate = {
                     val calendar = Calendar.getInstance()
 
