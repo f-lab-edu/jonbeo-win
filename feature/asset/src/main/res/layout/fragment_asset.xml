@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.compose.ui.platform.ComposeView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/composeView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.sdhong.jonbeowin.feature.asset.view.AssetFragment">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarAsset"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:menu="@menu/app_bar_asset"
-        tools:background="@color/light_blue"
-        tools:title="@string/title_asset_detail" />
-
-    <androidx.compose.ui.platform.ComposeView
-        android:id="@+id/composeView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</LinearLayout>
+    tools:context="com.sdhong.jonbeowin.feature.asset.view.AssetFragment" />

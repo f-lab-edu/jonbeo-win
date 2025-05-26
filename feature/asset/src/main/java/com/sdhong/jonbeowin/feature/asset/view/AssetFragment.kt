@@ -33,27 +33,12 @@ class AssetFragment : BaseFragment<FragmentAssetBinding>(
     }
 
     private fun setUpView() {
-        binding.toolbarAsset.title = getString(
-            if (viewModel.isAssetDetail) R.string.title_asset_detail
-            else R.string.title_add_asset
-        )
-
-        binding.toolbarAsset.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.menuClose -> {
-                    viewModel.eventFinishAsset()
-                    true
-                }
-
-                else -> false
-            }
-        }
-
         binding.composeView.setContent {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             AssetContent(
                 uiState = uiState,
+                appBarTextId = if (viewModel.isAssetDetail) R.string.title_asset_detail else R.string.title_add_asset,
                 buttonTextId = if (viewModel.isAssetDetail) R.string.fix else R.string.save,
                 onAssetNameChange = viewModel::setAssetName,
                 onClickBuyDate = {
@@ -71,9 +56,8 @@ class AssetFragment : BaseFragment<FragmentAssetBinding>(
 
                     datePicker.show()
                 },
-                onClickConfirm = {
-                    viewModel.saveAsset(it)
-                }
+                onClickConfirm = viewModel::saveAsset,
+                onClickClose = viewModel::eventFinishAsset
             )
         }
     }
