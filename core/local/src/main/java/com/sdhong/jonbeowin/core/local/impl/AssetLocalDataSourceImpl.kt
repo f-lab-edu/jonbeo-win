@@ -18,7 +18,7 @@ internal class AssetLocalDataSourceImpl @Inject constructor(
             list.map { it.toData() }
         }
 
-    override suspend fun getAsset(assetId: Int): AssetEntity = assetDao.getAsset(assetId).toData()
+    override fun getAsset(assetId: Int): Flow<AssetEntity> = assetDao.getAsset(assetId).map { it.toData() }
 
     override suspend fun updateAsset(asset: AssetEntity) = assetDao.update(asset.toLocal())
 

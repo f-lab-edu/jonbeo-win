@@ -7,7 +7,7 @@ interface AssetLocalDataSource {
 
     fun getAllAssets(): Flow<List<AssetEntity>>
 
-    suspend fun getAsset(assetId: Int): AssetEntity
+    fun getAsset(assetId: Int): Flow<AssetEntity>
 
     suspend fun updateAsset(asset: AssetEntity)
 

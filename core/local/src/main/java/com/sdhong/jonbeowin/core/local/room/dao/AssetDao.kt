@@ -14,7 +14,7 @@ interface AssetDao {
     fun getAllAssets(): Flow<List<AssetLocal>>
 
     @Query("SELECT * FROM ${RoomConstant.Table.ASSET} WHERE id = :assetId")
-    suspend fun getAsset(assetId: Int): AssetLocal
+    fun getAsset(assetId: Int): Flow<AssetLocal>
 
     @Upsert
     suspend fun update(asset: AssetLocal)
