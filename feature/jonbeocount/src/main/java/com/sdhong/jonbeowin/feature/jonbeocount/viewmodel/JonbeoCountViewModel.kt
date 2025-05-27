@@ -75,22 +75,18 @@ class JonbeoCountViewModel @Inject constructor(
         }
     }
 
-    fun onJonbeoCountItemClick(position: Int) {
-        val assetId = (uiState.value as? JonbeoCountUiState.Success ?: return)
-            .jonbeoCountItemList[position]
-            .id
-
+    fun onJonbeoCountItemClick(id: Int) {
         if (isEditMode.value) {
             checkedIdSet.value = checkedIdSet.value.toMutableSet().also { set ->
-                if (set.contains(assetId)) {
-                    set.remove(assetId)
+                if (set.contains(id)) {
+                    set.remove(id)
                 } else {
-                    set.add(assetId)
+                    set.add(id)
                 }
             }
         } else {
             launch {
-                _eventChannel.send(JonbeoCountEvent.StartAsset(assetId))
+                _eventChannel.send(JonbeoCountEvent.StartAsset(id))
             }
         }
     }
