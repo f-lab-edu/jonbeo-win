@@ -8,7 +8,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:data"))
+    implementation(projects.core.data)
 
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)

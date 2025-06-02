@@ -21,14 +21,14 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
-    implementation(project(":core:data"))
-    implementation(project(":core:domain"))
-    implementation(project(":core:local"))
-    implementation(project(":core:remote"))
-    implementation(project(":feature:asset"))
-    implementation(project(":feature:encourage"))
-    implementation(project(":feature:jonbeocount"))
+    implementation(projects.core.common)
+    implementation(projects.core.data)
+    implementation(projects.core.domain)
+    implementation(projects.core.local)
+    implementation(projects.core.remote)
+    implementation(projects.feature.asset)
+    implementation(projects.feature.encourage)
+    implementation(projects.feature.jonbeocount)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

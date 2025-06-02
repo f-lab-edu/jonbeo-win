@@ -20,7 +20,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "jonbeo win"
+rootProject.name = "jonbeo-win"
 include(":app")
 include(":core:domain")
 include(":core:data")
