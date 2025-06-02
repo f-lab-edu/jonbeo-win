@@ -30,5 +30,9 @@ gradlePlugin {
             id = libs.plugins.jonbeowin.hilt.get().pluginId
             implementationClass = "HiltPlugin"
         }
+        register("androidApplication") {
+            id = libs.plugins.jonbeowin.android.application.get().pluginId
+            implementationClass = "AndroidApplicationPlugin"
+        }
     }
 }

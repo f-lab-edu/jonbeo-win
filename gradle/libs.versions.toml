@@ -73,3 +73,4 @@ jonbeowin-android-library = { id = "com.sdhong.jonbeowin.android.library" }
 jonbeowin-android-compose = { id = "com.sdhong.jonbeowin.android.compose" }
 jonbeowin-android-feature = { id = "com.sdhong.jonbeowin.android.feature" }
 jonbeowin-hilt = { id = "com.sdhong.jonbeowin.hilt" }
+jonbeowin-android-application = { id = "com.sdhong.jonbeowin.android.application" }
