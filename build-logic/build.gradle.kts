@@ -3,32 +3,32 @@ plugins {
 }
 
 dependencies {
-    implementation("com.android.tools.build:gradle:8.10.0")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.21")
-    implementation("org.jetbrains.kotlin:compose-compiler-gradle-plugin:2.1.10")
+    implementation(libs.kotlin.gradlePlugin)
+    implementation(libs.android.gradlePlugin)
+    implementation(libs.compose.gradlePlugin)
 }
 
 gradlePlugin {
     plugins {
         register("jvmLibrary") {
-            id = "com.sdhong.jonbeowin.jvm.library"
+            id = libs.plugins.jonbeowin.jvm.library.get().pluginId
             implementationClass = "JvmLibraryPlugin"
         }
         register("androidLibrary") {
-            id = "com.sdhong.jonbeowin.android.library"
+            id = libs.plugins.jonbeowin.android.library.get().pluginId
             implementationClass = "AndroidLibraryPlugin"
         }
         register("androidCompose") {
-            id = "com.sdhong.jonbeowin.android.compose"
+            id = libs.plugins.jonbeowin.android.compose.get().pluginId
             implementationClass = "AndroidComposePlugin"
         }
-        register("hilt") {
-            id = "com.sdhong.jonbeowin.hilt"
-            implementationClass = "HiltPlugin"
-        }
         register("androidFeature") {
-            id = "com.sdhong.jonbeowin.android.feature"
+            id = libs.plugins.jonbeowin.android.feature.get().pluginId
             implementationClass = "AndroidFeaturePlugin"
+        }
+        register("hilt") {
+            id = libs.plugins.jonbeowin.hilt.get().pluginId
+            implementationClass = "HiltPlugin"
         }
     }
 }

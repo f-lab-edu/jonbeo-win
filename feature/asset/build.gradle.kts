@@ -1,5 +1,5 @@
 plugins {
-    id("com.sdhong.jonbeowin.android.feature")
+    alias(libs.plugins.jonbeowin.android.feature)
 }
 
 android {

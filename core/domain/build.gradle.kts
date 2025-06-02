@@ -1,6 +1,6 @@
 plugins {
-    id("com.sdhong.jonbeowin.jvm.library")
-    id("com.sdhong.jonbeowin.hilt")
+    alias(libs.plugins.jonbeowin.jvm.library)
+    alias(libs.plugins.jonbeowin.hilt)
 }
 
 dependencies {

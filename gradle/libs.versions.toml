@@ -51,6 +51,11 @@ hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", ve
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigation" }
 
+# Dependencies of the included build-logic
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+compose-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -61,3 +66,10 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+# Plugins defined by this project
+jonbeowin-jvm-library = { id = "com.sdhong.jonbeowin.jvm.library" }
+jonbeowin-android-library = { id = "com.sdhong.jonbeowin.android.library" }
+jonbeowin-android-compose = { id = "com.sdhong.jonbeowin.android.compose" }
+jonbeowin-android-feature = { id = "com.sdhong.jonbeowin.android.feature" }
+jonbeowin-hilt = { id = "com.sdhong.jonbeowin.hilt" }

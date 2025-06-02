@@ -1,5 +1,5 @@
 plugins {
-    id("com.sdhong.jonbeowin.android.library")
+    alias(libs.plugins.jonbeowin.android.library)
 }
 
 android {
@@ -11,7 +11,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

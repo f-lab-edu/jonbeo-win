@@ -1,6 +1,6 @@
 plugins {
-    id("com.sdhong.jonbeowin.android.library")
-    id("com.sdhong.jonbeowin.hilt")
+    alias(libs.plugins.jonbeowin.android.library)
+    alias(libs.plugins.jonbeowin.hilt)
     alias(libs.plugins.secrets.gradle.plugin)
 }
 
