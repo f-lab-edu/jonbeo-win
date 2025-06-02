@@ -5,6 +5,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
@@ -33,9 +34,13 @@ internal fun Project.configureKotlinAndroid(
             sourceCompatibility = JavaVersion.VERSION_11
             targetCompatibility = JavaVersion.VERSION_11
         }
-    }
 
-    configureKotlin<KotlinAndroidProjectExtension>()
+        configureKotlin<KotlinAndroidProjectExtension>()
+
+        dependencies {
+            "implementation"(libs.findLibrary("timber").get())
+        }
+    }
 }
 
 private inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() = configure<T> {

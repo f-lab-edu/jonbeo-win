@@ -36,8 +36,6 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
 
-    implementation(libs.timber)
-
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
 }
