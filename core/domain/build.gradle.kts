@@ -1,8 +1,8 @@
 plugins {
-    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.jonbeowin.jvm.library)
+    alias(libs.plugins.jonbeowin.hilt)
 }
 
 dependencies {
-    implementation(libs.hilt.core)
     implementation(libs.kotlinx.coroutines.core)
 }

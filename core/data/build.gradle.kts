@@ -1,12 +1,10 @@
 plugins {
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.jonbeowin.jvm.library)
+    alias(libs.plugins.jonbeowin.hilt)
 }
 
 dependencies {
-    implementation(project(":core:domain"))
+    implementation(projects.core.domain)
 
-    implementation(libs.hilt.core)
-    ksp(libs.hilt.compiler)
     implementation(libs.kotlinx.coroutines.core)
 }
