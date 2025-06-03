@@ -40,7 +40,7 @@ class EncourageDialogViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        EncourageDialogUiState.Loading
+        initialValue = EncourageDialogUiState.Loading
     )
 
     private val _eventChannel = Channel<EncourageDialogEvent>(Channel.BUFFERED)
