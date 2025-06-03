@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.jonbeowin.android.application)
     alias(libs.plugins.jonbeowin.hilt)
-    alias(libs.plugins.secrets.gradle.plugin)
     alias(libs.plugins.navigation.safeargs)
 }
 
@@ -16,7 +15,6 @@ android {
 
     buildFeatures {
         viewBinding = true
-        buildConfig = true
     }
 }
 
@@ -32,8 +30,6 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
 
     implementation(libs.androidx.navigation.fragment)

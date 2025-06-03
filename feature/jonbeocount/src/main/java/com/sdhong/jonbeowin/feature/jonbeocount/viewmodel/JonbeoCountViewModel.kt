@@ -1,6 +1,7 @@
 package com.sdhong.jonbeowin.feature.jonbeocount.viewmodel
 
-import com.sdhong.jonbeowin.core.common.base.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sdhong.jonbeowin.core.domain.usecase.DeleteAssetUseCase
 import com.sdhong.jonbeowin.core.domain.usecase.GetAssetListUseCase
 import com.sdhong.jonbeowin.feature.jonbeocount.model.BuyDateModel
@@ -9,10 +10,12 @@ import com.sdhong.jonbeowin.feature.jonbeocount.uistate.JonbeoCountUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,7 +23,7 @@ import javax.inject.Inject
 class JonbeoCountViewModel @Inject constructor(
     getAssetListUseCase: GetAssetListUseCase,
     private val deleteAssetUseCase: DeleteAssetUseCase
-) : BaseViewModel() {
+) : ViewModel() {
 
     private val isEditMode = MutableStateFlow(false)
     private val checkedIdSet = MutableStateFlow<Set<Int>>(emptySet())
@@ -55,6 +58,8 @@ class JonbeoCountViewModel @Inject constructor(
     }.catch {
         emit(JonbeoCountUiState.Error)
     }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
         initialValue = JonbeoCountUiState.Idle
     )
 
@@ -65,7 +70,7 @@ class JonbeoCountViewModel @Inject constructor(
     fun toggleEditMode() {
         if (uiState.value !is JonbeoCountUiState.Success) return
 
-        launch {
+        viewModelScope.launch {
             val preValue = isEditMode.value
             if (preValue) {
                 deleteAssetUseCase(checkedIdSet.value)
@@ -85,14 +90,14 @@ class JonbeoCountViewModel @Inject constructor(
                 }
             }
         } else {
-            launch {
+            viewModelScope.launch {
                 _eventChannel.send(JonbeoCountEvent.StartAsset(id))
             }
         }
     }
 
     fun eventStartAddAsset() {
-        launch {
+        viewModelScope.launch {
             _eventChannel.send(JonbeoCountEvent.StartAsset())
         }
     }
