@@ -1,11 +1,9 @@
 import com.android.build.api.dsl.ApplicationExtension
 import com.sdhong.jonbeowin.configureKotlinAndroid
-import com.sdhong.jonbeowin.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
 
 class AndroidApplicationPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -29,12 +27,6 @@ class AndroidApplicationPlugin : Plugin<Project> {
                             "proguard-rules.pro"
                         )
                     }
-                }
-
-                dependencies {
-                    "testImplementation"(libs.findLibrary("junit").get())
-                    "androidTestImplementation"(libs.findLibrary("androidx-junit").get())
-                    "androidTestImplementation"(libs.findLibrary("androidx-espresso-core").get())
                 }
             }
         }
