@@ -1,8 +1,8 @@
 package com.sdhong.jonbeowin.feature.asset.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sdhong.jonbeowin.core.common.base.BaseViewModel
 import com.sdhong.jonbeowin.core.domain.usecase.GetAssetUseCase
 import com.sdhong.jonbeowin.core.domain.usecase.UpdateAssetUseCase
 import com.sdhong.jonbeowin.feature.asset.enum.AssetToast
@@ -14,12 +14,14 @@ import com.sdhong.jonbeowin.feature.asset.uistate.AssetUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
@@ -29,7 +31,7 @@ class AssetViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     getAssetUseCase: GetAssetUseCase,
     private val updateAssetUseCase: UpdateAssetUseCase
-) : BaseViewModel() {
+) : ViewModel() {
 
     private val assetId = savedStateHandle.get<Int>(EXTRA_ASSET_ID) ?: 0
 
@@ -42,7 +44,11 @@ class AssetViewModel @Inject constructor(
         AssetUiState.Success(it)
     }.catch {
         emit(AssetUiState.Error)
-    }.stateIn(AssetUiState.Idle)
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = AssetUiState.Idle
+    )
 
     init {
         if (isAssetDetail) {
@@ -62,7 +68,7 @@ class AssetViewModel @Inject constructor(
 
 
     fun saveAsset(updatedName: String) {
-        launch {
+        viewModelScope.launch {
             if (validateAssetName(updatedName)) return@launch
             if (checkUserSetBuyDate()) return@launch
 
@@ -145,7 +151,7 @@ class AssetViewModel @Inject constructor(
     }
 
     fun eventFinishAsset() {
-        launch {
+        viewModelScope.launch {
             _eventChannel.send(AssetEvent.FinishAsset)
         }
     }

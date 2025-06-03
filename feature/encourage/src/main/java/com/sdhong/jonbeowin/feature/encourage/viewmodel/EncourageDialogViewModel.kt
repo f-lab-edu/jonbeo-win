@@ -1,6 +1,7 @@
 package com.sdhong.jonbeowin.feature.encourage.viewmodel
 
-import com.sdhong.jonbeowin.core.common.base.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sdhong.jonbeowin.core.domain.usecase.GenerateEncourageUseCase
 import com.sdhong.jonbeowin.core.domain.usecase.UpdateEncourageUseCase
 import com.sdhong.jonbeowin.feature.encourage.mapper.toDomain
@@ -10,10 +11,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
@@ -22,7 +25,7 @@ import javax.inject.Inject
 class EncourageDialogViewModel @Inject constructor(
     private val updateEncourageUseCase: UpdateEncourageUseCase,
     private val generateEncourageUseCase: GenerateEncourageUseCase
-) : BaseViewModel() {
+) : ViewModel() {
 
     private val encourageText = MutableStateFlow<String?>("")
 
@@ -34,7 +37,11 @@ class EncourageDialogViewModel @Inject constructor(
         }
     }.catch {
         emit(EncourageDialogUiState.Error)
-    }.stateIn(EncourageDialogUiState.Loading)
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        EncourageDialogUiState.Loading
+    )
 
     private val _eventChannel = Channel<EncourageDialogEvent>(Channel.BUFFERED)
     val eventFlow = _eventChannel.receiveAsFlow()
@@ -46,7 +53,7 @@ class EncourageDialogViewModel @Inject constructor(
     fun saveEncourage() {
         if (uiState.value !is EncourageDialogUiState.Success) return
 
-        launch {
+        viewModelScope.launch {
             updateEncourageUseCase(
                 EncourageModel(
                     id = 0,
@@ -61,7 +68,7 @@ class EncourageDialogViewModel @Inject constructor(
     }
 
     fun generateEncourage() {
-        launch {
+        viewModelScope.launch {
             encourageText.value = ""
             delay(300)
             encourageText.value = generateEncourageUseCase()
@@ -69,7 +76,7 @@ class EncourageDialogViewModel @Inject constructor(
     }
 
     fun eventDialogClose() {
-        launch {
+        viewModelScope.launch {
             _eventChannel.send(EncourageDialogEvent.Close)
         }
     }

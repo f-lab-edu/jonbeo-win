@@ -1,6 +1,7 @@
 package com.sdhong.jonbeowin.feature.encourage.viewmodel
 
-import com.sdhong.jonbeowin.core.common.base.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sdhong.jonbeowin.core.domain.usecase.DeleteEncourageUseCase
 import com.sdhong.jonbeowin.core.domain.usecase.GetEncourageListUseCase
 import com.sdhong.jonbeowin.feature.encourage.model.EncourageModel
@@ -8,10 +9,12 @@ import com.sdhong.jonbeowin.feature.encourage.uistate.EncourageUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,7 +22,7 @@ import javax.inject.Inject
 class EncourageViewModel @Inject constructor(
     getEncourageListUseCase: GetEncourageListUseCase,
     private val deleteEncourageUseCase: DeleteEncourageUseCase
-) : BaseViewModel() {
+) : ViewModel() {
 
     private val isEditMode = MutableStateFlow(false)
     private val checkedIdSet = MutableStateFlow<Set<Int>>(emptySet())
@@ -48,6 +51,8 @@ class EncourageViewModel @Inject constructor(
     }.catch {
         emit(EncourageUiState.Error)
     }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
         initialValue = EncourageUiState.Idle
     )
 
@@ -58,7 +63,7 @@ class EncourageViewModel @Inject constructor(
     fun toggleEditMode() {
         if (uiState.value !is EncourageUiState.Success) return
 
-        launch {
+        viewModelScope.launch {
             val preValue = isEditMode.value
             if (preValue) {
                 deleteEncourageUseCase(checkedIdSet.value)
@@ -81,7 +86,7 @@ class EncourageViewModel @Inject constructor(
     }
 
     fun eventShowEncourageDialog() {
-        launch {
+        viewModelScope.launch {
             _eventChannel.send(EncourageEvent.ShowEncourageDialog)
         }
     }
