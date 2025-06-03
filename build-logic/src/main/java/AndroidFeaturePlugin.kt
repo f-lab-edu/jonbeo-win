@@ -1,4 +1,5 @@
 import com.android.build.gradle.LibraryExtension
+import com.sdhong.jonbeowin.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -21,6 +22,9 @@ class AndroidFeaturePlugin : Plugin<Project> {
             dependencies {
                 "implementation"(project(":core:domain"))
                 "implementation"(project(":core:common"))
+                "implementation"(libs.findLibrary("androidx-core-ktx").get())
+                "implementation"(libs.findLibrary("androidx-appcompat").get())
+                "implementation"(libs.findLibrary("androidx-fragment-ktx").get())
             }
         }
     }
