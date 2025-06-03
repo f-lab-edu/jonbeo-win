@@ -1,25 +1,27 @@
 [versions]
-agp = "8.8.2"
-fragmentKtx = "1.8.6"
+agp = "8.10.1"
+fragmentKtx = "1.8.7"
 generativeai = "0.9.0"
-kotlin = "2.1.0"
-coreKtx = "1.15.0"
+kotlin = "2.1.10"
+coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
-kotlinxCoroutinesCore = "1.10.1"
+kotlinxCoroutinesCore = "1.10.2"
 material = "1.12.0"
-navigation = "2.8.9"
-room = "2.6.1"
+navigation = "2.9.0"
+room = "2.7.1"
 timber = "5.0.1"
-ksp = "2.1.0-1.0.29"
-hilt = "2.55"
+ksp = "2.1.10-1.0.31"
+hilt = "2.56.2"
 secretsGradlePlugin = "2.0.1"
-androidxComposeBom = "2025.02.00"
+androidxComposeBom = "2025.05.01"
 
 [libraries]
+# androidx
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 androidx-material3 = { module = "androidx.compose.material3:material3" }
 androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment", version.ref = "navigation" }
@@ -29,19 +31,21 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
-generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "generativeai" }
-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
-hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "hilt" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigation" }
+
+# hilt
+hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+
+generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "generativeai" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
-androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigation" }
 
 # Dependencies of the included build-logic
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
